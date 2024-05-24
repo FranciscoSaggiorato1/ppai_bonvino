@@ -1,10 +1,10 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QWidget
 
-class Ventana(QWidget):
+class InterfazImportarActualizaciones(QWidget):
     def __init__(self):
         super().__init__()
-        self.inicializarUI()
+        self.habilitarPantalla()
 
     def habilitarPantalla(self):
         self.setGeometry(500, 500, 800, 800)
@@ -16,5 +16,5 @@ class Ventana(QWidget):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    ventana = Ventana()
+    ventana = InterfazImportarActualizaciones()
     sys.exit(app.exec())
