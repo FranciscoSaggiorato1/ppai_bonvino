@@ -6,7 +6,7 @@ class Ventana(QWidget):
         super().__init__()
         self.inicializarUI()
 
-    def inicializarUI(self):
+    def habilitarPantalla(self):
         self.setGeometry(500, 500, 800, 800)
         self.setWindowTitle("BonVino - Importar Actualizacion")
         self.show()
