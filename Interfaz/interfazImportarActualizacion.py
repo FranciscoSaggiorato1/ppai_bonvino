@@ -1,10 +1,11 @@
 import sys
+import datetime
 from PyQt6.QtWidgets import QApplication, QWidget
 
 class Ventana(QWidget):
     def __init__(self):
         super().__init__()
-        self.inicializarUI()
+        self.habilitarPantalla()
 
     def habilitarPantalla(self):
         self.setGeometry(500, 500, 800, 800)
