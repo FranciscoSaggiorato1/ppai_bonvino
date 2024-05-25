@@ -1,0 +1,41 @@
+# Ignorar archivos y directorios generados por Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignorar archivos de configuración local
+.env
+
+# Ignorar archivos de registro y salida
+*.log
+
+# Ignorar archivos de dependencias y entorno virtual
+venv/
+env/
+*.env
+
+# Ignorar archivos de IDE y editor
+.vscode/
+.idea/
+*.iml
+
+# Ignorar archivos de compilación
+*.pyc
+*.pyo
+*.pyd
+
+# Ignorar archivos de respaldo
+*~
+*.bak
+*.swp
+
+# Ignorar archivos de datos y recursos
+*.db
+*.sqlite
+
+# Ignorar archivos de documentación
+docs/
+
+# Ignorar archivos de prueba
+tests/
