@@ -13,9 +13,6 @@ class Ventana(QMainWindow):
         uic.loadUi(ui_path, self)
         self.habilitarPantalla()
         self.pushButton.clicked.connect(self.cambiarPag)
-        
-
-        
 
     def habilitarPantalla(self):
         self.setWindowTitle("BonVino - Importar Actualizacion")
