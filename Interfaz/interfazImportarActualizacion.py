@@ -19,7 +19,7 @@ class Ventana(QMainWindow):
 
     def habilitarPantalla(self):
         self.setWindowTitle("BonVino - Importar Actualizacion")
-        icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'utnLogo.ico')
+        icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'imagenes', 'utnLogo.ico')
         self.setWindowIcon(QIcon(icon_path))
         self.show()
 
