@@ -32,7 +32,7 @@ class GestorImportadorBodega:
         self.bodegasParaActualizar = self.buscarBodegasConActualizaciones()
         for bodega in self.bodegasParaActualizar:
             self.tomarBodegaSeleccionada(bodega)
-            self.obtenerActualizacionVinosBodega
+            self.obtenerActualizacionVinosBodega()
 
     def getFechaActual(self):
         self.fechaActual = datetime.now()
@@ -42,10 +42,12 @@ class GestorImportadorBodega:
         script_dir = os.path.dirname(__file__)
         csv_path = os.path.join(script_dir, '..', 'Modelo', './data/bodega.csv')
         todas_las_bodegas = Bodega.cargarData(csv_path)
+        fechaActual = self.getFechaActual()
         for bodega in todas_las_bodegas:
-            self.bodegasParaActualizar.append(bodega.tieneActualizacionDisponible(self.fechaActual))
+            if bodega.tieneActualizacionDisponible(self.getFechaActual()):
+                self.bodegasParaActualizar.append(bodega.tieneActualizacionDisponible(fechaActual))
         for bodega in self.bodegasParaActualizar:
-            bodega.getNombre()
+            bodega.get_nombre()
         bodegas_con_actualizaciones_dicts = [bodega.to_dict() for bodega in self.bodegasParaActualizar]
         
         return bodegas_con_actualizaciones_dicts
