@@ -1,7 +1,20 @@
-from datetime import datetime
-# Se importan las clases necesarias, faltan implementarse las clases Bodega, Vino, Maridaje y TipoUva
-from Modelo import Bodega, Vino, Maridaje, TipoUva
+# Controlador/gestorImportarActualizacion.py
 
+import os
+import sys
+from datetime import datetime
+
+# Añadir el directorio principal del proyecto al sys.path
+# Esto se agregó porque tengo un quilombo en los path de mi computadora
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+sys.path.append(parent_dir)
+
+from Modelo.bodega import Bodega
+from Modelo.vino import Vino
+from Modelo.maridaje import Maridaje
+from Modelo.tipoUva import TipoUva
+    
 class GestorImportadorBodega:
     def __init__(self): 
         self.fechaActual = datetime.now() 
@@ -24,11 +37,17 @@ class GestorImportadorBodega:
             self.obtenerActualizacionVinosBodega()
 
     def buscarBodegasConActualizaciones(self):
-        """
-        Simulación de búsqueda en una base de datos para obtener las bodegas con actualizaciones disponibles.
-        Retorna una lista de objetos Bodega.
-        """
-        return [Bodega("Bodega1"), Bodega("Bodega2"), Bodega("Bodega3")]
+        # Construir la ruta al archivo CSV
+        script_dir = os.path.dirname(__file__)
+        csv_path = os.path.join(script_dir, '..', 'data', 'ppaiDataExcel.csv')
+        
+        # Cargar todas las bodegas desde el CSV
+        todas_las_bodegas = Bodega.cargar_bodegas_desde_csv(csv_path)
+        
+        # Obtener las bodegas con actualizaciones disponibles
+        bodegas_con_actualizaciones = Bodega.tieneActualizacionDisponible(todas_las_bodegas)
+        
+        return bodegas_con_actualizaciones
 
     def buscarBodegaActDisponible(self):
         """
@@ -144,3 +163,9 @@ class GestorImportadorBodega:
         Imprime un mensaje indicando que se está generando una notificación.
         """
         print("Generando notificación")
+
+# Función de prueba
+if __name__ == "__main__":
+    gestor = GestorImportadorBodega()
+    bodegas_actualizadas = gestor.buscarBodegasConActualizaciones()
+    print(f"Total de bodegas con actualizaciones disponibles: {bodegas_actualizadas}")
