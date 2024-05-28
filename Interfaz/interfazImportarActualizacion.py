@@ -6,6 +6,7 @@ from PyQt6 import uic, QtWidgets
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
 import recursos
+from functools import partial
 
 class Ventana(QMainWindow):
     def __init__(self):
@@ -33,13 +34,13 @@ class Ventana(QMainWindow):
             reader = csv.reader(csvfile)
             self.cargar_data(reader)
 
-    def cargar_data(self, reader):
+    """def cargar_data(self, reader):
         # Leer todas las filas del CSV
         data = list(reader)
 
         # Número de filas y columnas
         row_count = len(data)
-        column_count = 6
+        column_count = 5
         
         # Establecer número de filas y columnas en el QTableWidget
         self.tableWidget.setRowCount(row_count)
@@ -48,7 +49,46 @@ class Ventana(QMainWindow):
         # Rellenar el QTableWidget con los datos del CSV
         for row_index, row_data in enumerate(data):
             for column_index, cell_data in enumerate(row_data):
-                self.tableWidget.setItem(row_index, column_index, QtWidgets.QTableWidgetItem(cell_data))
+                if column_index == 5:
+                    break
+                else:
+                    self.tableWidget.setItem(row_index, column_index, QtWidgets.QTableWidgetItem(cell_data))"""
+    
+    def cargar_data(self, reader):
+        # Leer todas las filas del CSV
+        data = list(reader)
+
+        # Número de filas y columnas
+        row_count = len(data)
+        column_count = 6  # Incrementamos el número de columnas en 1 para la nueva columna de botones
+
+        # Establecer número de filas y columnas en el QTableWidget
+        self.tableWidget.setRowCount(row_count)
+        self.tableWidget.setColumnCount(column_count)
+
+        # Ocultar los números de fila y columna
+        self.tableWidget.verticalHeader().hide()
+        self.tableWidget.horizontalHeader().hide()
+
+        # Rellenar el QTableWidget con los datos del CSV
+        for row_index, row_data in enumerate(data):
+            if row_index != 0:
+                # Crear un botón para cada fila
+                button = QtWidgets.QPushButton("Seleccionar")
+                button.clicked.connect(partial(self.select_bodega, row_index))  # Conectar el botón a un método que maneje la selección de la bodega
+                self.tableWidget.setCellWidget(row_index, 0, button)  # Agregar el botón a la primera columna de la fila
+
+            for column_index, cell_data in enumerate(row_data):
+                if column_index == 5:
+                    break
+                else:
+                    # Ajustamos el índice de la columna en 1 para tener en cuenta la nueva columna de botones
+                    self.tableWidget.setItem(row_index, column_index + 1, QtWidgets.QTableWidgetItem(cell_data))
+
+    def select_bodega(self, row_index):
+        # Este método maneja la selección de una bodega
+        # Puedes reemplazar este código con el código que necesites para manejar la selección de una bodega
+        print(f"Bodega seleccionada: {row_index}")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
