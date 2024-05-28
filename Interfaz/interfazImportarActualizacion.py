@@ -1,12 +1,18 @@
-import sys
 import os
 import csv
-from PyQt6.QtWidgets import QApplication, QMainWindow
+import sys
+from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem
 from PyQt6 import uic, QtWidgets
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
 import recursos
 from functools import partial
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+sys.path.append(parent_dir)
+
+from Controlador.gestorImportarActualizacion import GestorImportadorBodega
 
 class Ventana(QMainWindow):
     def __init__(self):
@@ -15,7 +21,7 @@ class Ventana(QMainWindow):
         uic.loadUi(ui_path, self)
         self.habilitarPantalla()
         self.pushButton.clicked.connect(self.cambiarPag)
-        self.pushButton.clicked.connect(self.cargar_csv)
+        self.pushButton.clicked.connect(self.cargar_csv1)
         
     def habilitarPantalla(self):
         self.setWindowTitle("BonVino - Importar Actualizacion")
@@ -27,19 +33,14 @@ class Ventana(QMainWindow):
     def cambiarPag(self):
         self.stackedWidget.setCurrentIndex(1)
 
-    def cargar_csv(self):
-        # Buscar el archivo csv
-        filename = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'ppaiDataExcel.csv')
-        with open(filename, newline='') as csvfile:
-            reader = csv.reader(csvfile)
-            self.cargar_data(reader)
+    def cargar_csv1(self):
+        gestor = GestorImportadorBodega()
+        bodegas = gestor.buscarBodegasConActualizaciones()
+        self.cargar_data(bodegas)
     
-    def cargar_data(self, reader):
-        # Leer todas las filas del CSV
-        data = list(reader)
-
+    def cargar_data(self, bodegas):
         # Número de filas y columnas
-        row_count = len(data)
+        row_count = len(bodegas)
         column_count = 6  # Incrementamos el número de columnas en 1 para la nueva columna de botones
 
         # Establecer número de filas y columnas en el QTableWidget
@@ -48,30 +49,32 @@ class Ventana(QMainWindow):
 
         # Ocultar los números de fila y columna
         self.tableWidget.verticalHeader().hide()
-        self.tableWidget.horizontalHeader().hide()
+
+        # Configurar los encabezados de la tabla
+        headers = ["Acción", "Nombre", "Coordenadas", "Descripción", "Historia", "Periodo de Actualización"]
+        self.tableWidget.setHorizontalHeaderLabels(headers)
+
 
         # Rellenar el QTableWidget con los datos del CSV
-        for row_index, row_data in enumerate(data):
-            if row_index != 0:
-                # Crear un botón para cada fila
-                button = QtWidgets.QPushButton("Seleccionar")
-                button.clicked.connect(partial(self.select_bodega, row_index))  # Conectar el botón a un método que maneje la selección de la bodega
-                self.tableWidget.setCellWidget(row_index, 0, button)  # Agregar el botón a la primera columna de la fila
+        for row_index, bodega in enumerate(bodegas):
+            # Crear un botón para cada fila
+            button = QtWidgets.QPushButton("Seleccionar")
+            button.clicked.connect(partial(self.tomarBodegaSeleccionada, bodega))  # Conectar el botón a un método que maneje la selección de la bodega
+            self.tableWidget.setCellWidget(row_index, 0, button)  # Agregar el botón a la primera columna de la fila
 
-            for column_index, cell_data in enumerate(row_data):
-                if column_index == 5:
-                    break
-                else:
-                    # Ajustamos el índice de la columna en 1 para tener en cuenta la nueva columna de botones
-                    self.tableWidget.setItem(row_index, column_index + 1, QtWidgets.QTableWidgetItem(cell_data))
+                  # Agregar los atributos de la bodega a las celdas del QTableWidget
+            self.tableWidget.setItem(row_index, 1, QTableWidgetItem(bodega['nombre']))
+            self.tableWidget.setItem(row_index, 2, QTableWidgetItem(bodega['coordenadasUbicacion']))
+            self.tableWidget.setItem(row_index, 3, QTableWidgetItem(bodega['descripcion']))
+            self.tableWidget.setItem(row_index, 4, QTableWidgetItem(bodega['historia']))
+            self.tableWidget.setItem(row_index, 5, QTableWidgetItem(str(bodega['periodoActualizacion'])))
 
-    def select_bodega(self, row_index):
+    def tomarBodegaSeleccionada(self, bodega):
         # Este método maneja la selección de una bodega
         # Puedes reemplazar este código con el código que necesites para manejar la selección de una bodega
-        print("Bodega seleccionada:", row_index)
+        return bodega
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     ventana = Ventana()
     sys.exit(app.exec())
-

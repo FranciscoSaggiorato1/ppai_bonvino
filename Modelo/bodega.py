@@ -11,18 +11,18 @@ class Bodega:
         self.periodoActualizacion = int(periodoActualizacion)
         self.actualizacionDisponible = bool(int(actualizacionDisponible)) if actualizacionDisponible else False  # Convertir a booleano si no está vacío, de lo contrario, establecer como False
 
-    def cargar_bodegas_desde_csv(filepath):
+    @classmethod
+    def cargar_bodegas_desde_csv(cls, csv_path):
         bodegas = []
-        with open(filepath, newline='') as csvfile:
+        with open(csv_path, newline='') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                # Verificar si la cadena no está vacía antes de intentar convertirla a un entero
                 actualizacion_disponible = row['actualizacionDisponible']
                 if actualizacion_disponible:
                     actualizacion_disponible = bool(int(actualizacion_disponible))
                 else:
                     actualizacion_disponible = False
-                bodega = Bodega(
+                bodega = cls(
                     nombre=row['nombre'],
                     coordenadasUbicacion=row['coordenadasUbicacion'],
                     descripcion=row['descripcion'],
@@ -33,6 +33,16 @@ class Bodega:
                 bodegas.append(bodega)
         return bodegas
 
-    def tieneActualizacionDisponible(bodegas):
-        # Filtrar las bodegas que tienen actualizacionDisponible igual a True
+    @classmethod
+    def tieneActualizacionDisponible(cls, bodegas):
         return [bodega for bodega in bodegas if bodega.actualizacionDisponible]
+
+    def to_dict(self):
+        return {
+            'nombre': self.nombre,
+            'coordenadasUbicacion': self.coordenadasUbicacion,
+            'descripcion': self.descripcion,
+            'historia': self.historia,
+            'periodoActualizacion': self.periodoActualizacion,
+            'actualizacionDisponible': self.actualizacionDisponible,
+        }

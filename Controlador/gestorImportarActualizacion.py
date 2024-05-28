@@ -39,7 +39,7 @@ class GestorImportadorBodega:
     def buscarBodegasConActualizaciones(self):
         # Construir la ruta al archivo CSV
         script_dir = os.path.dirname(__file__)
-        csv_path = os.path.join(script_dir, '..', 'data', 'ppaiDataExcel.csv')
+        csv_path = os.path.join(script_dir, '..', 'Interfaz', 'ppaiDataExcel.csv')
         
         # Cargar todas las bodegas desde el CSV
         todas_las_bodegas = Bodega.cargar_bodegas_desde_csv(csv_path)
@@ -47,7 +47,10 @@ class GestorImportadorBodega:
         # Obtener las bodegas con actualizaciones disponibles
         bodegas_con_actualizaciones = Bodega.tieneActualizacionDisponible(todas_las_bodegas)
         
-        return bodegas_con_actualizaciones
+        # Convertir las bodegas con actualizaciones a una lista de diccionarios
+        bodegas_con_actualizaciones_dicts = [bodega.to_dict() for bodega in bodegas_con_actualizaciones]
+        
+        return bodegas_con_actualizaciones_dicts
 
     def buscarBodegaActDisponible(self):
         """
