@@ -1,18 +1,23 @@
 class Siguiendo():
     #Propiedades de la clase SIGUIENDO
+    id=""
     fechaInicio = ""
     fechaFin = ""
     bodega = None
     enofilo= None
 #Metodos de la clase SIGUIENDO
-def __init__(self, fechaInicio, fechaFin, bodega, enofilo):
+def __init__(self,id, fechaInicio, fechaFin, bodega, enofilo):
+    self.id = id
     self.fechaInicio = fechaInicio
     self.fechaFin = fechaFin
     self.bodega = bodega
     self.enofilo = enofilo
-def new(self, fechaInicio, fechaFin, bodega, enofilo):
-    return Siguiendo(fechaInicio, fechaFin, bodega, enofilo)
-
+def new(self, id,fechaInicio, fechaFin, bodega, enofilo):
+    return Siguiendo(id,fechaInicio, fechaFin, bodega, enofilo)
+def get_id(self):
+    return self.id
+def set_id(self,id):
+    self.id = id
 
 def get_fechaInicio(self):
     return self.fechaInicio

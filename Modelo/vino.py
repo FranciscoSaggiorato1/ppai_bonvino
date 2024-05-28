@@ -1,7 +1,8 @@
 from Modelo.varietal import Varietal
-
+from datetime import datetime
 class Vino():
-    añada = ""
+    id=""
+    añada = 0
     fechaActualizacion=""
     nombre = ""
     imagenEtiqueta = ""
@@ -11,15 +12,19 @@ class Vino():
     varietal = []
     bodega = None
 
-    def __init__(self, nombre, añada, fechaActualizacion, tipoUva, bodega, maridaje):
+    def __init__(self,id, nombre, añada, fechaActualizacion,precioARS,varietal,notaCataBodega, bodega, maridaje):
+        self.id = id
         self.nombre = nombre
         self.añada = añada
         self.fechaActualizacion = fechaActualizacion
-        self.tipoUva = tipoUva
         self.bodega = bodega
         self.maridaje = maridaje
-    def new(self, nombre, añada, fechaActualizacion, tipoUva, bodega, maridaje):
-        return Vino(nombre, añada, fechaActualizacion, tipoUva, bodega, maridaje)
+        self.notaCataBodega = notaCataBodega
+        self.precioARS = precioARS
+        self.varietal = varietal
+        
+    def new(self,id, nombre, añada, fechaActualizacion, tipoUva, bodega, maridaje):
+        return Vino(id,nombre, añada, fechaActualizacion, tipoUva, bodega, maridaje)
 
     #Metodos
     def sos_Este_Vino(self,nombre):
@@ -28,7 +33,10 @@ class Vino():
         else:
             return False
 
-    #def sos_Vino_Para_Actualizar(self,fechaActualizacion):
+    def get_Id(self):
+        return self.id
+    def set_Id(self,id):
+        self.id = id
     def getNombre(self):
         return self.nombre
     def setNombre(self,nombre):
@@ -88,4 +96,10 @@ class Vino():
     def get_Fecha_Actualizacion(self):
         return self.fechaActualizacion  
 
-    
+
+    def sosVinoParaActualizar(self, fechaActual):
+        if datetime.strptime(self.fechaActualizacion, "%Y-%m-%d") < datetime.strptime(fechaActual, "%Y-%m-%d"):
+            return True
+        else:
+            return False
+          

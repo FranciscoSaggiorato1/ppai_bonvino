@@ -1,0 +1,11 @@
+"id","contraseña","nombre","premium"
+"u1","contraseña1","Juan",true
+"u2","contraseña2","María",false
+"u3","contraseña3","Carlos",true
+"u4","contraseña4","Ana",false
+"u5","contraseña5","Luis",true
+"u6","contraseña6","Elena",false
+"u7","contraseña7","José",true
+"u8","contraseña8","Laura",false
+"u9","contraseña9","Pablo",true
+"u10","contraseña10","Sofía",false

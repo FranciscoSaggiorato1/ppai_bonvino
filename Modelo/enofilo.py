@@ -1,24 +1,30 @@
 from siguiendo import Siguiendo
 from usuario import Usuario
 
-class Enofilo():
+class Enofilo:
     #Propiedades de la clase ENOFILO
+    id = ""
     apellido = ""
     imagenPerfil = None
     nombre = ""
     seguido = []
     usuario = None
 
-def __init__(self, apellido, imagenPerfil, nombre, seguido, usuario):
+def __init__(self,id, apellido, imagenPerfil, nombre, seguido, usuario):
+    self.id = id
     self.apellido = apellido
     self.imagenPerfil = imagenPerfil
     self.nombre = nombre
     self.seguido = seguido
     self.usuario = usuario
-def new(self, apellido, imagenPerfil, nombre, seguido, usuario):
-    return Enofilo(apellido, imagenPerfil, nombre, seguido, usuario)
+def new(self,id, apellido, imagenPerfil, nombre, seguido, usuario):
+    return Enofilo(id,apellido, imagenPerfil, nombre, seguido, usuario)
 
 #Metodos de la clase ENOFILO
+def get_id(self):
+    return self.id
+def set_id(self, id):
+    self.id = id
 def get_apellido(self):
     return self.apellido
 def set_apellido(self, apellido):
