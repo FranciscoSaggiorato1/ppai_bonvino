@@ -33,26 +33,6 @@ class Ventana(QMainWindow):
         with open(filename, newline='') as csvfile:
             reader = csv.reader(csvfile)
             self.cargar_data(reader)
-
-    """def cargar_data(self, reader):
-        # Leer todas las filas del CSV
-        data = list(reader)
-
-        # Número de filas y columnas
-        row_count = len(data)
-        column_count = 5
-        
-        # Establecer número de filas y columnas en el QTableWidget
-        self.tableWidget.setRowCount(row_count)
-        self.tableWidget.setColumnCount(column_count)
-        
-        # Rellenar el QTableWidget con los datos del CSV
-        for row_index, row_data in enumerate(data):
-            for column_index, cell_data in enumerate(row_data):
-                if column_index == 5:
-                    break
-                else:
-                    self.tableWidget.setItem(row_index, column_index, QtWidgets.QTableWidgetItem(cell_data))"""
     
     def cargar_data(self, reader):
         # Leer todas las filas del CSV
@@ -88,7 +68,7 @@ class Ventana(QMainWindow):
     def select_bodega(self, row_index):
         # Este método maneja la selección de una bodega
         # Puedes reemplazar este código con el código que necesites para manejar la selección de una bodega
-        print(f"Bodega seleccionada: {row_index}")
+        print("Bodega seleccionada:", row_index)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
