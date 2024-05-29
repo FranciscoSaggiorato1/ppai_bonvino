@@ -93,48 +93,116 @@ QPushButton:pressed {
         </property>
        </widget>
       </widget>
-      <widget class="QWidget" name="page_2">
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <widget class="QTableWidget" name="tableWidget">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>50</y>
-          <width>811</width>
-          <height>451</height>
-         </rect>
+        <widget class="QWidget" name="page_2">
+        <property name="styleSheet">
+                <string notr="true"/>
         </property>
+        <widget class="QLabel" name="label_2">
+                <property name="styleSheet">
+                        <string notr="true">
+                                color: rgb(86, 7, 12);
+                                background-color: rgb(255, 255, 240);
+                                font-family: "montserrat", Times, serif;
+                                font-size: 16px; 
+                                font-weight: bold; 
+                                margin-top: 0px; 
+                                margin-bottom: 0px; 
+                                margin-left: 0px; 
+                                margin-right: 0px; 
+                                border-top-left-radius: 0px; 
+                                border-top-right-radius: 0px; 
+                        </string>
+                </property>
+                <property name="text">
+                        <string>Seleccione las bodegas que desea actualizar</string>
+                </property>
+                <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                </property>
+        </widget>
+<layout class="QVBoxLayout" name="mainVerticalLayoutPage2">
+  <item>
+   <spacer name="verticalSpacerTop">
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+    <property name="sizeHint" stdset="0">
+     <size>
+      <width>20</width>
+      <height>50</height>
+     </size>
+    </property>
+   </spacer>
+  </item>
+  <item>
+   <layout class="QHBoxLayout" name="horizontalLayoutCentering">
+    <item>
+     <spacer name="horizontalSpacerLeft">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>50</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayoutPage2">
+      <item>
+       <widget class="QTableWidget" name="tableWidget">
         <property name="styleSheet">
          <string notr="true">background-color: rgb(86, 7, 12);</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label_2">
+      </item>
+     </layout>
+    </item>
+    <item>
+     <spacer name="horizontalSpacerRight">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>10</width>
+        <height>10</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </item>
+  <item>
+   <spacer name="verticalSpacerBottom">
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+    <property name="sizeHint" stdset="0">
+     <size>
+      <width>20</width>
+      <height>50</height>
+     </size>
+    </property>
+   </spacer>
+  </item>
+ </layout>
+</widget>
+
+      <widget class="QWidget" name="page_3">
+       <widget class="QTableWidget" name="tableWidgetVinos">
         <property name="geometry">
          <rect>
-          <x>280</x>
-          <y>10</y>
-          <width>251</width>
-          <height>31</height>
+          <x>0</x>
+          <y>50</y>
+          <width>801</width>
+          <height>471</height>
          </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(255, 255, 255);
-border: 4px;
-border-radius: 11px;
-color: rgb(139,0,0);
-font-family: &quot;Times New Roman&quot;, Times, serif;</string>
-        </property>
-        <property name="text">
-         <string>Selecciona las bodegas que desea actualizar</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </widget>
-      <widget class="QWidget" name="page_3"/>
      </widget>
     </item>
    </layout>
