@@ -41,6 +41,7 @@ class GestorImportadorBodega:
         script_dir = os.path.dirname(__file__)
         csv_path = os.path.join(script_dir, '..', 'Modelo', './data/bodega.csv')
         todas_las_bodegas = Bodega.cargarData(csv_path)
+        self.bodegasParaActualizar = []
         for bodega in todas_las_bodegas:
             if bodega.tieneActualizacionDisponible(self.getFechaActual()):
                 self.bodegasParaActualizar.append(bodega.tieneActualizacionDisponible(self.getFechaActual()))
@@ -60,9 +61,13 @@ class GestorImportadorBodega:
 
         # Determinar si los vinos actualizados pertenecen a la bodega seleccionada 
         self.determinarVinosParaActualizar()
+        print(f"Vinos para actualizar: {self.vinosParaActualizar}")
+
+
+        self.actualizarOCrearVinos()
         
         # Testeamos si se están cargando bien los vinos para actualizar
-        print(f"Vinos para actualizar: {self.vinosParaActualizar}")
+        
         
 
     def obtenerActualizacionVinosBodega(self):
@@ -139,7 +144,7 @@ class GestorImportadorBodega:
 
 
     def actualizarOCrearVinos(self):
-        self.obtenerActualizacionVinosBodega()
+        print('Llegue a la funcion actualizar o crear')
         obtenerResumenVinos_dict = []
 
         for vino in self.vinosActualizados:
@@ -150,10 +155,11 @@ class GestorImportadorBodega:
                 self.crearVino(vino)
                 obtenerResumenVinos_dict.append(vino)
         
+        # print(f"FORMATO: {type(obtenerResumenVinos_dict)}")
         return obtenerResumenVinos_dict
 
     def actualizarCaracteristicasVino(self,fechaActualizacion,fechaActual,precio,notaCata,img):  
-        Bodega.actualizarDatosVino(self,fechaActualizacion,fechaActual,precio,notaCata,img)
+        self.bodegaSeleccionada.actualizarDatosVino(fechaActualizacion,fechaActual,precio,notaCata,img)
 
     def crearVino(self, vino):
         maridaje = self.buscarMaridaje(vino)

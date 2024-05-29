@@ -125,7 +125,12 @@ class Vino:
 
 
     def sosVinoParaActualizar(self, fechaActual):
-        if datetime.strptime(self.fechaActualizacion, "%Y-%m-%d") < datetime.strptime(fechaActual, "%Y-%m-%d"):
+        if isinstance(fechaActual, datetime):
+            fechaActual_str = fechaActual.strftime("%Y-%m-%d")
+        else:
+            fechaActual_str = fechaActual
+
+        if datetime.strptime(self.fechaActualizacion, "%Y-%m-%d") < datetime.strptime(fechaActual_str, "%Y-%m-%d"):
             return True
         else:
             return False
