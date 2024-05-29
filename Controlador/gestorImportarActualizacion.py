@@ -27,8 +27,6 @@ class GestorImportadorBodega:
         self.tipoDeUva = None
         self.seguidoresDeBodega = []
         self.vinosParaActualizar = []
-        self.objetoBodegaSeleccionada = None
-        self.todas_las_bodegas = []
 
     def nuevaImportacionActualizacionVinos(self):
         self.getFechaActual()
@@ -40,11 +38,10 @@ class GestorImportadorBodega:
         return self.fechaActual
 
     def buscarBodegasConActualizaciones(self):
-        self.bodegasParaActualizar = []
         script_dir = os.path.dirname(__file__)
         csv_path = os.path.join(script_dir, '..', 'Modelo', './data/bodega.csv')
-        self.todas_las_bodegas = Bodega.cargarData(csv_path)
-        for bodega in self.todas_las_bodegas:
+        todas_las_bodegas = Bodega.cargarData(csv_path)
+        for bodega in todas_las_bodegas:
             if bodega.tieneActualizacionDisponible(self.getFechaActual()):
                 self.bodegasParaActualizar.append(bodega.tieneActualizacionDisponible(self.getFechaActual()))
         for bodega in self.bodegasParaActualizar:
@@ -55,22 +52,14 @@ class GestorImportadorBodega:
 
 
     def tomarBodegaSeleccionada(self, bodega):
-        self.bodegaSeleccionada = bodega
-        print(f"se ejecuto la funcion")
-        for bodega in self.todas_las_bodegas:
-            print("se esta ejecutando")
-            if bodega.nombre == self.bodegaSeleccionada['nombre']:
-                self.objetoBodegaSeleccionada = bodega
-
+        self.bodegaSeleccionada = Bodega.from_dict(bodega)
         print(f"Bodega seleccionada desde gestor: {self.bodegaSeleccionada}")
         
         # Llamado a la API, nos devuelve vinos actualizados, que pueden no pertenecer a la bodega seleccionada
         self.obtenerActualizacionVinosBodega()
-        
 
         # Determinar si los vinos actualizados pertenecen a la bodega seleccionada 
         self.determinarVinosParaActualizar()
-        
         
         # Testeamos si se están cargando bien los vinos para actualizar
         print(f"Vinos para actualizar: {self.vinosParaActualizar}")
@@ -145,11 +134,8 @@ class GestorImportadorBodega:
     def determinarVinosParaActualizar(self):
         """Esta función determina todos los vinos que nos devolvió la simulación de la API, que pertenecen a la bodega seleccionada"""
         for vino in self.vinosActualizados: 
-            print(f"entro a la funcion")
-            if self.objetoBodegaSeleccionada.tienesEsteVino(vino['nombre']):
-                print(f"se encontro")
-               # self.vinosParaActualizar.append(vino)
-                
+            if self.bodegaSeleccionada.tienesEsteVino(vino['nombre']):
+                self.vinosParaActualizar.append(vino)
 
 
     def actualizarOCrearVinos(self):
