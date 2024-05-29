@@ -20,10 +20,10 @@ class Maridaje:
         )
     
     @staticmethod
-    def sosMaridaje(id):
+    def sosMaridaje(nombre):
         maridajes = Maridaje.cargarData("./Modelo/data/maridaje.csv")  # Adjust the path as needed
         for maridaje in maridajes:
-            if maridaje.id == id:
+            if maridaje.nombre == nombre:
                 return maridaje
         return None
     

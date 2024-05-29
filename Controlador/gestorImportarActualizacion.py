@@ -74,10 +74,10 @@ class GestorImportadorBodega:
                 'Imagen Etiqueta': 'https://i.colnect.net/f/3919/903/Trumpeter---Sauvignon-Blanc.jpg',
                 'Nota de Cata': 'Notas de ciruela y roble',
                 'Precio ARS': 1500,
-                'Maridajes': ['m1', 'm2', 'm3'],
-                'Varietales': ['v1', 'v2', 'v3'],
+                'Maridajes': ["Malbec y Gouda", "Chardonnay y Salmón", "Cabernet Sauvignon y Cordero"],
+                'Varietales': ["Vino tinto de color rojo rubí con aromas a cereza, vainilla y cuero."],
                 'bodega': self.bodegaSeleccionada,
-                'tipoUva': ['t1', 't3', 't4']
+                'tipoUva': ["Pinot Grigio"]
             },
             {
                 'nombre': 'Dada', 
@@ -86,10 +86,10 @@ class GestorImportadorBodega:
                 'Imagen Etiqueta': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQelj-P5HqS_pTzC8YnXnpWkmpjBhBrSnErPORRgquoP03L_IrIxzSX1-mtCRVDWn1yyTc&usqp=CAU',
                 'Nota de Cata': 'Notas de cassis y pimienta negra',
                 'Precio ARS': 2000,
-                'Maridajes': ['m4', 'm5'],
-                'Varietales': ['v3', 'v6'],
+                'Maridajes': ["Pinot Noir y Ensalada","Brut Rosé y Sushi"],
+                'Varietales': ["Vino tinto de color rojo claro con aromas a fresa, cereza roja y setas.", "Vino blanco de color amarillo pajizo con aromas a heno, melocotón y cítricos."],
                 'bodega': self.bodegaSeleccionada,
-                'tipoUva': ['t3', 't7']
+                'tipoUva': ["Syrah", "Sauvignon Blanc"]
             },
             {
                 'nombre': 'Vino3', 
@@ -98,10 +98,10 @@ class GestorImportadorBodega:
                 'Imagen Etiqueta': 'https://example.com/vino3.jpg',
                 'Nota de Cata': 'Aromas de frutas rojas y especias',
                 'Precio ARS': 1800,
-                'Maridajes': ['m2', 'm3'],
-                'Varietales': ['v2', 'v4'],
+                'Maridajes': ["Chardonnay y Salmón", "Cabernet Sauvignon y Cordero"],
+                'Varietales': ["Vino tinto de color púrpura oscuro con aromas a grosella negra, cedro y tabaco.", "Vino tinto de color rojo rubí con aromas a cereza, vainilla y cuero."],
                 'bodega': self.bodegaSeleccionada,
-                'tipoUva': ['t2', 't5']
+                'tipoUva': ["Malbec", "Pinot Grigio"]
             },
             {
                 'nombre': 'Vino4', 
@@ -110,10 +110,10 @@ class GestorImportadorBodega:
                 'Imagen Etiqueta': 'https://example.com/vino4.jpg',
                 'Nota de Cata': 'Sabor intenso con notas de chocolate y vainilla',
                 'Precio ARS': 2200,
-                'Maridajes': ['m1', 'm5'],
-                'Varietales': ['v1', 'v5'],
+                'Maridajes': ["Malbec y Gouda", "Brut Rosé y Sushi"],
+                'Varietales': ["Vino tinto de color rojo intenso con aromas a frutos rojos, especias y cuero.", "Vino blanco de color amarillo pajizo con aromas a heno, melocotón y cítricos."],
                 'bodega': self.bodegaSeleccionada,
-                'tipoUva': ['t1', 't6']
+                'tipoUva': ["Cabernet Sauvignon", "Sauvignon Blanc"]
             },
             {
                 'nombre': 'Vino5', 
@@ -122,10 +122,10 @@ class GestorImportadorBodega:
                 'Imagen Etiqueta': 'https://example.com/vino5.jpg',
                 'Nota de Cata': 'Textura suave y aterciopelada con toques de mora',
                 'Precio ARS': 2500,
-                'Maridajes': ['m3', 'm4'],
-                'Varietales': ['v3', 'v6'],
+                'Maridajes': ["Verdejo y Tapas", "Sauvignon Blanc y Ceviche"],
+                'Varietales': ["Vino tinto de color violeta intenso con aromas a frutos negros, pimienta negra y violetas.", "Vino blanco de color verde pálido con aromas a grosella espinosa, hierba fresca y pomelo."],
                 'bodega': self.bodegaSeleccionada,
-                'tipoUva': ['t3', 't7']
+                'tipoUva': ["Gewürztraminer", "Chardonnay"]
             }
         ]
 
@@ -167,8 +167,8 @@ class GestorImportadorBodega:
 
     def buscarMaridaje(self, vino):
         maridajes = []
-        for maridaje_id in vino['Maridajes']:
-            maridaje = Maridaje.sosMaridaje(maridaje_id)
+        for maridaje_nombre in vino['Maridajes']:
+            maridaje = Maridaje.sosMaridaje(maridaje_nombre)
             if maridaje:
                 maridajes.append(maridaje)
         return maridajes
@@ -176,10 +176,10 @@ class GestorImportadorBodega:
         
     def buscarTipoUva(self, vino):
         tiposUva = []
-        if 'tiposUva' in vino:
-            for tipoUva in vino['tiposUva']:
-                tiposUva.append(TipoUva.sos_Tipo_Uva(tipoUva)) 
-
+        for tipoUva_nombre in vino['tipoUva']:
+            tipoUva = TipoUva.sosTipoUva(tipoUva_nombre)
+            if tipoUva:
+                tiposUva.append(tipoUva)
         return tiposUva
 
 

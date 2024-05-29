@@ -16,11 +16,14 @@ class TipoUva:
                     )
         
 
-    def sos_Tipo_Uva(self,nombre):
-        if self.nombre == nombre:
-            return True
-        else:
-            return False  
+    @staticmethod
+    def sosTipoUva(nombre):
+        tiposUva = TipoUva.cargarData("./Modelo/data/tipoUva.csv")  # Adjust the path as needed
+        for tipo in tiposUva:
+            if tipo.nombre == nombre:
+                return tipo
+        return None
+    
     def get_Id(self):
         return self.id
     def set_Id(self,id):
