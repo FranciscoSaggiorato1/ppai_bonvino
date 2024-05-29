@@ -27,6 +27,7 @@ class Vino:
         self.precioARS = precioARS
         self.varietal = varietal
         self.imagenEtiqueta = imagenEtiqueta
+        
     def new(self,id,nombre, añada, fechaActualizacion,precioARS,varietales,  notaCataBodega,bodega , imagenEtiqueta,maridaje,id_varietal,descripcion, porcentajeComposicion,tiposUvas ):
         varietales = []
         for tipo in tiposUvas:

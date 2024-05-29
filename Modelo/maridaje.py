@@ -1,47 +1,58 @@
 import csv
 
 class Maridaje:
-    id=""
-    descripcion = ""	
+    id = ""
+    descripcion = ""    
     nombre = ""
-    def __init__(self,id, descripcion, nombre):
+    
+    def __init__(self, id, descripcion, nombre):
         self.id = id
         self.descripcion = descripcion
         self.nombre = nombre
-    def new(self,id, descripcion, nombre):
-        return Maridaje(id,descripcion, nombre)
-    def __repr__(self):
+    
+    def new(self, id, descripcion, nombre):
+        return Maridaje(id, descripcion, nombre)
+    
+    def _repr_(self):
         return (
             f"Maridaje(nombre={self.nombre}, "
-            f"descripcion={self.descripcion},  "
-            
+            f"descripcion={self.descripcion})"
         )
-    def sosMaridaje(self, id):
-        if self.id == id:
-            return self
-        else:
-            return False
-        
+    
+    @staticmethod
+    def sosMaridaje(id):
+        maridajes = Maridaje.cargarData("./Modelo/data/maridaje.csv")  # Adjust the path as needed
+        for maridaje in maridajes:
+            if maridaje.id == id:
+                return maridaje
+        return None
     
     def get_Id(self):
         return self.id
-    def set_Id(self,id):
+    
+    def set_Id(self, id):
         self.id = id
+    
     def get_Descripcion(self):
         return self.descripcion
-    def set_Descripcion(self,descripcion):
+    
+    def set_Descripcion(self, descripcion):
         self.descripcion = descripcion
+    
     def get_Nombre(self):
         return self.nombre
-    def set_Nombre(self,nombre):
+    
+    def set_Nombre(self, nombre):
         self.nombre = nombre
+    
+    @staticmethod
     def cargarData(filepath):
         maridajes = []
         with open(filepath, newline='', encoding='utf-8') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 try:
-                    maridaje=Maridaje(
+                    maridaje = Maridaje(
                         id=row['id'],
                         descripcion=row['descripcion'],
                         nombre=row['nombre']
@@ -58,8 +69,8 @@ class Maridaje:
             "nombre": self.nombre,
         }
 
- # Ejemplo de uso
+# Ejemplo de uso
 if __name__ == "__main__":
-    maridajes=Maridaje.cargarData("data/maridajes.csv")
+    maridajes = Maridaje.cargarData("../Modelo/data/maridaje.csv")
     for maridaje in maridajes:
-        print(maridaje)
+       print(maridaje)

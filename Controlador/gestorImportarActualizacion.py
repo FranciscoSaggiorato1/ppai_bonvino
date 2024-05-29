@@ -65,7 +65,7 @@ class GestorImportadorBodega:
         return bodega
 
     def obtenerActualizacionVinosBodega(self):
-        # Simulación de obtención de actualizaciones de vinos para la bodega seleccionada.
+        # Simulación de obtención de actualizaciones de vinos para la bodega seleccionada por parte de una API.
         self.vinosActualizados = [
             {
                 'nombre': 'Trumpeter', 
@@ -75,8 +75,9 @@ class GestorImportadorBodega:
                 'Nota de Cata': 'Notas de ciruela y roble',
                 'Precio ARS': 1500,
                 'Maridajes': ['m1', 'm2', 'm3'],
-                'Varietales': 'v1;v2;v3',
-                'bodega': self.bodegaSeleccionada
+                'Varietales': ['v1', 'v2', 'v3'],
+                'bodega': self.bodegaSeleccionada,
+                'tipoUva': ['t1', 't3', 't4']
             },
             {
                 'nombre': 'Dada', 
@@ -86,8 +87,9 @@ class GestorImportadorBodega:
                 'Nota de Cata': 'Notas de cassis y pimienta negra',
                 'Precio ARS': 2000,
                 'Maridajes': ['m4', 'm5'],
-                'Varietales': 'v3;v6',
-                'bodega': self.bodegaSeleccionada
+                'Varietales': ['v3', 'v6'],
+                'bodega': self.bodegaSeleccionada,
+                'tipoUva': ['t3', 't7']
             },
             {
                 'nombre': 'Vino3', 
@@ -97,8 +99,9 @@ class GestorImportadorBodega:
                 'Nota de Cata': 'Aromas de frutas rojas y especias',
                 'Precio ARS': 1800,
                 'Maridajes': ['m2', 'm3'],
-                'Varietales': 'v2;v4',
-                'bodega': self.bodegaSeleccionada
+                'Varietales': ['v2', 'v4'],
+                'bodega': self.bodegaSeleccionada,
+                'tipoUva': ['t2', 't5']
             },
             {
                 'nombre': 'Vino4', 
@@ -108,8 +111,9 @@ class GestorImportadorBodega:
                 'Nota de Cata': 'Sabor intenso con notas de chocolate y vainilla',
                 'Precio ARS': 2200,
                 'Maridajes': ['m1', 'm5'],
-                'Varietales': 'v1;v5',
-                'bodega': self.bodegaSeleccionada
+                'Varietales': ['v1', 'v5'],
+                'bodega': self.bodegaSeleccionada,
+                'tipoUva': ['t1', 't6']
             },
             {
                 'nombre': 'Vino5', 
@@ -119,8 +123,9 @@ class GestorImportadorBodega:
                 'Nota de Cata': 'Textura suave y aterciopelada con toques de mora',
                 'Precio ARS': 2500,
                 'Maridajes': ['m3', 'm4'],
-                'Varietales': 'v3;v6',
-                'bodega': self.bodegaSeleccionada
+                'Varietales': ['v3', 'v6'],
+                'bodega': self.bodegaSeleccionada,
+                'tipoUva': ['t3', 't7']
             }
         ]
 
@@ -145,7 +150,7 @@ class GestorImportadorBodega:
                 self.crearVino(vino)
                 self.vinosCreados.append(vino)
             # Obtener un resumen de los vinos actualizados y creados en formato de diccionario
-            obtenerResumenVinos_dict = [vino.to_dict() for vino in (self.vinosActualizados + self.vinosCreados)]
+            obtenerResumenVinos_dict = self.vinosActualizados + self.vinosCreados
         
         return obtenerResumenVinos_dict
         # self.mostrarResumenVinos(obtenerResumenVinos_dict)
@@ -157,21 +162,26 @@ class GestorImportadorBodega:
         maridaje = self.buscarMaridaje(vino)
         tipoUva = self.buscarTipoUva(vino)
         self.vinosCreados.append(vino)
-        print(f"Creando nuevo {vino.nombre}")
+        print(f"Creando nuevo {vino['nombre']}")
+
 
     def buscarMaridaje(self, vino):
         maridajes = []
-        for maridaje in vino['Maridajes']:
-            maridajes.append(Maridaje.sosMaridaje(maridaje)) 
-
+        for maridaje_id in vino['Maridajes']:
+            maridaje = Maridaje.sosMaridaje(maridaje_id)
+            if maridaje:
+                maridajes.append(maridaje)
         return maridajes
+
         
     def buscarTipoUva(self, vino):
         tiposUva = []
-        for tipoUva in vino['tiposUva']:
-            tiposUva.append(Maridaje.sosMaridaje(tipoUva)) 
+        if 'tiposUva' in vino:
+            for tipoUva in vino['tiposUva']:
+                tiposUva.append(TipoUva.sos_Tipo_Uva(tipoUva)) 
 
         return tiposUva
+
 
 # Función de prueba
 if __name__ == "__main__":
