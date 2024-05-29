@@ -1,6 +1,8 @@
-from varietal import Varietal
+from Modelo.varietal import Varietal
 from datetime import datetime
 import csv
+
+
 class Vino:
     id = ""
     nombre = ""
@@ -166,7 +168,3 @@ if __name__ == "__main__":
       vinos = Vino.cargarData("./Modelo/data/vino.csv")
       for vino in vinos:
           print(vino)
-
-
-
-         

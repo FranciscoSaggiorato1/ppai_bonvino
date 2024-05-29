@@ -1,4 +1,4 @@
-"id","añada","fecha Actualizacion", "Nombre","Imagen Etiqueta","Nota de Cata","Precio ARS","Maridajes","Varietales","Bodega"
+"id","añada","fecha Actualizacion","Nombre","Imagen Etiqueta","Nota de Cata","Precio ARS","Maridajes","Varietales","Bodega"
 "v1",2018, "2024-01-15", "Trumpeter", "https://i.colnect.net/f/3919/903/Trumpeter---Sauvignon-Blanc.jpg", "Notas de ciruela y roble", 1500, [m1;m2;m3],[v1;v2;v3],"b1"
 "v2",2019, "2024-02-10", "Dada", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQelj-P5HqS_pTzC8YnXnpWkmpjBhBrSnErPORRgquoP03L_IrIxzSX1-mtCRVDWn1yyTc&usqp=CAU", "Notas de cassis y pimienta negra", 2000, [], [v3;v6], "b1"
 "v3",2020, "2024-03-12", "Protos", "https://www.bodegasprotos.com/wp-content/uploads/2020/04/Protos-Gran-Reserva-GEN%C3%89RICA.jpg", "Notas de cereza y chocolate", 1800, [m8;m2], [v9;v2;v4],"b1"
@@ -19,4 +19,3 @@
 "v18",2019,"2024-06-05","Viñedos Escondidos","https://almadelosandes.com.ar/wp-content/uploads/2021/03/ESCONDIDO-1.jpg", "Notas de ciruela, cereza y chocolate",2800,[m3;m8],[v2],"b9"
 "v19",2021,"2024-06-10","El Amanecer","https://acdn.mitiendanube.com/stores/087/677/products/amanecer_andino_blend1-5680bf48e1777e172516675914347280-640-0.png", "Notas de manzana verde, pera y flores blancas",1600,[m1;m5;m9],[v7;v9],"b9"
 "v20",2023,"2024-06-20","La Joya del Desierto","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG3rPQ87cDFinwAQSV6DhTwULN3GNdkIwiop12VKgV-A&s", "Notas de dátiles, higos y miel",2001,[],[v1;v5],"b10"
-

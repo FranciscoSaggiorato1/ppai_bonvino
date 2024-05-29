@@ -1,5 +1,6 @@
-
 import csv
+
+
 class Varietal():
     id=""
     descripcion = ""
@@ -63,7 +64,7 @@ class Varietal():
 
  # Ejemplo de uso
 if __name__ == "__main__":
-        varietales = Varietal.cargarData("ruta_al_archivo.csv")
+        varietales = Varietal.cargarData("./Modelo/data/varietal.csv")
         for varietal in varietales:
             print(varietal)
 
