@@ -1,11 +1,15 @@
 import csv
+import os
+from Modelo.enofilo import Enofilo
+from Modelo.bodega import Bodega
+
 class Siguiendo:
     #Propiedades de la clase SIGUIENDO
     id=""
     fechaInicio = ""
     fechaFin = ""
     bodega = None
-    enofilo= None
+    enofilo = None
 #Metodos de la clase SIGUIENDO
     def __init__(self,id, fechaInicio, fechaFin, bodega, enofilo):
         self.id = id
@@ -67,6 +71,23 @@ class Siguiendo:
                         bodega=row['bodegas'],
                         enofilo=row['enofilo']
                     )
+
+                    script_dir = os.path.dirname(__file__)
+                    path_enofilo = os.path.join(script_dir, '..', 'Modelo', './data/enofilo.csv')
+                    TodosLosEnofilos = Enofilo.cargarData(path_enofilo)
+                    enofilo_id = row['enofilo'],
+                    for enofilo in TodosLosEnofilos:
+                            if enofilo.get_Id() == enofilo_id:
+                                siguiendo.enofilo = enofilo
+                    
+                    script_dir = os.path.dirname(__file__)
+                    path_bodega = os.path.join(script_dir, '..', 'Modelo', './data/bodega.csv')
+                    TodasLasBodegas = Bodega.cargarData(path_bodega)
+                    bodega_id = row['bodegas'],
+                    for bodega in TodasLasBodegas:
+                            if bodega.get_Id() == bodega_id:
+                                siguiendo.bodega = bodega
+
                     siguiendos.append(siguiendo)
                 except ValueError as e:
                     print(f"Error al procesar la fila: {row}. Error: {e}")
