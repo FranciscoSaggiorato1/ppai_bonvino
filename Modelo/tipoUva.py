@@ -23,7 +23,7 @@ class TipoUva:
             if tipo.nombre == nombre:
                 return tipo
         return None
-    
+     
     def get_Id(self):
         return self.id
     def set_Id(self,id):

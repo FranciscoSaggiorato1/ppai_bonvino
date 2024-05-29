@@ -53,12 +53,6 @@ class GestorImportadorBodega:
         return bodegas_con_actualizaciones_dicts
 
 
-    def buscarBodegaActDisponible(self):
-        
-        #Simulación de búsqueda de una bodega con actualizaciones disponibles.
-        #Retorna el nombre de la bodega seleccionada.
-        return "Bodega1"
-
     def tomarBodegaSeleccionada(self, bodega):
         self.bodegaSeleccionada = bodega
         print(f"Bodega seleccionada desde gestor: {self.bodegaSeleccionada}")
@@ -137,23 +131,20 @@ class GestorImportadorBodega:
 
     def actualizarOCrearVinos(self):
         self.obtenerActualizacionVinosBodega()
-        obtenerResumenVinos_dict = None
+        obtenerResumenVinos_dict = []
 
         for vino in self.vinosActualizados:
             if vino in self.vinosParaActualizar:
-                print(f"Actualizando {vino}")
-                self.actualizarCaracteristicasVino(vino['fechaActualizacion'],self.fechaActual,vino['precio'],vino['cata'],vino['img'])
-                self.vinosCreados.append(vino)
-                print(f"Vino {vino} actualizado")
+                self.actualizarCaracteristicasVino(vino['fecha Actualizacion'], self.fechaActual, vino['Precio ARS'], vino['Nota de Cata'], vino['Imagen Etiqueta'])
+                obtenerResumenVinos_dict.append(vino)
             else:
-                print(f"Creando nuevo {vino}")
                 self.crearVino(vino)
-                self.vinosCreados.append(vino)
-            # Obtener un resumen de los vinos actualizados y creados en formato de diccionario
-            obtenerResumenVinos_dict = self.vinosActualizados + self.vinosCreados
+                obtenerResumenVinos_dict.append(vino)
         
-        return obtenerResumenVinos_dict
-        # self.mostrarResumenVinos(obtenerResumenVinos_dict)
+        # Llamar al método mostrarResumenActualizacionVinos de la interfaz
+        from Interfaz.interfazImportarActualizacion import Ventana
+        ventana = Ventana()
+        ventana.mostrarResumenActualizacionVinos(obtenerResumenVinos_dict)
 
     def actualizarCaracteristicasVino(self,fechaActualizacion,fechaActual,precio,notaCata,img):  
         Bodega.actualizarDatosVino(self,fechaActualizacion,fechaActual,precio,notaCata,img)

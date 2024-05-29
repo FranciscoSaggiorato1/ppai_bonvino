@@ -22,6 +22,7 @@ class Ventana(QMainWindow):
         self.habilitarPantalla()
         self.pushButton.clicked.connect(self.cambiarPag)
         self.pushButton.clicked.connect(self.cargar_csv1)
+        #self.pushButtonVolver.clicked.connect(self.volverAlInicio)
         
     def habilitarPantalla(self):
         self.setWindowTitle("BonVino - Importar Actualizacion")
@@ -29,6 +30,9 @@ class Ventana(QMainWindow):
         self.setWindowIcon(QIcon(icon_path))
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowType.WindowMaximizeButtonHint)
         self.show()
+    
+    #def volverAlInicio(self):
+        #self.stackedWidget.setCurrentIndex(0)
 
     def cambiarPag(self):
         self.stackedWidget.setCurrentIndex(1)
