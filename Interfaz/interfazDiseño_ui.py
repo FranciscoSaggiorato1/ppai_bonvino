@@ -101,8 +101,9 @@ class Ui_MainWindow(object):
 "            background-color: rgb(86, 7, 12);\n"
 "            color: black;\n"
 "            QHeaderView::section {\n"
-"              color: black;\n"
+"              color: rgb(255, 255, 240);\n"
 "            }\n"
+"            QTableWidgetItem::setData(Qt::BackgroundRole,Qt::grey)\n"
 "           ")
         self.tableWidget.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.tableWidget.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
