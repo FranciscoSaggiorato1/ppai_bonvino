@@ -14,7 +14,7 @@ sys.path.append(parent_dir)
 
 from Controlador.gestorImportarActualizacion import GestorImportadorBodega
 
-class Ventana(QMainWindow):
+class PantallaImportadorBodega(QMainWindow):
     def __init__(self):
         super().__init__()
         self.gestor = GestorImportadorBodega()
@@ -22,9 +22,12 @@ class Ventana(QMainWindow):
         uic.loadUi(ui_path, self)
         self.habilitarPantalla()
         self.pushButton.clicked.connect(self.cambiarPag)
-        self.pushButton.clicked.connect(self.cargar_csv1)
-        #self.pushButtonVolver.clicked.connect(self.volverAlInicio)
-        
+        self.pushButton.clicked.connect(self.seleccionarOpImportarAct)
+        self.pushButtonVolver.clicked.connect(self.volverAlInicio)
+        self.pushButtonVolverBodega.clicked.connect(self.volverAlInicio)
+        self.pushButtonFinalizar.clicked.connect(self.finalizar)
+
+
     def habilitarPantalla(self):
         self.setWindowTitle("BonVino - Importar Actualizacion")
         icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'imagenes', 'utnLogo.ico')
@@ -32,8 +35,11 @@ class Ventana(QMainWindow):
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowType.WindowMaximizeButtonHint)
         self.show()
     
-    #def volverAlInicio(self):
-        #self.stackedWidget.setCurrentIndex(0)
+    def volverAlInicio(self):
+        self.stackedWidget.setCurrentIndex(0)
+    
+    def finalizar(self):
+        self.close()
 
     def cambiarPag(self):
         self.stackedWidget.setCurrentIndex(1)
@@ -46,7 +52,7 @@ class Ventana(QMainWindow):
         msg_box.setStandardButtons(QMessageBox.StandardButton.Ok)
         msg_box.exec()
 
-    def seleccionarOpImportarActVinos(self):
+    def seleccionarOpImportarAct(self):
         bodegas = self.gestor.buscarBodegasConActualizaciones() #[] Para la ALTERNATIVA
         self.mostrarParaSeleccionarBodegasConActualizaciones(bodegas)
     
@@ -82,35 +88,40 @@ class Ventana(QMainWindow):
         self.gestor.tomarBodegaSeleccionada(bodega)
         # Cambiar a la pagina donde se mostraran los vinos
         self.stackedWidget.setCurrentIndex(2)
-        #self.cargarVinosActualizados()
+        self.cargarVinosActualizados()
 
     def cargarVinosActualizados(self):
         # Obtener datos de vinos actualizados desde el gestor o alguna fuente de datos
-        vinos_actualizados = self.gestor.obtenerVinosActualizados()
-        self.cargar_data_vinos_actualizados(vinos_actualizados)
+        vinos_actualizados = self.gestor.actualizarOCrearVinos() #None para LA ALTERNATIVA
+        self.mostrarResumenActualizacionVinos(vinos_actualizados)
     
-    def cargar_data_vinos_actualizados(self, vinos_actualizados):
-        row_count = len(vinos_actualizados)
-        column_count = 8  # Número de columnas
+    def mostrarResumenActualizacionVinos(self, vinos_actualizados):
+        if vinos_actualizados is None:
+            self.mostrar_mensaje_error("ERROR 503: El servidor no está disponible en este momento, devoró.")
+            return
+        else:
+            row_count = len(vinos_actualizados)
+            print(row_count)
+            column_count = 8  # Número de columnas
 
-            self.tableWidgetVinos.setRowCount(row_count)
-            self.tableWidgetVinos.setColumnCount(column_count)
-            self.tableWidgetVinos.verticalHeader().hide()
+            self.tableVino.setRowCount(row_count)
+            self.tableVino.setColumnCount(column_count)
+            self.tableVino.verticalHeader().hide()
             headers = ["Etiqueta", "Nombre", "Varietal", "Tipo Uva", "Maridaje", "Fecha Actualización", "Añada", "Precio"]
-            self.tableWidgetVinos.setHorizontalHeaderLabels(headers)
+            self.tableVino.setHorizontalHeaderLabels(headers)
 
             # Ajustar el tamaño de las columnas al contenido
-            self.tableWidgetVinos.horizontalHeader().setStretchLastSection(True)
-            self.tableWidgetVinos.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
-            self.tableWidgetVinos.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Preferred)
-            self.tableWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
-            #self.tableWidgetVinos.setMinimumSize(400, 300)  # Ajustar el tamaño mínimo según sea necesario
+            self.tableVino.horizontalHeader().setStretchLastSection(True)
+            self.tableVino.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
+            self.tableVino.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Preferred)
+            self.tableVino.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
+            #self.tableWidget.setMinimumSize(400, 300)  # Ajustar el tamaño mínimo según sea necesario
 
             for row_index, vino in enumerate(vinos_actualizados):
                 for col_index, value in enumerate(vino.values()):
-                    self.tableWidgetVinos.setItem(row_index, col_index, QTableWidgetItem(str(value)))
+                    self.tableVino.setItem(row_index, col_index, QTableWidgetItem(str(value)))
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    ventana = Ventana()
+    interfazImportarActualizaciones =PantallaImportadorBodega()
     sys.exit(app.exec())

@@ -75,7 +75,7 @@ class GestorImportadorBodega:
         self.vinosActualizados = [
             {
                 'nombre': 'Trumpeter', 
-                'añada': 2018, 
+                'añada': 2018,
                 'fecha Actualizacion': "2024-01-15", 
                 'Imagen Etiqueta': 'https://i.colnect.net/f/3919/903/Trumpeter---Sauvignon-Blanc.jpg',
                 'Nota de Cata': 'Notas de ciruela y roble',
@@ -134,11 +134,12 @@ class GestorImportadorBodega:
                 'tipoUva': ["Gewürztraminer", "Chardonnay"]
             }
         ]
-        
+
 
     def determinarVinosParaActualizar(self):
         """Esta función determina todos los vinos que nos devolvió la simulación de la API, que pertenecen a la bodega seleccionada"""
-        for vino in self.vinosActualizados: 
+        self.vinosParaActualizar = []
+        for vino in self.vinosActualizados:
             if self.bodegaSeleccionada.tienesEsteVino(vino['nombre']):
                 self.vinosParaActualizar.append(vino)
 
@@ -155,7 +156,7 @@ class GestorImportadorBodega:
                 self.crearVino(vino)
                 obtenerResumenVinos_dict.append(vino)
         
-        # print(f"FORMATO: {type(obtenerResumenVinos_dict)}")
+        print(f"FORMATO: {obtenerResumenVinos_dict}")
         return obtenerResumenVinos_dict
 
     def actualizarCaracteristicasVino(self,fechaActualizacion,fechaActual,precio,notaCata,img):  
