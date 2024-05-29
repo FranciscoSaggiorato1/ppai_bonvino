@@ -98,6 +98,19 @@ QPushButton:pressed {
         <string notr="true"/>
        </property>
        <layout class="QVBoxLayout" name="verticalLayoutPage2">
+       <item>
+         <spacer name="verticalSpacerTop">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
         <item>
          <widget class="QLabel" name="label_2">
           <property name="alignment">
@@ -139,6 +152,7 @@ QPushButton:pressed {
             color: rgb(255, 255, 240);
             QHeaderView::section {
               color: rgb(255, 255, 240);
+              background-color: rgb(255, 255, 240);
             }
             QTableWidgetItem::setData(Qt::BackgroundRole,Qt::grey)
            </string>
