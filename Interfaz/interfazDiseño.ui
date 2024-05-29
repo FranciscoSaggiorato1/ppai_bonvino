@@ -98,6 +98,9 @@ QPushButton:pressed {
         <string notr="true"/>
        </property>
        <layout class="QVBoxLayout" name="verticalLayoutPage2">
+        <property name="sizeConstraint">
+          <enum>QLayout::SetMinimumSize</enum>
+        </property>
        <item>
          <spacer name="verticalSpacerTop">
           <property name="orientation">
@@ -183,8 +186,24 @@ QPushButton:pressed {
       <widget class="QWidget" name="page_3">
       <property name="styleSheet">
         <string notr="true"/>
-      </property>
+       </property>
        <layout class="QVBoxLayout" name="verticalLayoutPage3">
+        <property name="sizeConstraint">
+          <enum>QLayout::SetMinimumSize</enum>
+        </property>
+       <item>
+         <spacer name="verticalSpacerTop">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
         <item>
          <widget class="QLabel" name="label_3">
           <property name="alignment">
@@ -213,7 +232,7 @@ QPushButton:pressed {
          </widget>
         </item>
         <item>
-         <widget class="QTableWidget" name="tableVinos">
+         <widget class="QTableWidget" name="tableVino">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>50</horstretch>
@@ -226,6 +245,7 @@ QPushButton:pressed {
             color: rgb(255, 255, 240);
             QHeaderView::section {
               color: rgb(255, 255, 240);
+              background-color: rgb(255, 255, 240);
             }
             QTableWidgetItem::setData(Qt::BackgroundRole,Qt::grey)
            </string>

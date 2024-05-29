@@ -21,8 +21,8 @@ class Ventana(QMainWindow):
         uic.loadUi(ui_path, self)
         self.habilitarPantalla()
         self.pushButton.clicked.connect(self.cambiarPag)
-        self.pushButton.clicked.connect(self.cargar_csv1)
-        #self.pushButtonVolver.clicked.connect(self.volverAlInicio)
+        self.pushButton.clicked.connect(self.cargarBodegas)
+
         
     def habilitarPantalla(self):
         self.setWindowTitle("BonVino - Importar Actualizacion")
@@ -31,13 +31,13 @@ class Ventana(QMainWindow):
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowType.WindowMaximizeButtonHint)
         self.show()
     
-    #def volverAlInicio(self):
-        #self.stackedWidget.setCurrentIndex(0)
+    def volverAlInicio(self):
+        self.stackedWidget.setCurrentIndex(0)
 
     def cambiarPag(self):
         self.stackedWidget.setCurrentIndex(1)
 
-    def cargar_csv1(self):
+    def cargarBodegas(self):
         bodegas = self.gestor.buscarBodegasConActualizaciones()
         self.cargar_data(bodegas)
     
@@ -51,11 +51,11 @@ class Ventana(QMainWindow):
         headers = ["Acción", "Nombre"]
         self.tableWidget.setHorizontalHeaderLabels(headers)
 
-         # Ajustar el tamaño de las columnas al contenido
+        # Ajustar el tamaño de las columnas al contenido
         self.tableWidget.horizontalHeader().setStretchLastSection(True)
         self.tableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
-        self.tableWidget.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.tableWidget.setMinimumSize(400, 300)  # Ajustar el tamaño mínimo según sea necesario
+        self.tableWidget.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Preferred)
+        self.tableWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
 
         for row_index, bodega in enumerate(bodegas):
             button = QtWidgets.QPushButton("Seleccionar")
@@ -87,13 +87,20 @@ class Ventana(QMainWindow):
         # Ajustar el tamaño de las columnas al contenido
         self.tableWidgetVinos.horizontalHeader().setStretchLastSection(True)
         self.tableWidgetVinos.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
-        self.tableWidgetVinos.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.tableWidgetVinos.setMinimumSize(400, 300)  # Ajustar el tamaño mínimo según sea necesario
+        self.tableWidgetVinos.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Preferred)
+        self.tableWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
+        #self.tableWidgetVinos.setMinimumSize(400, 300)  # Ajustar el tamaño mínimo según sea necesario
 
         for row_index, vino in enumerate(vinos_actualizados):
             for col_index, value in enumerate(vino.values()):
                 self.tableWidgetVinos.setItem(row_index, col_index, QTableWidgetItem(str(value)))
 
+        buttonVolver = QtWidgets.QPushButton("Volver al inicio")
+        buttonVolver.clicked.connect(self.volverAlInicio)
+        buttonActBodega = QtWidgets.QPushButton("Actualizar otra Bodega")
+        buttonActBodega.clicked.connect(self.cambiarPag)
+        self.layout().addWidget(buttonVolver)
+        self.layout().addWidget(buttonActBodega)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
