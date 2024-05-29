@@ -52,6 +52,11 @@ class Vino:
             return True
         else:
             return False
+    def esTuId(self,vino):
+        if self.id == vino.id:
+            return self
+        else:
+            return None
 
     def get_Id(self):
         return self.id
@@ -120,7 +125,12 @@ class Vino:
 
 
     def sosVinoParaActualizar(self, fechaActual):
-        if datetime.strptime(self.fechaActualizacion, "%Y-%m-%d") < datetime.strptime(fechaActual, "%Y-%m-%d"):
+        if isinstance(fechaActual, datetime):
+            fechaActual_str = fechaActual.strftime("%Y-%m-%d")
+        else:
+            fechaActual_str = fechaActual
+
+        if datetime.strptime(self.fechaActualizacion, "%Y-%m-%d") < datetime.strptime(fechaActual_str, "%Y-%m-%d"):
             return True
         else:
             return False

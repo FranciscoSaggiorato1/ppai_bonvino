@@ -14,7 +14,7 @@ sys.path.append(parent_dir)
 
 from Controlador.gestorImportarActualizacion import GestorImportadorBodega
 
-class PantallaImportadorBodega(QMainWindow):
+class Ventana(QMainWindow):
     def __init__(self):
         super().__init__()
         self.gestor = GestorImportadorBodega()
@@ -22,12 +22,9 @@ class PantallaImportadorBodega(QMainWindow):
         uic.loadUi(ui_path, self)
         self.habilitarPantalla()
         self.pushButton.clicked.connect(self.cambiarPag)
-        self.pushButton.clicked.connect(self.seleccionarOpImportarActVinos)
-        self.pushButtonVolver.clicked.connect(self.volverAlInicio)
-        self.pushButtonVolverBodega.clicked.connect(self.volverAlInicio)
-        self.pushButtonFinalizar.clicked.connect(self.finalizar)
-
-
+        self.pushButton.clicked.connect(self.cargar_csv1)
+        #self.pushButtonVolver.clicked.connect(self.volverAlInicio)
+        
     def habilitarPantalla(self):
         self.setWindowTitle("BonVino - Importar Actualizacion")
         icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'imagenes', 'utnLogo.ico')
@@ -35,11 +32,8 @@ class PantallaImportadorBodega(QMainWindow):
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowType.WindowMaximizeButtonHint)
         self.show()
     
-    def volverAlInicio(self):
-        self.stackedWidget.setCurrentIndex(0)
-    
-    def finalizar(self):
-        self.close()
+    #def volverAlInicio(self):
+        #self.stackedWidget.setCurrentIndex(0)
 
     def cambiarPag(self):
         self.stackedWidget.setCurrentIndex(1)
@@ -92,16 +86,12 @@ class PantallaImportadorBodega(QMainWindow):
 
     def cargarVinosActualizados(self):
         # Obtener datos de vinos actualizados desde el gestor o alguna fuente de datos
-        vinos_actualizados = self.gestor.obtenerVinosActualizados() #None para LA ALTERNATIVA
-        self.mostrarResumenActualizacionVinos(vinos_actualizados)
+        vinos_actualizados = self.gestor.obtenerVinosActualizados()
+        self.cargar_data_vinos_actualizados(vinos_actualizados)
     
-    def mostrarResumenActualizacionVinos(self, vinos_actualizados):
-        if vinos_actualizados is None:
-            self.mostrar_mensaje_error("ERROR 503: El servidor no está disponible en este momento, devoró.")
-            return
-        else:
-            row_count = len(vinos_actualizados)
-            column_count = 8  # Número de columnas
+    def cargar_data_vinos_actualizados(self, vinos_actualizados):
+        row_count = len(vinos_actualizados)
+        column_count = 8  # Número de columnas
 
             self.tableWidgetVinos.setRowCount(row_count)
             self.tableWidgetVinos.setColumnCount(column_count)
@@ -122,5 +112,5 @@ class PantallaImportadorBodega(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    interfazImportarActualizaciones =PantallaImportadorBodega()
+    ventana = Ventana()
     sys.exit(app.exec())
