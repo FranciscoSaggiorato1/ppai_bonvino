@@ -63,19 +63,8 @@ class Bodega:
     def set_nombre(self, nombre):
         self.nombre = nombre
 
-    def get_periodoActualizacion(self):
-        return self.periodoActualizacion
-
     def set_periodoActualizacion(self, periodoActualizacion):
         self.periodoActualizacion = int(periodoActualizacion)
-
-    def get_fechaUltimaActualizacion(self):
-        if self.fechaUltimaActualizacion:
-            return datetime.strptime(self.fechaUltimaActualizacion, '%d/%m/%Y')
-        return None
-
-    def set_fechaUltimaActualizacion(self, fechaUltimaActualizacion):
-        self.fechaUltimaActualizacion = fechaUltimaActualizacion
 
     def get_Vinos(self):
         return self.vinos
@@ -91,8 +80,19 @@ class Bodega:
 
         if fechaActualizacion < fechaActual:
             return self
+        
+    def get_fechaUltimaActualizacion(self):
+        if self.fechaUltimaActualizacion:
+            return datetime.strptime(self.fechaUltimaActualizacion, '%d/%m/%Y')
+        return None
+    
+    def get_periodoActualizacion(self):
+        return self.periodoActualizacion
 
-    def tienesEsteVino(self, nombreVino):
+    def set_fechaUltimaActualizacion(self, fechaUltimaActualizacion):
+        self.fechaUltimaActualizacion = fechaUltimaActualizacion
+
+    def tienesEsteVino(self, bodega, nombreVino):
         for vino in self.vinos:
             if vino.sos_Este_Vino(nombreVino):
                 return True

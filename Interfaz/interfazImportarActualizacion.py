@@ -38,7 +38,7 @@ class Ventana(QMainWindow):
         self.stackedWidget.setCurrentIndex(1)
 
     def cargar_csv1(self):
-        bodegas = self.gestor.buscarBodegasConActualizaciones()
+        bodegas = self.gestor.nuevaImportacionActualizacionVinos()
         self.cargar_data(bodegas)
     
     def cargar_data(self, bodegas):
@@ -51,11 +51,11 @@ class Ventana(QMainWindow):
         headers = ["Acción", "Nombre"]
         self.tableWidget.setHorizontalHeaderLabels(headers)
 
-         # Ajustar el tamaño de las columnas al contenido
+        # Ajustar el tamaño de las columnas al contenido
         self.tableWidget.horizontalHeader().setStretchLastSection(True)
         self.tableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
-        self.tableWidget.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.tableWidget.setMinimumSize(400, 300)  # Ajustar el tamaño mínimo según sea necesario
+        self.tableWidget.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Preferred)
+        self.tableWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
 
         for row_index, bodega in enumerate(bodegas):
             button = QtWidgets.QPushButton("Seleccionar")
@@ -66,6 +66,7 @@ class Ventana(QMainWindow):
     def tomarBodegaSeleccionada(self, bodega):
         print('La bodega desde interfaz es:', bodega)
         self.gestor.tomarBodegaSeleccionada(bodega)
+
         # Cambiar a la pagina donde se mostraran los vinos
         self.stackedWidget.setCurrentIndex(2)
 
