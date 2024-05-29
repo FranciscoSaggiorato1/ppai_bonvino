@@ -138,8 +138,9 @@ QPushButton:pressed {
             background-color: rgb(86, 7, 12);
             color: black;
             QHeaderView::section {
-              color: black;
+              color: rgb(255, 255, 240);
             }
+            QTableWidgetItem::setData(Qt::BackgroundRole,Qt::grey)
            </string>
           </property>
           <property name="horizontalScrollBarPolicy">
