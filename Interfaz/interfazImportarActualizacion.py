@@ -47,6 +47,12 @@ class Ventana(QMainWindow):
         headers = ["Acción", "Nombre", "Coordenadas", "Descripción", "Historia", "Periodo de Actualización"]
         self.tableWidget.setHorizontalHeaderLabels(headers)
 
+         # Ajustar el tamaño de las columnas al contenido
+        self.tableWidget.horizontalHeader().setStretchLastSection(True)
+        self.tableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
+        self.tableWidget.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.tableWidget.setMinimumSize(400, 300)  # Ajustar el tamaño mínimo según sea necesario
+
         for row_index, bodega in enumerate(bodegas):
             button = QtWidgets.QPushButton("Seleccionar")
             button.clicked.connect(partial(self.tomarBodegaSeleccionada, bodega))
