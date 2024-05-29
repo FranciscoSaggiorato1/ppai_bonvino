@@ -1,6 +1,7 @@
 import csv
 from datetime import datetime
 from dateutil.relativedelta import relativedelta  
+from Modelo.vino import Vino
 
 class Bodega:
     id = ""
@@ -11,7 +12,7 @@ class Bodega:
     periodoActualizacion = 0
     fechaUltimaActualizacion = ""
     vinos = []
-
+    todosLosVinos = []
 
     def __init__(self, id, coordenadasUbicacion, descripcion, historia, nombre, periodoActualizacion, fechaUltimaActualizacion, vinos):
         self.id = id
@@ -63,19 +64,8 @@ class Bodega:
     def set_nombre(self, nombre):
         self.nombre = nombre
 
-    def get_periodoActualizacion(self):
-        return self.periodoActualizacion
-
     def set_periodoActualizacion(self, periodoActualizacion):
         self.periodoActualizacion = int(periodoActualizacion)
-
-    def get_fechaUltimaActualizacion(self):
-        if self.fechaUltimaActualizacion:
-            return datetime.strptime(self.fechaUltimaActualizacion, '%d/%m/%Y')
-        return None
-
-    def set_fechaUltimaActualizacion(self, fechaUltimaActualizacion):
-        self.fechaUltimaActualizacion = fechaUltimaActualizacion
 
     def get_Vinos(self):
         return self.vinos
@@ -91,9 +81,22 @@ class Bodega:
 
         if fechaActualizacion < fechaActual:
             return self
+        
+    def get_fechaUltimaActualizacion(self):
+        if self.fechaUltimaActualizacion:
+            return datetime.strptime(self.fechaUltimaActualizacion, '%d/%m/%Y')
+        return None
+    
+    def get_periodoActualizacion(self):
+        return self.periodoActualizacion
+
+    def set_fechaUltimaActualizacion(self, fechaUltimaActualizacion):
+        self.fechaUltimaActualizacion = fechaUltimaActualizacion
 
     def tienesEsteVino(self, nombreVino):
         for vino in self.vinos:
+            vinos_datos = vino.esTuId(vino)
+        for vino in vinos_datos:
             if vino.sos_Este_Vino(nombreVino):
                 return True
         return False
@@ -141,6 +144,8 @@ class Bodega:
             'fechaUltimaActualizacion': self.fechaUltimaActualizacion,
             'vinos': self.vinos
         }
+    
+    
 
 # Ejemplo de uso
 if __name__ == "__main__":
