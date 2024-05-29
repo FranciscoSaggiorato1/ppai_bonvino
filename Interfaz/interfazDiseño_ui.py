@@ -16,9 +16,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHBoxLayout, QHeaderView, QLabel,
-    QMainWindow, QMenuBar, QPushButton, QSizePolicy,
-    QSpacerItem, QStackedWidget, QStatusBar, QTabWidget,
-    QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
+    QLayout, QMainWindow, QMenuBar, QPushButton,
+    QSizePolicy, QSpacerItem, QStackedWidget, QStatusBar,
+    QTabWidget, QTableWidget, QTableWidgetItem, QVBoxLayout,
+    QWidget)
 import recursos_rc
 
 class Ui_MainWindow(object):
@@ -73,9 +74,13 @@ class Ui_MainWindow(object):
         self.page_2.setStyleSheet(u"")
         self.verticalLayoutPage2 = QVBoxLayout(self.page_2)
         self.verticalLayoutPage2.setObjectName(u"verticalLayoutPage2")
+        self.verticalLayoutPage2.setSizeConstraint(QLayout.SetMinimumSize)
+        self.verticalSpacerTop = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayoutPage2.addItem(self.verticalSpacerTop)
+
         self.label_2 = QLabel(self.page_2)
         self.label_2.setObjectName(u"label_2")
-        self.label_2.setAlignment(Qt.AlignCenter)
         sizePolicy.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
         self.label_2.setSizePolicy(sizePolicy)
         self.label_2.setStyleSheet(u"\n"
@@ -87,6 +92,7 @@ class Ui_MainWindow(object):
 "            border-radius: 5px;\n"
 "            padding: 10px;\n"
 "           ")
+        self.label_2.setAlignment(Qt.AlignCenter)
 
         self.verticalLayoutPage2.addWidget(self.label_2)
 
@@ -98,15 +104,16 @@ class Ui_MainWindow(object):
         sizePolicy1.setHeightForWidth(self.tableWidget.sizePolicy().hasHeightForWidth())
         self.tableWidget.setSizePolicy(sizePolicy1)
         self.tableWidget.setStyleSheet(u"\n"
-"            background-color: rgb(86, 7, 12);\n"
-"            color: black;\n"
+"            background-color: rgb(69, 5, 9);\n"
+"            color: rgb(255, 255, 240);\n"
 "            QHeaderView::section {\n"
 "              color: rgb(255, 255, 240);\n"
+"              background-color: rgb(255, 255, 240);\n"
 "            }\n"
 "            QTableWidgetItem::setData(Qt::BackgroundRole,Qt::grey)\n"
 "           ")
-        self.tableWidget.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.tableWidget.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.tableWidget.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
         self.verticalLayoutPage2.addWidget(self.tableWidget)
 
@@ -114,29 +121,87 @@ class Ui_MainWindow(object):
 
         self.verticalLayoutPage2.addItem(self.verticalSpacerBottom)
 
+        self.pushButtonVolverBodega = QPushButton(self.page_2)
+        self.pushButtonVolverBodega.setObjectName(u"pushButtonVolverBodega")
+        self.pushButtonVolverBodega.setStyleSheet(u"QPushButton {\n"
+"border: 2px solid black;\n"
+"border-radius: 9px;\n"
+"color: white;\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background: rgba(99, 7, 7, 0.8)\n"
+"}\n"
+"QPushButton:pressed {\n"
+"    background: rgba(99, 7, 7, 0.8)\n"
+"}")
+
+        self.verticalLayoutPage2.addWidget(self.pushButtonVolverBodega)
+
         self.stackedWidget.addWidget(self.page_2)
         self.page_3 = QWidget()
         self.page_3.setObjectName(u"page_3")
+        self.page_3.setStyleSheet(u"")
         self.verticalLayoutPage3 = QVBoxLayout(self.page_3)
         self.verticalLayoutPage3.setObjectName(u"verticalLayoutPage3")
-        self.tableWidgetVinos = QTableWidget(self.page_3)
-        self.tableWidgetVinos.setObjectName(u"tableWidgetVinos")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.tableWidgetVinos.sizePolicy().hasHeightForWidth())
-        self.tableWidgetVinos.setSizePolicy(sizePolicy2)
-        self.tableWidgetVinos.setStyleSheet(u"\n"
-"            background-color: rgb(86, 7, 12); \n"
-"            color: white; \n"
-"            QHeaderView::section {\n"
-"              color: black;\n"
-"            }\n"
-"           ")
-        self.tableWidgetVinos.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.tableWidgetVinos.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.verticalLayoutPage3.setSizeConstraint(QLayout.SetMinimumSize)
+        self.verticalSpacerTop1 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.verticalLayoutPage3.addWidget(self.tableWidgetVinos)
+        self.verticalLayoutPage3.addItem(self.verticalSpacerTop1)
+
+        self.label_3 = QLabel(self.page_3)
+        self.label_3.setObjectName(u"label_3")
+        sizePolicy.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
+        self.label_3.setSizePolicy(sizePolicy)
+        self.label_3.setStyleSheet(u"\n"
+"            color: rgb(86, 7, 12);\n"
+"            background-color: rgb(255, 255, 240);\n"
+"            font-family: \"montserrat\", Times, serif;\n"
+"            font-size: 16px;\n"
+"            font-weight: bold;\n"
+"            border-radius: 5px;\n"
+"            padding: 10px;\n"
+"           ")
+        self.label_3.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayoutPage3.addWidget(self.label_3)
+
+        self.tableVino = QTableWidget(self.page_3)
+        self.tableVino.setObjectName(u"tableVino")
+        sizePolicy1.setHeightForWidth(self.tableVino.sizePolicy().hasHeightForWidth())
+        self.tableVino.setSizePolicy(sizePolicy1)
+        self.tableVino.setStyleSheet(u"\n"
+"            background-color: rgb(69, 5, 9);\n"
+"            color: rgb(255, 255, 240);\n"
+"            QHeaderView::section {\n"
+"              color: rgb(255, 255, 240);\n"
+"              background-color: rgb(255, 255, 240);\n"
+"            }\n"
+"            QTableWidgetItem::setData(Qt::BackgroundRole,Qt::grey)\n"
+"           ")
+        self.tableVino.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.tableVino.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+
+        self.verticalLayoutPage3.addWidget(self.tableVino)
+
+        self.verticalSpacerBottom1 = QSpacerItem(20, 20, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayoutPage3.addItem(self.verticalSpacerBottom1)
+
+        self.pushButtonVolver = QPushButton(self.page_3)
+        self.pushButtonVolver.setObjectName(u"pushButtonVolver")
+        self.pushButtonVolver.setStyleSheet(u"QPushButton {\n"
+"border: 2px solid black;\n"
+"border-radius: 9px;\n"
+"color: white;\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background: rgba(99, 7, 7, 0.8)\n"
+"}\n"
+"QPushButton:pressed {\n"
+"    background: rgba(99, 7, 7, 0.8)\n"
+"}")
+
+        self.verticalLayoutPage3.addWidget(self.pushButtonVolver)
 
         self.stackedWidget.addWidget(self.page_3)
 
@@ -161,5 +226,8 @@ class Ui_MainWindow(object):
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Importar actualizacion vinos", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><img src=\":/logo/logo.jpg\"/></p></body></html>", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Seleccione las bodegas que desea actualizar", None))
+        self.pushButtonVolverBodega.setText(QCoreApplication.translate("MainWindow", u"Volver al inicio", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Vinos actualizados y/o creados", None))
+        self.pushButtonVolver.setText(QCoreApplication.translate("MainWindow", u"Volver al inicio", None))
     # retranslateUi
 

@@ -98,7 +98,10 @@ QPushButton:pressed {
         <string notr="true"/>
        </property>
        <layout class="QVBoxLayout" name="verticalLayoutPage2">
-       <item>
+        <property name="sizeConstraint">
+         <enum>QLayout::SetMinimumSize</enum>
+        </property>
+        <item>
          <spacer name="verticalSpacerTop">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -113,9 +116,6 @@ QPushButton:pressed {
         </item>
         <item>
          <widget class="QLabel" name="label_2">
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -126,7 +126,7 @@ QPushButton:pressed {
            <string notr="true">
             color: rgb(86, 7, 12);
             background-color: rgb(255, 255, 240);
-            font-family: "montserrat", Times, serif;
+            font-family: &quot;montserrat&quot;, Times, serif;
             font-size: 16px;
             font-weight: bold;
             border-radius: 5px;
@@ -135,6 +135,9 @@ QPushButton:pressed {
           </property>
           <property name="text">
            <string>Seleccione las bodegas que desea actualizar</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -157,11 +160,11 @@ QPushButton:pressed {
             QTableWidgetItem::setData(Qt::BackgroundRole,Qt::grey)
            </string>
           </property>
-          <property name="horizontalScrollBarPolicy">
-           <enum>Qt::ScrollBarAlwaysOff</enum>
-          </property>
           <property name="verticalScrollBarPolicy">
            <enum>Qt::ScrollBarAsNeeded</enum>
+          </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOff</enum>
           </property>
          </widget>
         </item>
@@ -178,18 +181,51 @@ QPushButton:pressed {
           </property>
          </spacer>
         </item>
+        <item>
+         <widget class="QPushButton" name="pushButtonVolverBodega">
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+border: 2px solid black;
+border-radius: 9px;
+color: white;
+}
+QPushButton:hover {
+    background: rgba(99, 7, 7, 0.8)
+}
+QPushButton:pressed {
+    background: rgba(99, 7, 7, 0.8)
+}</string>
+          </property>
+          <property name="text">
+           <string>Volver al inicio</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="page_3">
-      <property name="styleSheet">
+       <property name="styleSheet">
         <string notr="true"/>
-      </property>
+       </property>
        <layout class="QVBoxLayout" name="verticalLayoutPage3">
+        <property name="sizeConstraint">
+         <enum>QLayout::SetMinimumSize</enum>
+        </property>
+        <item>
+         <spacer name="verticalSpacerTop">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
         <item>
          <widget class="QLabel" name="label_3">
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -200,7 +236,7 @@ QPushButton:pressed {
            <string notr="true">
             color: rgb(86, 7, 12);
             background-color: rgb(255, 255, 240);
-            font-family: "montserrat", Times, serif;
+            font-family: &quot;montserrat&quot;, Times, serif;
             font-size: 16px;
             font-weight: bold;
             border-radius: 5px;
@@ -210,10 +246,13 @@ QPushButton:pressed {
           <property name="text">
            <string>Vinos actualizados y/o creados</string>
           </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
          </widget>
         </item>
         <item>
-         <widget class="QTableWidget" name="tableVinos">
+         <widget class="QTableWidget" name="tableVino">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>50</horstretch>
@@ -226,15 +265,16 @@ QPushButton:pressed {
             color: rgb(255, 255, 240);
             QHeaderView::section {
               color: rgb(255, 255, 240);
+              background-color: rgb(255, 255, 240);
             }
             QTableWidgetItem::setData(Qt::BackgroundRole,Qt::grey)
            </string>
           </property>
-          <property name="horizontalScrollBarPolicy">
-           <enum>Qt::ScrollBarAlwaysOff</enum>
-          </property>
           <property name="verticalScrollBarPolicy">
            <enum>Qt::ScrollBarAsNeeded</enum>
+          </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOff</enum>
           </property>
          </widget>
         </item>
@@ -250,6 +290,26 @@ QPushButton:pressed {
            </size>
           </property>
          </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButtonVolver">
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+border: 2px solid black;
+border-radius: 9px;
+color: white;
+}
+QPushButton:hover {
+    background: rgba(99, 7, 7, 0.8)
+}
+QPushButton:pressed {
+    background: rgba(99, 7, 7, 0.8)
+}</string>
+          </property>
+          <property name="text">
+           <string>Volver al inicio</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
