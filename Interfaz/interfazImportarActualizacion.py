@@ -1,12 +1,12 @@
 import os
 import sys
-from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QPushButton, QMessageBox, QLabel
+from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QPushButton, QMessageBox
 from PyQt6 import uic, QtWidgets
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
 from functools import partial
 import recursos
-from PyQt6 import QtCore
+
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
@@ -14,7 +14,7 @@ sys.path.append(parent_dir)
 
 from Controlador.gestorImportarActualizacion import GestorImportadorBodega
 
-class Ventana(QMainWindow):
+class PantallaImportadorBodega(QMainWindow):
     def __init__(self):
         super().__init__()
         self.gestor = GestorImportadorBodega()
@@ -22,9 +22,11 @@ class Ventana(QMainWindow):
         uic.loadUi(ui_path, self)
         self.habilitarPantalla()
         self.pushButton.clicked.connect(self.cambiarPag)
-        self.pushButton.clicked.connect(self.cargarBodegas)
+        self.pushButton.clicked.connect(self.seleccionarOpImportarActVinos)
         self.pushButtonVolver.clicked.connect(self.volverAlInicio)
         self.pushButtonVolverBodega.clicked.connect(self.volverAlInicio)
+        self.pushButtonFinalizar.clicked.connect(self.finalizar)
+
 
     def habilitarPantalla(self):
         self.setWindowTitle("BonVino - Importar Actualizacion")
@@ -35,6 +37,9 @@ class Ventana(QMainWindow):
     
     def volverAlInicio(self):
         self.stackedWidget.setCurrentIndex(0)
+    
+    def finalizar(self):
+        self.close()
 
     def cambiarPag(self):
         self.stackedWidget.setCurrentIndex(1)
@@ -47,11 +52,11 @@ class Ventana(QMainWindow):
         msg_box.setStandardButtons(QMessageBox.StandardButton.Ok)
         msg_box.exec()
 
-    def cargarBodegas(self):
+    def seleccionarOpImportarActVinos(self):
         bodegas = self.gestor.buscarBodegasConActualizaciones() #[] Para la ALTERNATIVA
-        self.cargar_data(bodegas)
+        self.mostrarParaSeleccionarBodegasConActualizaciones(bodegas)
     
-    def cargar_data(self, bodegas):
+    def mostrarParaSeleccionarBodegasConActualizaciones(self, bodegas):
         row_count = len(bodegas)
         if len(bodegas) == 0:
             self.mostrar_mensaje_error("No se encontraron bodegas con actualizaciones.")
@@ -88,9 +93,9 @@ class Ventana(QMainWindow):
     def cargarVinosActualizados(self):
         # Obtener datos de vinos actualizados desde el gestor o alguna fuente de datos
         vinos_actualizados = self.gestor.obtenerVinosActualizados() #None para LA ALTERNATIVA
-        self.cargar_data_vinos_actualizados(vinos_actualizados)
+        self.mostrarResumenActualizacionVinos(vinos_actualizados)
     
-    def cargar_data_vinos_actualizados(self, vinos_actualizados):
+    def mostrarResumenActualizacionVinos(self, vinos_actualizados):
         if vinos_actualizados is None:
             self.mostrar_mensaje_error("ERROR 503: El servidor no está disponible en este momento, devoró.")
             return
@@ -117,5 +122,5 @@ class Ventana(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    ventana = Ventana()
+    interfazImportarActualizaciones =PantallaImportadorBodega()
     sys.exit(app.exec())
