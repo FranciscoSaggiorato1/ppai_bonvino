@@ -135,8 +135,8 @@ QPushButton:pressed {
           </property>
           <property name="styleSheet">
            <string notr="true">
-            background-color: rgb(86, 7, 12);
-            color: black;
+            background-color: rgb(69, 5, 9);
+            color: rgb(255, 255, 240);
             QHeaderView::section {
               color: rgb(255, 255, 240);
             }
@@ -167,22 +167,53 @@ QPushButton:pressed {
        </layout>
       </widget>
       <widget class="QWidget" name="page_3">
+      <property name="styleSheet">
+        <string notr="true"/>
+      </property>
        <layout class="QVBoxLayout" name="verticalLayoutPage3">
         <item>
-         <widget class="QTableWidget" name="tableWidgetVinos">
+         <widget class="QLabel" name="label_3">
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
           <property name="styleSheet">
            <string notr="true">
-            background-color: rgb(86, 7, 12); 
-            color: white; 
+            color: rgb(86, 7, 12);
+            background-color: rgb(255, 255, 240);
+            font-family: "montserrat", Times, serif;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 10px;
+           </string>
+          </property>
+          <property name="text">
+           <string>Vinos actualizados y/o creados</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTableWidget" name="tableVinos">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>50</horstretch>
+            <verstretch>50</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">
+            background-color: rgb(69, 5, 9);
+            color: rgb(255, 255, 240);
             QHeaderView::section {
-              color: black;
+              color: rgb(255, 255, 240);
             }
+            QTableWidgetItem::setData(Qt::BackgroundRole,Qt::grey)
            </string>
           </property>
           <property name="horizontalScrollBarPolicy">
@@ -192,6 +223,19 @@ QPushButton:pressed {
            <enum>Qt::ScrollBarAsNeeded</enum>
           </property>
          </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacerBottom">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </widget>
