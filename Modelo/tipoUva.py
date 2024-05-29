@@ -7,13 +7,12 @@ def __init__(self,id, descripcion, nombre):
     self.id = id
     self.descripcion = descripcion
     self.nombre = nombre
-
 def new(self,id, descripcion, nombre):
     return TipoUva(id,descripcion, nombre)
 
 def sos_Tipo_Uva(self,nombre):
     if self.nombre == nombre:
-        return self
+        return True
     else:
         return False  
 def get_Id(self):

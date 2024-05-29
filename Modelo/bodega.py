@@ -3,6 +3,16 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta  
 
 class Bodega:
+    id = ""
+    coordenadasUbicacion = ""
+    descripcion = ""
+    historia = ""
+    nombre = ""
+    periodoActualizacion = 0
+    fechaUltimaActualizacion = ""
+    vinos = []
+
+
     def __init__(self, id, coordenadasUbicacion, descripcion, historia, nombre, periodoActualizacion, fechaUltimaActualizacion, vinos):
         self.id = id
         self.coordenadasUbicacion = coordenadasUbicacion
@@ -113,7 +123,7 @@ class Bodega:
                         historia=row['historia'],
                         periodoActualizacion=int(row['periodoActualizacion']),
                         fechaUltimaActualizacion=row['Fecha Ultima Actualizacion'],
-                        vinos=row['Vinos'].split(',')
+                        vinos=row['Vinos']
                     )
                     bodegas.append(bodega)
                 except ValueError as e:
@@ -138,9 +148,3 @@ if __name__ == "__main__":
     for bodega in bodegas:
         print(bodega)
 
-
-
-
-
-
-   
