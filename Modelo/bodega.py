@@ -156,7 +156,6 @@ class Bodega:
             'fechaUltimaActualizacion': self.fechaUltimaActualizacion,
             'vinos': self.vinos
         }
-    
     def from_dict(data):
         id = data['id']
         coordenadasUbicacion = data['coordenadasUbicacion']

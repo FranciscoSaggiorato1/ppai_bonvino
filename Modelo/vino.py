@@ -1,7 +1,8 @@
 from Modelo.varietal import Varietal
 from datetime import datetime
 import csv
-
+import os
+from Modelo.maridaje import Maridaje
 
 class Vino:
     id = ""
@@ -125,12 +126,7 @@ class Vino:
 
 
     def sosVinoParaActualizar(self, fechaActual):
-        if isinstance(fechaActual, datetime):
-            fechaActual_str = fechaActual.strftime("%Y-%m-%d")
-        else:
-            fechaActual_str = fechaActual
-
-        if datetime.strptime(self.fechaActualizacion, "%Y-%m-%d") < datetime.strptime(fechaActual_str, "%Y-%m-%d"):
+        if datetime.strptime(self.fechaActualizacion, "%Y-%m-%d") < datetime.strptime(fechaActual, "%Y-%m-%d"):
             return True
         else:
             return False
@@ -152,10 +148,29 @@ class Vino:
                         notaCataBodega=row['Nota de Cata'],
                         bodega=row['Bodega'],
                         imagenEtiqueta=row['Imagen Etiqueta'],
-                        maridaje=row['Maridajes']
-
+                        maridaje = [],
+                        varietal = []
                     )
+                    script_dir = os.path.dirname(__file__)
+                    path_maridaje = os.path.join(script_dir, '..', 'Modelo', './data/maridaje.csv')
+                    TodosLosMaridajes = Maridaje.cargarData(path_maridaje)
+
+                    for maridaje_id in row['Maridajes'].split(';'):
+                        for maridaje in TodosLosMaridajes:
+                            if maridaje.get_Id() == maridaje_id:
+                                vino.maridaje.append(maridaje)
+
+                    script_dir = os.path.dirname(__file__)
+                    path_varietal = os.path.join(script_dir, '..', 'Modelo', './data/varietal.csv')
+                    TodosLosVarietales = Varietal.cargarData(path_varietal)
+
+                    for varietal_id in row['Varietales'].split(';'):
+                        for varietal in TodosLosVarietales:
+                            if varietal.get_Id() == varietal_id:
+                                vino.varietal.append(varietal)                    
+
                     vinos.append(vino)
+
                 except ValueError as e:
                     print(f"Error al procesar la fila: {row}. Error: {e}")
         return vinos

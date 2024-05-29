@@ -1,13 +1,14 @@
 from siguiendo import Siguiendo
 from usuario import Usuario
 import csv
+import os
 class Enofilo:
     #Propiedades de la clase ENOFILO
     id = ""
     apellido = ""
     imagenPerfil = None
     nombre = ""
-    seguido = []
+    seguidos = []
     usuario = None
 
     def __init__(self,id, apellido, imagenPerfil, nombre, seguido, usuario):
@@ -73,9 +74,26 @@ class Enofilo:
                         apellido=row['apellido'],
                         imagenPerfil=row['imagenPerfil'],
                         nombre=row['nombre'],
-                        seguido=row['seguido'],
-                        usuario=row['usuario']
+                        seguidos=[],
+                        usuario=""
                     )
+                    script_dir = os.path.dirname(__file__)
+                    path_siguiendos = os.path.join(script_dir, '..', 'Modelo', './data/siguiendo.csv')
+                    TodosLosSiguiendos = Siguiendo.cargarData(path_siguiendos)
+                    
+                    for siguiendo_id in row['seguido'].split(';'):
+                        for siguiendo in TodosLosSiguiendos:
+                            if siguiendo.get_Id() == siguiendo_id:
+                                enofilo.seguidos.append(siguiendo)
+
+                    script_dir = os.path.dirname(__file__)
+                    path_usuario = os.path.join(script_dir, '..', 'Modelo', './data/usuario.csv')
+                    TodosLosUsuario = Usuario.cargarData(path_usuario)
+                    usuario_id = row['tipoUva'],
+                    for usuario in TodosLosUsuario:
+                            if usuario.get_Id() == usuario_id:
+                                enofilo.usuario= usuario
+                                
                     enofilos.append(enofilo)
                 except ValueError as e:
                     print(f"Error al procesar la fila: {row}. Error: {e}")
