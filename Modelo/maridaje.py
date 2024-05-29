@@ -1,4 +1,6 @@
-class Maridaje():
+import csv
+
+class Maridaje:
     id=""
     descripcion = ""	
     nombre = ""
@@ -14,9 +16,9 @@ class Maridaje():
             f"descripcion={self.descripcion},  "
             
         )
-    def sosMaridaje(self,nombre):
-        if self.nombre == nombre:
-            return True
+    def sosMaridaje(self, id):
+        if self.id == id:
+            return self
         else:
             return False
         
