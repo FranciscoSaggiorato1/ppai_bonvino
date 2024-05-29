@@ -1,18 +1,22 @@
 from Modelo.varietal import Varietal
 from datetime import datetime
-class Vino():
-    id=""
-    añada = 0
-    fechaActualizacion=""
-    nombre = ""
-    imagenEtiqueta = ""
-    notaCataBodega= 0
-    precioARS = 0
-    maridaje = []
-    varietal = []
-    bodega = None
+import csv
 
-    def __init__(self,id, nombre, añada, fechaActualizacion,precioARS,varietal,notaCataBodega, bodega, maridaje):
+
+class Vino:
+    id = ""
+    nombre = ""
+    añada = ""
+    fechaActualizacion = ""
+    precioARS = 0
+    varietal = []
+    notaCataBodega = ""
+    bodega = ""
+    imagenEtiqueta = ""
+    maridaje = []
+
+
+    def __init__(self,id, nombre, añada, fechaActualizacion,precioARS,varietal,notaCataBodega, bodega,imagenEtiqueta, maridaje):
         self.id = id
         self.nombre = nombre
         self.añada = añada
@@ -22,10 +26,25 @@ class Vino():
         self.notaCataBodega = notaCataBodega
         self.precioARS = precioARS
         self.varietal = varietal
-        
-    def new(self,id, nombre, añada, fechaActualizacion, tipoUva, bodega, maridaje):
-        return Vino(id,nombre, añada, fechaActualizacion, tipoUva, bodega, maridaje)
-
+        self.imagenEtiqueta = imagenEtiqueta
+    def new(self,id,nombre, añada, fechaActualizacion,precioARS,varietales,  notaCataBodega,bodega , imagenEtiqueta,maridaje,id_varietal,descripcion, porcentajeComposicion,tiposUvas ):
+        varietales = []
+        for tipo in tiposUvas:
+            nuevo= self.crear_Varietal(id_varietal,descripcion, porcentajeComposicion,tipo)
+            varietales.append(nuevo)
+        return Vino(id,nombre, añada, fechaActualizacion,precioARS,varietales,  notaCataBodega,bodega , imagenEtiqueta,maridaje)    
+    
+    def __repr__(self):
+        return (f"Vino(nombre={self.nombre}, "
+                f"fechaActualizacion={self.fechaActualizacion},  "
+                f"precioARS={self.precioARS},"
+                f"varietal={self.varietal},"
+                f"notaCataBodega={self.notaCataBodega},"
+                f"bodega={self.bodega},"
+                f"imagenEtiqueta={self.imagenEtiqueta},"
+                f"maridaje={self.maridaje}"
+                f"añada={self.añada}" )
+    
     #Metodos
     def sos_Este_Vino(self,nombre):
         if self.nombre == nombre:
@@ -54,7 +73,8 @@ class Vino():
     def setBodega(self,bodega):
         self.bodega = bodega
     def getMaridaje(self):
-        return self.maridaje
+        for m in self.maridaje:
+            return m
     def setMaridaje(self,maridaje): 
         self.maridaje = maridaje
     def getNotaCataBodega(self):
@@ -70,13 +90,14 @@ class Vino():
     def setImagenEtiqueta(self,imagenEtiqueta):
         self.imagenEtiqueta = imagenEtiqueta
     def getVarietal(self):
-        return self.varietal
+        for v in self.varietal:
+            return v
     def setVarietal(self,varietal):
         self.varietal = varietal
 
 
-    def crear_Varietal(self,descripcion, porcentajeComposicion):
-        varietal_nuevo = Varietal.new(descripcion, porcentajeComposicion)
+    def crear_Varietal(self,id,descripcion, porcentajeComposicion,tipoUva):
+        varietal_nuevo = Varietal.new(id,descripcion, porcentajeComposicion,tipoUva)
         self.varietal.append(varietal_nuevo)
         return varietal_nuevo
 
@@ -103,3 +124,47 @@ class Vino():
         else:
             return False
           
+
+    def cargarData(filepath):
+        vinos = []
+        with open(filepath, newline='', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                try:
+                    vino = Vino(
+                        id=row['id'],
+                        nombre=row['Nombre'],
+                        añada=row['añada'],
+                        fechaActualizacion=row['fecha Actualizacion'],
+                        precioARS=row['Precio ARS'],
+                        varietal=row['Varietales'],
+                        notaCataBodega=row['Nota de Cata'],
+                        bodega=row['Bodega'],
+                        imagenEtiqueta=row['Imagen Etiqueta'],
+                        maridaje=row['Maridajes']
+
+                    )
+                    vinos.append(vino)
+                except ValueError as e:
+                    print(f"Error al procesar la fila: {row}. Error: {e}")
+        return vinos
+    
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre,
+            "añada": self.añada,
+            "fechaActualizacion": self.fechaActualizacion,
+            "precioARS": self.precioARS,
+            "varietal": self.varietal,
+            "notaCataBodega": self.notaCataBodega,
+            "bodega": self.bodega,
+            "imagenEtiqueta": self.imagenEtiqueta,
+            "maridaje": self.maridaje
+        }
+
+ # Ejemplo de uso
+if __name__ == "__main__":
+      vinos = Vino.cargarData("./Modelo/data/vino.csv")
+      for vino in vinos:
+          print(vino)
