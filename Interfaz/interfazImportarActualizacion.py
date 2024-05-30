@@ -44,7 +44,7 @@ class PantallaImportadorBodega(QMainWindow):
         self.stackedWidget.setCurrentIndex(0)
     
     def finalizar(self):
-        self.close()
+        self.gestor.finCU()
 
     def cambiarPag(self):
         self.stackedWidget.setCurrentIndex(1)
@@ -89,7 +89,7 @@ class PantallaImportadorBodega(QMainWindow):
 
 
     def tomarBodegaSeleccionada(self, bodega):
-        print('La bodega desde interfaz es:', bodega)
+        # print('La bodega desde interfaz es:', bodega)
         self.gestor.tomarBodegaSeleccionada(bodega)
         # Cambiar a la pagina donde se mostraran los vinos
         self.stackedWidget.setCurrentIndex(2)
@@ -106,12 +106,12 @@ class PantallaImportadorBodega(QMainWindow):
             return
         else:
             row_count = len(vinos_actualizados)
-            column_count = 7  # Número de columnas
+            column_count = 8  # Número de columnas
 
             self.tableVino.setRowCount(row_count)
             self.tableVino.setColumnCount(column_count)
             self.tableVino.verticalHeader().hide()
-            headers = ["Nombre", "Varietal", "Tipo Uva", "Maridaje", "Fecha Actualización", "Añada", "Precio"]
+            headers = ["Bodega", "Nombre", "Varietal", "Tipo Uva", "Maridaje", "Fecha Actualización", "Añada", "Precio"]
             self.tableVino.setHorizontalHeaderLabels(headers)
 
             # Ajustar el tamaño de las columnas al contenido
@@ -123,21 +123,22 @@ class PantallaImportadorBodega(QMainWindow):
             #self.tableWidget.setMinimumSize(400, 300)  # Ajustar el tamaño mínimo según sea necesario
 
         for row_index, vino in enumerate(vinos_actualizados):
-            self.tableVino.setItem(row_index, 0, QTableWidgetItem(vino['nombre']))
+            self.tableVino.setItem(row_index, 0, QTableWidgetItem(vino['nombre Bodega']))
+            self.tableVino.setItem(row_index, 1, QTableWidgetItem(vino['nombre']))
 
             # Convertir lista a cadena si es necesario
             varietales = ", ".join(vino['Varietales']) if isinstance(vino['Varietales'], list) else vino['Varietales']
-            self.tableVino.setItem(row_index, 1, QTableWidgetItem(varietales))
+            self.tableVino.setItem(row_index, 2, QTableWidgetItem(varietales))
 
             tipo_uva = vino['tipoUva'] if isinstance(vino['tipoUva'], str) else ", ".join(vino['tipoUva'])
-            self.tableVino.setItem(row_index, 2, QTableWidgetItem(tipo_uva))
+            self.tableVino.setItem(row_index, 3, QTableWidgetItem(tipo_uva))
 
             maridajes = ", ".join(vino['Maridajes']) if isinstance(vino['Maridajes'], list) else vino['Maridajes']
-            self.tableVino.setItem(row_index, 3, QTableWidgetItem(maridajes))
+            self.tableVino.setItem(row_index, 4, QTableWidgetItem(maridajes))
 
-            self.tableVino.setItem(row_index, 4, QTableWidgetItem(vino['fecha Actualizacion']))
-            self.tableVino.setItem(row_index, 5, QTableWidgetItem(str(vino['añada'])))
-            self.tableVino.setItem(row_index, 6, QTableWidgetItem(str(vino['Precio ARS'])))
+            self.tableVino.setItem(row_index, 5, QTableWidgetItem(vino['fecha Actualizacion']))
+            self.tableVino.setItem(row_index, 6, QTableWidgetItem(str(vino['añada'])))
+            self.tableVino.setItem(row_index, 7, QTableWidgetItem(str(vino['Precio ARS'])))
 
 
 if __name__ == "__main__":

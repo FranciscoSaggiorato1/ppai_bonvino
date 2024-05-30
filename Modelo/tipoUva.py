@@ -40,6 +40,7 @@ class TipoUva:
         return self.nombre
     def set_Nombre(self,nombre):
         self.nombre = nombre
+        
     def cargarData(filepath):
         tipos = []
         with open(filepath, newline='', encoding='utf-8') as csvfile:

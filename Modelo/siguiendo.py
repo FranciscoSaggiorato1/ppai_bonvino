@@ -1,27 +1,49 @@
-import csv  # Importa el módulo csv para trabajar con archivos CSV
+import csv
+import os
+from Modelo.bodega import Bodega
 
 class Siguiendo:
-    # Propiedades de la clase SIGUIENDO
-    id = ""  # Atributo para almacenar el ID de la relación de seguimiento
-    fechaInicio = ""  # Atributo para almacenar la fecha de inicio del seguimiento
-    fechaFin = ""  # Atributo para almacenar la fecha de fin del seguimiento
-    bodega = None  # Atributo para almacenar la bodega seguida
-    enofilo = None  # Atributo para almacenar el enófilo seguido
+    """
+    Clase para representar una relación de seguimiento entre un enófilo y una bodega.
+    """
 
-    # Método de inicialización de la clase SIGUIENDO
     def __init__(self, id, fechaInicio, fechaFin, bodega, enofilo):
-        self.id = id  # Asigna el ID proporcionado al atributo id
-        self.fechaInicio = fechaInicio  # Asigna la fecha de inicio proporcionada al atributo fechaInicio
-        self.fechaFin = fechaFin  # Asigna la fecha de fin proporcionada al atributo fechaFin
-        self.bodega = bodega  # Asigna la bodega proporcionada al atributo bodega
-        self.enofilo = enofilo  # Asigna el enófilo proporcionado al atributo enofilo
+        """
+        Inicializa una nueva instancia de la clase Siguiendo.
 
-    # Método para crear y devolver una nueva instancia de SIGUIENDO
+        Args:
+            id (str): El ID de la relación de seguimiento.
+            fechaInicio (str): La fecha de inicio del seguimiento.
+            fechaFin (str): La fecha de fin del seguimiento.
+            bodega (Bodega): La bodega seguida.
+            enofilo (Enofilo): El enófilo seguido.
+        """
+        self.id = id
+        self.fechaInicio = fechaInicio
+        self.fechaFin = fechaFin
+        self.bodega = bodega
+        self.enofilo = enofilo
+
     def new(self, id, fechaInicio, fechaFin, bodega, enofilo):
+        """
+        Método para crear y devolver una nueva instancia de Siguiendo.
+
+        Args:
+            id (str): El ID de la relación de seguimiento.
+            fechaInicio (str): La fecha de inicio del seguimiento.
+            fechaFin (str): La fecha de fin del seguimiento.
+            bodega (Bodega): La bodega seguida.
+            enofilo (Enofilo): El enófilo seguido.
+
+        Returns:
+            Siguiendo: Una nueva instancia de la clase Siguiendo.
+        """
         return Siguiendo(id, fechaInicio, fechaFin, bodega, enofilo)
 
-    # Método especial para representar la instancia de SIGUIENDO como una cadena
     def __repr__(self):
+        """
+        Devuelve una representación de cadena de la instancia de Siguiendo.
+        """
         return (
             f"fechaInicio={self.fechaInicio},"
             f"fechaFin={self.fechaFin},"
@@ -29,58 +51,73 @@ class Siguiendo:
             f"enofilo={self.enofilo}"
         )
 
-    # Métodos getter y setter para los atributos de la clase
-    def get_id(self):
-        return self.id
-    def set_id(self, id):
-        self.id = id
-    def get_fechaInicio(self):
-        return self.fechaInicio
-    def set_fechaInicio(self, fechaInicio):
-        self.fechaInicio = fechaInicio
-    def get_fechaFin(self):
-        return self.fechaFin
-    def set_fechaFin(self, fechaFin):
-        self.fechaFin = fechaFin
-    def get_bodega(self):
-        return self.bodega
-    def set_bodega(self, bodega):
-        self.bodega = bodega
-    def get_enofilo(self):
-        return self.enofilo
-    def set_enofilo(self, enofilo):
-        self.enofilo = enofilo
-
-    # Método para verificar si la relación de seguimiento es de una bodega
     def sosDeBodega(self):
+        """
+        Verifica si la relación de seguimiento es de una bodega.
+
+        Returns:
+            bool: True si la relación es de una bodega, False en caso contrario.
+        """
         if self.bodega != None:
             return True
         else:
             return False
 
-    # Método estático para cargar datos desde un archivo CSV
     @staticmethod
-    def cargarData(filepath):
-        siguiendos = []  # Lista para almacenar las instancias de SIGUIENDO
-        with open(filepath, newline='', encoding='utf-8') as csvfile:  # Abre el archivo CSV
-            reader = csv.DictReader(csvfile)  # Crea un lector de CSV
-            for row in reader:  # Itera sobre las filas del archivo CSV
+    def cargarData(filepath, enofilos_data=None):
+        """
+        Carga datos desde un archivo CSV y crea instancias de Siguiendo.
+
+        Args:
+            filepath (str): La ruta del archivo CSV.
+            enofilos_data (list): Lista de enófilos, opcional.
+
+        Returns:
+            list: Lista de instancias de Siguiendo.
+        """
+        from Modelo.enofilo import Enofilo
+        siguiendos = []
+        if enofilos_data is None:
+            script_dir = os.path.dirname(__file__)
+            path_enofilo = os.path.join(script_dir, '..', 'Modelo', './data/enofilo.csv')
+            enofilos_data = Enofilo.cargarData(path_enofilo)
+
+        with open(filepath, newline='', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
                 try:
-                    # Crea una instancia de SIGUIENDO con los datos de la fila actual
                     siguiendo = Siguiendo(
                         id=row['id'],
                         fechaInicio=row['fechaInicio'],
                         fechaFin=row['fechaFin'],
-                        bodega=row['bodegas'],
-                        enofilo=row['enofilo']
+                        bodega=None,
+                        enofilo=None
                     )
-                    siguiendos.append(siguiendo)  # Agrega la relación de seguimiento a la lista
+                    enofilo_id = row['enofilo']
+                    for enofilo in enofilos_data:
+                        if enofilo.id == enofilo_id:
+                            siguiendo.enofilo = enofilo
+                    
+                    script_dir = os.path.dirname(__file__)
+                    path_bodega = os.path.join(script_dir, '..', 'Modelo', './data/bodega.csv')
+                    TodasLasBodegas = Bodega.cargarData(path_bodega)
+                    bodega_id = row['bodegas']
+                    for bodega in TodasLasBodegas:
+                        if bodega.id == bodega_id:
+                            siguiendo.bodega = bodega
+
+                    siguiendos.append(siguiendo)
                 except ValueError as e:
                     print(f"Error al procesar la fila: {row}. Error: {e}")
-        return siguiendos  # Devuelve la lista de relaciones de seguimiento cargadas desde el archivo CSV
+        return siguiendos
 
-    # Método para convertir la instancia de SIGUIENDO a un diccionario
     def to_dict(self):
+        """
+        Convierte la instancia de Siguiendo en un diccionario.
+
+        Returns:
+            dict: Un diccionario con los atributos de Siguiendo.
+        """
         return {
             "id": self.id,
             "fechaInicio": self.fechaInicio,
@@ -88,10 +125,3 @@ class Siguiendo:
             "bodega": self.bodega,
             "enofilo": self.enofilo
         }
-
-# Ejemplo de uso
-if __name__ == "__main__":
-    # Carga los datos de relaciones de seguimiento desde un archivo CSV
-    siguiendos = Siguiendo.cargarData("ruta_al_archivo.csv")
-    for siguiendo in siguiendos:  # Itera sobre las relaciones de seguimiento cargadas
-        print(siguiendo)  # Imprime cada relación de seguimiento

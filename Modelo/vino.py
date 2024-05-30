@@ -1,6 +1,8 @@
 from Modelo.varietal import Varietal  # Importa la clase Varietal desde el módulo Modelo.varietal
 from datetime import datetime  # Importa la clase datetime para trabajar con fechas
 import csv  # Importa el módulo csv para trabajar con archivos CSV
+import os
+from Modelo.maridaje import Maridaje  # Importa el módulo Modelo.maridaje para trabajar con maridajes
 
 class Vino:
     # Atributos de la clase Vino
@@ -145,20 +147,38 @@ class Vino:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 try:
-                    # Crea una instancia de Vino con los datos de la fila actual
                     vino = Vino(
                         id=row['id'],
                         nombre=row['Nombre'],
                         añada=row['añada'],
                         fechaActualizacion=row['fecha Actualizacion'],
                         precioARS=row['Precio ARS'],
-                        varietal=row['Varietales'],
                         notaCataBodega=row['Nota de Cata'],
                         bodega=row['Bodega'],
                         imagenEtiqueta=row['Imagen Etiqueta'],
-                        maridaje=row['Maridajes']
+                        maridaje = [],
+                        varietal = []
                     )
-                    vinos.append(vino)  # Agrega el vino a la lista de vinos
+                    script_dir = os.path.dirname(__file__)
+                    path_maridaje = os.path.join(script_dir, '..', 'Modelo', './data/maridaje.csv')
+                    TodosLosMaridajes = Maridaje.cargarData(path_maridaje)
+
+                    for maridaje_id in row['Maridajes'].split(';'):
+                        for maridaje in TodosLosMaridajes:
+                            if maridaje.get_Id() == maridaje_id:
+                                vino.maridaje.append(maridaje)
+
+                    script_dir = os.path.dirname(__file__)
+                    path_varietal = os.path.join(script_dir, '..', 'Modelo', './data/varietal.csv')
+                    TodosLosVarietales = Varietal.cargarData(path_varietal)
+
+                    for varietal_id in row['Varietales'].split(';'):
+                        for varietal in TodosLosVarietales:
+                            if varietal.get_Id() == varietal_id:
+                                vino.varietal.append(varietal)                    
+
+                    vinos.append(vino)
+
                 except ValueError as e:
                     print(f"Error al procesar la fila: {row}. Error: {e}")
         return vinos
@@ -177,9 +197,3 @@ class Vino:
             "imagenEtiqueta": self.imagenEtiqueta,
             "maridaje": self.maridaje
         }
-
- # Ejemplo de uso
-if __name__ == "__main__":
-      vinos = Vino.cargarData("./Modelo/data/vino.csv")
-      for vino in vinos:
-          print(vino)

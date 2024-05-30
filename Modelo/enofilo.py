@@ -1,32 +1,52 @@
-from siguiendo import Siguiendo  # Importa la clase Siguiendo del módulo siguiendo
-from usuario import Usuario  # Importa la clase Usuario del módulo usuario
-import csv  # Importa el módulo csv para trabajar con archivos CSV
-import os  # Importa el módulo os para manejar rutas de archivos
+import csv
+import os
+
+from Modelo.siguiendo import Siguiendo
+from Modelo.usuario import Usuario
+from Modelo.bodega import Bodega
 
 class Enofilo:
-    # Propiedades de la clase ENOFILO
-    id = ""  # Atributo para almacenar el ID del enófilo
-    apellido = ""  # Atributo para almacenar el apellido del enófilo
-    imagenPerfil = None  # Atributo para almacenar la imagen de perfil del enófilo
-    nombre = ""  # Atributo para almacenar el nombre del enófilo
-    seguidos = []  # Lista para almacenar los usuarios seguidos por el enófilo
-    usuario = None  # Atributo para almacenar el usuario relacionado con el enófilo
+    """
+    Clase para representar un enófilo.
+    """
+    def __init__(self, id, apellido, imagenPerfil, nombre, seguidos, usuario):
+        """
+        Inicializa un objeto Enofilo.
 
-    # Método de inicialización de la clase ENOFILO
-    def __init__(self,id, apellido, imagenPerfil, nombre, seguido, usuario):
-        self.id = id  # Asigna el ID proporcionado al atributo id
-        self.apellido = apellido  # Asigna el apellido proporcionado al atributo apellido
-        self.imagenPerfil = imagenPerfil  # Asigna la imagen de perfil proporcionada al atributo imagenPerfil
-        self.nombre = nombre  # Asigna el nombre proporcionado al atributo nombre
-        self.seguido = seguido  # Asigna los usuarios seguidos proporcionados al atributo seguidos
-        self.usuario = usuario  # Asigna el usuario proporcionado al atributo usuario
+        :param id: ID del enófilo.
+        :param apellido: Apellido del enófilo.
+        :param imagenPerfil: Imagen de perfil del enófilo.
+        :param nombre: Nombre del enófilo.
+        :param seguidos: Lista de usuarios seguidos por el enófilo.
+        :param usuario: Usuario relacionado con el enófilo.
+        """
+        self.id = id
+        self.apellido = apellido
+        self.imagenPerfil = imagenPerfil
+        self.nombre = nombre
+        self.seguidos = seguidos
+        self.usuario = usuario
 
-    # Método para crear y devolver una nueva instancia de Enofilo
-    def new(self,id, apellido, imagenPerfil, nombre, seguido, usuario):
-        return Enofilo(id,apellido, imagenPerfil, nombre, seguido, usuario)
+    def new(self, id, apellido, imagenPerfil, nombre, seguido, usuario):
+        """
+        Método para crear y devolver una nueva instancia de Enofilo.
 
-    # Método especial para representar la instancia de Enofilo como una cadena
+        :param id: ID del enófilo.
+        :param apellido: Apellido del enófilo.
+        :param imagenPerfil: Imagen de perfil del enófilo.
+        :param nombre: Nombre del enófilo.
+        :param seguidos: Lista de usuarios seguidos por el enófilo.
+        :param usuario: Usuario relacionado con el enófilo.
+        :return: Nueva instancia de Enofilo.
+        """
+        return Enofilo(id, apellido, imagenPerfil, nombre, seguido, usuario)
+
     def __repr__(self):
+        """
+        Método especial para representar la instancia de Enofilo como una cadena.
+
+        :return: Cadena representando la instancia de Enofilo.
+        """
         return (
             f"Enofilo(id={self.id}, "
             f"apellido={self.apellido},  "
@@ -36,7 +56,6 @@ class Enofilo:
             f"usuario={self.usuario}"
         )
 
-    # Métodos getter y setter para los atributos de la clase
     def get_id(self):
         return self.id
 
@@ -73,51 +92,75 @@ class Enofilo:
     def set_usuario(self, usuario):
         self.usuario = usuario
 
-    # Método para verificar si el enófilo sigue alguna bodega
     def seguisBodega(self):
+        """
+        Método para verificar si el enófilo sigue alguna bodega.
+
+        :return: True si el enófilo sigue alguna bodega, False en caso contrario.
+        """
         for i in self.seguido:
             if i.sosDeBodega():
                 return True
         return False
 
-    # Método para obtener el nombre del usuario relacionado con el enófilo
     def obtenerNombreUsuario(self):
+        """
+        Método para obtener el nombre del usuario relacionado con el enófilo.
+
+        :return: Nombre del usuario relacionado con el enófilo.
+        """
         return self.usuario.getNombre()
 
-    # Método estático para cargar datos desde un archivo CSV
     @staticmethod
-    def cargarData(filepath):
-        enofilos = []  # Lista para almacenar las instancias de Enofilo
-        with open(filepath, newline='', encoding='utf-8') as csvfile:  # Abre el archivo CSV
-            reader = csv.DictReader(csvfile)  # Crea un lector de CSV
-            for row in reader:  # Itera sobre las filas del archivo CSV
+    def cargarData(filepath, siguiendos_data=None):
+        """
+        Método estático para cargar datos desde un archivo CSV.
+
+        :param filepath: Ruta del archivo CSV.
+        :param siguiendos_data: Datos de usuarios seguidos, opcional.
+        :return: Lista de instancias de Enofilo.
+        """
+        enofilos = []
+        if siguiendos_data is None:
+            script_dir = os.path.dirname(__file__)
+            path_siguiendos = os.path.join(script_dir, '..', 'Modelo', './data/siguiendo.csv')
+            siguiendos_data = Siguiendo.cargarData(path_siguiendos)
+
+        with open(filepath, newline='', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
                 try:
-                    # Crea una instancia de Enofilo con los datos de la fila actual
                     enofilo = Enofilo(
                         id=row['id'],
                         apellido=row['apellido'],
                         imagenPerfil=row['imagenPerfil'],
                         nombre=row['nombre'],
                         seguidos=[],
-                        usuario=row['usuario']
+                        usuario=None
                     )
-                    # Carga los datos de los usuarios seguidos desde el archivo CSV
-                    script_dir = os.path.dirname(__file__)
-                    path_siguiendos = os.path.join(script_dir, '..', 'Modelo', './data/siguiendo.csv')
-                    TodosLosSiguiendos = Siguiendo.cargarData(path_siguiendos)
-                    
-                    # Agrega los usuarios seguidos a la lista de seguidos del enófilo
                     for siguiendo_id in row['seguido'].split(';'):
-                        for siguiendo in TodosLosSiguiendos:
-                            if siguiendo.get_Id() == siguiendo_id:
+                        for siguiendo in siguiendos_data:
+                            if siguiendo.id == siguiendo_id:
                                 enofilo.seguidos.append(siguiendo)
-                    enofilos.append(enofilo)  # Agrega el enófilo a la lista de enófilos
+
+                    script_dir = os.path.dirname(__file__)
+                    path_usuario = os.path.join(script_dir, '..', 'Modelo', './data/usuario.csv')
+                    TodosLosUsuario = Usuario.cargarData(path_usuario)
+                    usuario_id = row['tipoUva']
+                    for usuario in TodosLosUsuario:
+                        if usuario.id == usuario_id:
+                            enofilo.usuario = usuario
+                    enofilos.append(enofilo)
                 except ValueError as e:
                     print(f"Error al procesar la fila: {row}. Error: {e}")
-        return enofilos  # Devuelve la lista de enófilos cargados desde el archivo CSV
+        return enofilos
 
-    # Método para convertir la instancia de Enofilo a un diccionario
     def to_dict(self):
+        """
+        Método para convertir la instancia de Enofilo a un diccionario.
+
+        :return: Diccionario representando la instancia de Enofilo.
+        """
         return {
             "id": self.id,
             "apellido": self.apellido,
@@ -126,9 +169,3 @@ class Enofilo:
             "seguido": self.seguido,
             "usuario": self.usuario
         }
-
-# Ejemplo de uso
-if __name__ == "__main__":
-    enofilos=Enofilo.cargarData("ruta_al_archivo.csv")  # Carga los datos de enófilos desde un archivo CSV
-    for enofilo in enofilos:  # Itera sobre los enófilos cargados
-        print(enofilo)  # Imprime cada enófilo

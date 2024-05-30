@@ -109,7 +109,7 @@ class Bodega:
                 vino.setNotaCataBodega(notaCata)
                 vino.setImagenEtiqueta(img)
                 vino.setFechaActualizacion(fechaActualizacion)
-                print(f"Vino {nombre} actualizado correctamente.")  # Mensaje de depuración
+                # print(f"Vino {nombre} actualizado correctamente.")  # Mensaje de depuración
                 self.guardarDatosCSV(vino)
             
         return False
@@ -125,7 +125,7 @@ class Bodega:
         # Modificar los registros en memoria
         for row in rows:
             if row['Nombre'] == vino.nombre:
-                print(f"Encontrado el vino: {vino.nombre}, actualizando...")  # Mensaje de depuración
+                # print(f"Encontrado el vino: {vino.nombre}, actualizando...")  # Mensaje de depuración
                 
                 row['añada'] = vino.añada
                 row['fecha Actualizacion'] = vino.fechaActualizacion
@@ -151,7 +151,7 @@ class Bodega:
         # Modificar los registros en memoria
         for row in rows:
             if row['Nombre'] == vino.nombre:
-                print(f"Encontrado el vino: {vino.nombre}, actualizando...")  # Mensaje de depuración
+                # print(f"Encontrado el vino: {vino.nombre}, actualizando...")  # Mensaje de depuración
                 row['añada'] = vino.añada
                 row['fecha Actualizacion'] = vino.fechaActualizacion
                 row['Imagen Etiqueta'] = vino.imagenEtiqueta
@@ -165,7 +165,7 @@ class Bodega:
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames, quotechar='"', quoting=csv.QUOTE_NONNUMERIC)
             writer.writeheader()
             writer.writerows(rows)
-            print("Archivo CSV actualizado correctamente.") 
+            # print("Archivo CSV actualizado correctamente.") 
 
     @staticmethod
     def cargarData(filepath):
@@ -223,9 +223,3 @@ class Bodega:
         vinos = data['vinos']
         
         return Bodega(id, coordenadasUbicacion, descripcion, historia, nombre, periodoActualizacion, fechaUltimaActualizacion, vinos)
-
-# Ejemplo de uso
-if __name__ == "__main__":
-    bodegas = Bodega.cargarData("ruta_al_archivo.csv")
-    for bodega in bodegas:
-        print(bodega)

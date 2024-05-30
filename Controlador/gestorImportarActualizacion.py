@@ -5,16 +5,14 @@ import sys
 from datetime import datetime
 
 # Añadir el directorio principal del proyecto al sys.path
-# Esto se agregó porque tengo un quilombo en los path de mi computadora
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
 
 from Modelo.bodega import Bodega
-from Modelo.vino import Vino
 from Modelo.maridaje import Maridaje
 from Modelo.tipoUva import TipoUva
-from Modelo.varietal import Varietal
+from Modelo.usuario import Usuario
     
 class GestorImportadorBodega:
     def __init__(self): 
@@ -54,15 +52,11 @@ class GestorImportadorBodega:
 
     def tomarBodegaSeleccionada(self, bodega):
         self.bodegaSeleccionada = Bodega.from_dict(bodega)
-        print(f"Bodega seleccionada desde gestor: {self.bodegaSeleccionada}")
-        
-        # Llamado a la API, nos devuelve vinos actualizados, que pueden no pertenecer a la bodega seleccionada
+        # print(f"Bodega seleccionada desde gestor: {self.bodegaSeleccionada}")
         self.obtenerActualizacionVinosBodega()
-
-        # Determinar si los vinos actualizados pertenecen a la bodega seleccionada 
         self.determinarVinosParaActualizar()
-
         self.actualizarOCrearVinos()
+        # self.buscarSeguidoresDeBodega()
         
 
     def obtenerActualizacionVinosBodega(self):
@@ -145,29 +139,25 @@ class GestorImportadorBodega:
 
 
     def actualizarOCrearVinos(self):
-        print('Llegue a la funcion actualizar o crear')
-        print('Vinos para actualizar: ', self.vinosParaActualizar)
         obtenerResumenVinos_dict = []
 
         for vino in self.vinosActualizados:
             if vino in self.vinosParaActualizar:
-                self.actualizarCaracteristicasVino(vino['nombre'], vino['fecha Actualizacion'], self.fechaActual, vino['Precio ARS'], vino['Nota de Cata'], vino['Imagen Etiqueta'])
+                self.bodegaSeleccionada.actualizarDatosVino(vino['nombre'], vino['fecha Actualizacion'], self.fechaActual, vino['Precio ARS'], vino['Nota de Cata'], vino['Imagen Etiqueta'])
                 obtenerResumenVinos_dict.append(vino)
             else:
                 self.crearVino(vino)
                 obtenerResumenVinos_dict.append(vino)
         
-        print(f"FORMATO: {obtenerResumenVinos_dict}")
+        # print(f"FORMATO: {obtenerResumenVinos_dict}")
         return obtenerResumenVinos_dict
-
-    def actualizarCaracteristicasVino(self, nombre, fechaActualizacion,fechaActual,precio,notaCata,img):  
-        self.bodegaSeleccionada.actualizarDatosVino(nombre, fechaActualizacion,fechaActual,precio,notaCata,img)
+    
 
     def crearVino(self, vino):
         self.buscarMaridaje(vino)
         self.buscarTipoUva(vino)
         self.vinosCreados.append(vino)
-        print(f"Creando nuevo {vino['nombre']}")
+        # print(f"Creando nuevo {vino['nombre']}")
 
 
     def buscarMaridaje(self, vino):
@@ -186,3 +176,21 @@ class GestorImportadorBodega:
             if tipoUva:
                 tiposUva.append(tipoUva)
         return tiposUva
+    
+
+    """def buscarSeguidoresDeBodega(self):
+        from Modelo.enofilo import Enofilo
+        script_dir = os.path.dirname(__file__)
+        csv_path = os.path.join(script_dir, '..', 'Modelo', './data/enofilo.csv')
+        todos_los_Enofilos = Enofilo.cargarData(csv_path)
+        
+        for enofilo in todos_los_Enofilos:
+            if enofilo.seguisBodega(self.bodegaSeleccionada):
+                self.seguidoresDeBodega.append(enofilo)
+        print("seguidores encontrados")
+
+        for i in self.seguidoresDeBodega:
+            print(i.obtenerNombre())"""
+        
+    def finCU(self):
+        sys.exit()
