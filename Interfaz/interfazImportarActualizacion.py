@@ -58,7 +58,7 @@ class PantallaImportadorBodega(QMainWindow):
         msg_box.exec()
 
     def seleccionarOpImportarAct(self):
-        bodegas = self.gestor.buscarBodegasConActualizaciones() #[] Para la ALTERNATIVA
+        bodegas = self.gestor.nuevaImportacionActualizacionVinos() #[] Para la ALTERNATIVA
         self.mostrarParaSeleccionarBodegasConActualizaciones(bodegas)
     
     def mostrarParaSeleccionarBodegasConActualizaciones(self, bodegas):

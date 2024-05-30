@@ -2,7 +2,7 @@
 
 import os
 import sys
-from datetime import datetime
+from datetime import datetime 
 
 # Añadir el directorio principal del proyecto al sys.path
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -13,6 +13,7 @@ from Modelo.bodega import Bodega
 from Modelo.maridaje import Maridaje
 from Modelo.tipoUva import TipoUva
 from Modelo.usuario import Usuario
+from Modelo.base import bodegas, varietales, tiposUva
     
 class GestorImportadorBodega:
     def __init__(self): 
@@ -23,13 +24,22 @@ class GestorImportadorBodega:
         self.vinosCreados = []
         self.maridaje = None
         self.tipoDeUva = None
+        self.bodegas= None
+        self.varietales= None
         self.seguidoresDeBodega = []
         self.vinosParaActualizar = []
 
     def nuevaImportacionActualizacionVinos(self):
+        self.cargarBase()
         self.getFechaActual()
         self.bodegasParaActualizar = self.buscarBodegasConActualizaciones()
         return self.bodegasParaActualizar
+
+    def cargarBase(self):
+        self.bodegas = bodegas
+        self.varietales= varietales
+        self.tipoDeUva= tiposUva
+
 
     def getFechaActual(self):
         self.fechaActual = datetime.now()
@@ -42,7 +52,7 @@ class GestorImportadorBodega:
         self.bodegasParaActualizar = []
         for bodega in todas_las_bodegas:
             if bodega.tieneActualizacionDisponible(self.getFechaActual()):
-                self.bodegasParaActualizar.append(bodega.tieneActualizacionDisponible(self.getFechaActual()))
+                self.bodegasParaActualizar.append(bodega)
         for bodega in self.bodegasParaActualizar:
             bodega.get_nombre()
         bodegas_con_actualizaciones_dicts = [bodega.to_dict() for bodega in self.bodegasParaActualizar]

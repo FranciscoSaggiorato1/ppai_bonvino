@@ -22,15 +22,19 @@ class Maridaje:
             f"descripcion={self.descripcion})"
         )
     
-    # Método estático para verificar si un maridaje con el nombre dado existe
-    @staticmethod
-    def sosMaridaje(nombre):
+    # Este método nos remarcó la profe micka que estaba mal, ya que dentro del objeto Maridaje cargabamos y recorriamos todos los maridajes
+    # lo cual es incorrecto en POO
+    """def sosMaridaje(nombre):
         maridajes = Maridaje.cargarData("./Modelo/data/maridaje.csv")  # Ajusta la ruta según sea necesario
         for maridaje in maridajes:
             if maridaje.nombre == nombre:
                 return maridaje
-        return None
-    
+        return None"""
+
+    # Implementacion de sosMaridaje() de una forma alternativa 
+    def sosMaridaje(self, maridaje):
+        return isinstance(maridaje, Maridaje)
+
     # Métodos getter y setter para los atributos de la clase
     def get_Id(self):
         return self.id

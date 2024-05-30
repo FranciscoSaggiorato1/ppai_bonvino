@@ -10,6 +10,7 @@ class TipoUva:
         self.id = id
         self.descripcion = descripcion
         self.nombre = nombre
+        
     def new(self,id, descripcion, nombre):
         return TipoUva(id,descripcion, nombre)
     def __repr__(self):
@@ -17,17 +18,24 @@ class TipoUva:
                     f"descripcion={self.descripcion},  "
                     )
         
-
-    @staticmethod
+    # Este método nos remarcó la profe micka que estaba mal, ya que dentro del objeto tipoUva cargabamos y recorriamos todos los tiposUva
+    # lo cual es incorrecto en POO
+    """
+    @staticmethod 
     def sosTipoUva(nombre):
         tiposUva = TipoUva.cargarData("./Modelo/data/tipoUva.csv")  # Adjust the path as needed
         for tipo in tiposUva:
             if tipo.nombre == nombre:
                 return tipo
-        return None
+        return None"""
+    
+    # Implementacion de sosMaridaje() de una forma alternativa 
+    def sosTipoUva(self, tipoUva):
+        return isinstance(tipoUva, TipoUva)
      
     def get_Id(self):
         return self.id
+    
     def set_Id(self,id):
         self.id = id
 
@@ -38,6 +46,7 @@ class TipoUva:
 
     def get_Nombre(self):
         return self.nombre
+    
     def set_Nombre(self,nombre):
         self.nombre = nombre
         
