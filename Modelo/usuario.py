@@ -1,24 +1,31 @@
-import csv
-class Usuario:
-    #Propiedades de la clase Usuario
-    id=""
-    contraseña = ""
-    nombre = ""
-    premium = None
+import csv  # Importa el módulo csv para trabajar con archivos CSV
 
-    def __init__(self,id, nombre, contraseña, premium):
-        self.id = id
-        self.nombre = nombre
-        self.contraseña = contraseña
-        self.premium = premium
-    def new(self,id, nombre, contraseña, premium):
-        return Usuario(id,nombre, contraseña, premium)
+class Usuario:
+    # Propiedades de la clase Usuario
+    id = ""  # Atributo para almacenar el ID del usuario
+    contraseña = ""  # Atributo para almacenar la contraseña del usuario
+    nombre = ""  # Atributo para almacenar el nombre del usuario
+    premium = None  # Atributo para indicar si el usuario es premium o no
+
+    # Método de inicialización de la clase Usuario
+    def __init__(self, id, nombre, contraseña, premium):
+        self.id = id  # Asigna el ID proporcionado al atributo id
+        self.nombre = nombre  # Asigna el nombre proporcionado al atributo nombre
+        self.contraseña = contraseña  # Asigna la contraseña proporcionada al atributo contraseña
+        self.premium = premium  # Asigna el estado de premium proporcionado al atributo premium
+
+    # Método para crear y devolver una nueva instancia de Usuario
+    def new(self, id, nombre, contraseña, premium):
+        return Usuario(id, nombre, contraseña, premium)
+
+    # Método especial para representar la instancia de Usuario como una cadena
     def __repr__(self):
-            return (f"Usuario(nombre={self.nombre}, "
-                    f"contraseña={self.contraseña},"
-                    f"premium={self.premium}"
-                    )
-    #Metodos de la clase Usuario
+        return (f"Usuario(nombre={self.nombre}, "
+                f"contraseña={self.contraseña},"
+                f"premium={self.premium}"
+                )
+
+    # Métodos getter y setter para los atributos de la clase
     def get_Id(self):
         return self.id
     def set_Id(self, id):
@@ -35,23 +42,28 @@ class Usuario:
         return self.premium
     def setPremium(self, premium):
         self.premium = premium
+
+    # Método estático para cargar datos desde un archivo CSV
+    @staticmethod
     def cargarData(filepath):
-        usuarios = []
-        with open(filepath, newline='', encoding='utf-8') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
+        usuarios = []  # Lista para almacenar las instancias de Usuario
+        with open(filepath, newline='', encoding='utf-8') as csvfile:  # Abre el archivo CSV
+            reader = csv.DictReader(csvfile)  # Crea un lector de CSV
+            for row in reader:  # Itera sobre las filas del archivo CSV
                 try:
-                    usuario=Usuario(
+                    # Crea una instancia de Usuario con los datos de la fila actual
+                    usuario = Usuario(
                         id=row['id'],
                         nombre=row['nombre'],
                         contraseña=row['contraseña'],
                         premium=row['premium']
                     )
-                    usuarios.append(usuario)
+                    usuarios.append(usuario)  # Agrega el usuario a la lista de usuarios
                 except ValueError as e:
                     print(f"Error al procesar la fila: {row}. Error: {e}")
-        return usuarios
-    
+        return usuarios  # Devuelve la lista de usuarios cargados desde el archivo CSV
+
+    # Método para convertir la instancia de Usuario a un diccionario
     def to_dict(self):
         return {
             "id": self.id,
@@ -60,8 +72,9 @@ class Usuario:
             "premium": self.premium
         }
 
- # Ejemplo de uso
+# Ejemplo de uso
 if __name__ == "__main__":
-        usuarios = Usuario.cargarData("ruta_al_archivo.csv")
-        for usuario in usuarios:
-            print(usuario)
+    # Carga los datos de usuarios desde un archivo CSV
+    usuarios = Usuario.cargarData("ruta_al_archivo.csv")
+    for usuario in usuarios:  # Itera sobre los usuarios cargados
+        print(usuario)  # Imprime cada usuario

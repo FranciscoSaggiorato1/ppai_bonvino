@@ -101,15 +101,71 @@ class Bodega:
                 return True
 
 
-    def actualizarDatosVino(self, fechaActualizacion, fechaActual, precio, notaCata, img):
+    def actualizarDatosVino(self, nombre, fechaActualizacion, fechaActual, precio, notaCata, img):
         for vino in self.vinos:
-            if vino.sosVinoParaActualizar(fechaActual):
+            if vino.sos_Este_Vino(nombre):
+                vino.setNombre(nombre)
                 vino.setPrecioARS(precio)
                 vino.setNotaCataBodega(notaCata)
                 vino.setImagenEtiqueta(img)
                 vino.setFechaActualizacion(fechaActualizacion)
-                return True
+                print(f"Vino {nombre} actualizado correctamente.")  # Mensaje de depuración
+                self.guardarDatosCSV(vino)
+            
         return False
+    
+    def guardarDatosCSV(self, vino):
+        csv_path = os.path.join(os.path.dirname(__file__), './data/vino.csv')
+
+        # Leer el archivo completo y guardar en memoria
+        with open(csv_path, mode='r', newline='', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile)
+            rows = list(reader)
+
+        # Modificar los registros en memoria
+        for row in rows:
+            if row['Nombre'] == vino.nombre:
+                print(f"Encontrado el vino: {vino.nombre}, actualizando...")  # Mensaje de depuración
+                
+                row['añada'] = vino.añada
+                row['fecha Actualizacion'] = vino.fechaActualizacion
+                row['Imagen Etiqueta'] = vino.imagenEtiqueta
+                row['Nota de Cata'] = vino.notaCataBodega
+                row['Precio ARS'] = vino.precioARS
+                
+
+        # Escribir de nuevo el archivo completo con los cambios
+        with open(csv_path, mode='w', newline='', encoding='utf-8') as csvfile:
+            fieldnames = ['id', 'añada', 'fecha Actualizacion', 'Nombre', 'Imagen Etiqueta', 'Nota de Cata', 'Precio ARS', 'Maridajes', 'Varietales', 'Bodega']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(rows)
+        csv_path = os.path.join(os.path.dirname(__file__), './data/vino.csv')
+        
+
+        # Leer el archivo completo y guardar en memoria
+        with open(csv_path, mode='r', newline='', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile)
+            rows = list(reader)
+
+        # Modificar los registros en memoria
+        for row in rows:
+            if row['Nombre'] == vino.nombre:
+                print(f"Encontrado el vino: {vino.nombre}, actualizando...")  # Mensaje de depuración
+                row['añada'] = vino.añada
+                row['fecha Actualizacion'] = vino.fechaActualizacion
+                row['Imagen Etiqueta'] = vino.imagenEtiqueta
+                row['Nota de Cata'] = vino.notaCataBodega
+                row['Precio ARS'] = vino.precioARS
+                
+
+        # Escribir de nuevo el archivo completo con los cambios
+        with open(csv_path, mode='w', newline='', encoding='utf-8') as csvfile:
+            fieldnames = ['id', 'añada', 'fecha Actualizacion', 'Nombre', 'Imagen Etiqueta', 'Nota de Cata', 'Precio ARS', 'Maridajes', 'Varietales', 'Bodega']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames, quotechar='"', quoting=csv.QUOTE_NONNUMERIC)
+            writer.writeheader()
+            writer.writerows(rows)
+            print("Archivo CSV actualizado correctamente.") 
 
     @staticmethod
     def cargarData(filepath):

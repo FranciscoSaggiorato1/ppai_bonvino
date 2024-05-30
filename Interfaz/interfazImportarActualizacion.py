@@ -2,16 +2,22 @@ import os
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QPushButton, QMessageBox
 from PyQt6 import uic, QtWidgets
-from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QIcon
+from PyQt6.QtCore import Qt, QSize
+from PyQt6.QtGui import QIcon, QPixmap
 from functools import partial
 import recursos
+import requests
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
 
 from Controlador.gestorImportarActualizacion import GestorImportadorBodega
+
+
+def get_image_data(url):
+    response = requests.get(url)
+    return response.content
 
 class PantallaImportadorBodega(QMainWindow):
     def __init__(self):
@@ -100,13 +106,12 @@ class PantallaImportadorBodega(QMainWindow):
             return
         else:
             row_count = len(vinos_actualizados)
-            print(row_count)
-            column_count = 8  # Número de columnas
+            column_count = 7  # Número de columnas
 
             self.tableVino.setRowCount(row_count)
             self.tableVino.setColumnCount(column_count)
             self.tableVino.verticalHeader().hide()
-            headers = ["Etiqueta", "Nombre", "Varietal", "Tipo Uva", "Maridaje", "Fecha Actualización", "Añada", "Precio"]
+            headers = ["Nombre", "Varietal", "Tipo Uva", "Maridaje", "Fecha Actualización", "Añada", "Precio"]
             self.tableVino.setHorizontalHeaderLabels(headers)
 
             # Ajustar el tamaño de las columnas al contenido
@@ -114,11 +119,26 @@ class PantallaImportadorBodega(QMainWindow):
             self.tableVino.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
             self.tableVino.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Preferred)
             self.tableVino.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
+            self.tableVino.setIconSize(QSize(50, 50))
             #self.tableWidget.setMinimumSize(400, 300)  # Ajustar el tamaño mínimo según sea necesario
 
-            for row_index, vino in enumerate(vinos_actualizados):
-                for col_index, value in enumerate(vino.values()):
-                    self.tableVino.setItem(row_index, col_index, QTableWidgetItem(str(value)))
+        for row_index, vino in enumerate(vinos_actualizados):
+            self.tableVino.setItem(row_index, 0, QTableWidgetItem(vino['nombre']))
+
+            # Convertir lista a cadena si es necesario
+            varietales = ", ".join(vino['Varietales']) if isinstance(vino['Varietales'], list) else vino['Varietales']
+            self.tableVino.setItem(row_index, 1, QTableWidgetItem(varietales))
+
+            tipo_uva = vino['tipoUva'] if isinstance(vino['tipoUva'], str) else ", ".join(vino['tipoUva'])
+            self.tableVino.setItem(row_index, 2, QTableWidgetItem(tipo_uva))
+
+            maridajes = ", ".join(vino['Maridajes']) if isinstance(vino['Maridajes'], list) else vino['Maridajes']
+            self.tableVino.setItem(row_index, 3, QTableWidgetItem(maridajes))
+
+            self.tableVino.setItem(row_index, 4, QTableWidgetItem(vino['fecha Actualizacion']))
+            self.tableVino.setItem(row_index, 5, QTableWidgetItem(str(vino['añada'])))
+            self.tableVino.setItem(row_index, 6, QTableWidgetItem(str(vino['Precio ARS'])))
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

@@ -1,4 +1,6 @@
 import csv
+
+
 class TipoUva:
     id=""
     descripcion = ""
@@ -60,13 +62,3 @@ class TipoUva:
             "descripcion": self.descripcion,
             "nombre": self.nombre
         }
-
- # Ejemplo de uso
-if __name__ == "__main__":
-        tipos= TipoUva.cargarData("ruta_al_archivo.csv")
-        for tipo in tipos:
-            print(tipo)
-
-
-
-             

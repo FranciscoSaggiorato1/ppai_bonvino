@@ -61,13 +61,8 @@ class GestorImportadorBodega:
 
         # Determinar si los vinos actualizados pertenecen a la bodega seleccionada 
         self.determinarVinosParaActualizar()
-        print(f"Vinos para actualizar: {self.vinosParaActualizar}")
-
 
         self.actualizarOCrearVinos()
-        
-        # Testeamos si se están cargando bien los vinos para actualizar
-        
         
 
     def obtenerActualizacionVinosBodega(self):
@@ -83,6 +78,7 @@ class GestorImportadorBodega:
                 'Maridajes': ["Malbec y Gouda", "Chardonnay y Salmón", "Cabernet Sauvignon y Cordero"],
                 'Varietales': ["Vino tinto de color rojo rubí con aromas a cereza, vainilla y cuero."],
                 'bodega': self.bodegaSeleccionada,
+                'nombre Bodega': self.bodegaSeleccionada.nombre,
                 'tipoUva': ["Pinot Grigio"]
             },
             {
@@ -95,6 +91,7 @@ class GestorImportadorBodega:
                 'Maridajes': ["Pinot Noir y Ensalada","Brut Rosé y Sushi"],
                 'Varietales': ["Vino tinto de color rojo claro con aromas a fresa, cereza roja y setas.", "Vino blanco de color amarillo pajizo con aromas a heno, melocotón y cítricos."],
                 'bodega': self.bodegaSeleccionada,
+                'nombre Bodega': self.bodegaSeleccionada.nombre,
                 'tipoUva': ["Syrah", "Sauvignon Blanc"]
             },
             {
@@ -107,6 +104,7 @@ class GestorImportadorBodega:
                 'Maridajes': ["Chardonnay y Salmón", "Cabernet Sauvignon y Cordero"],
                 'Varietales': ["Vino tinto de color púrpura oscuro con aromas a grosella negra, cedro y tabaco.", "Vino tinto de color rojo rubí con aromas a cereza, vainilla y cuero."],
                 'bodega': self.bodegaSeleccionada,
+                'nombre Bodega': self.bodegaSeleccionada.nombre,
                 'tipoUva': ["Malbec", "Pinot Grigio"]
             },
             {
@@ -119,6 +117,7 @@ class GestorImportadorBodega:
                 'Maridajes': ["Malbec y Gouda", "Brut Rosé y Sushi"],
                 'Varietales': ["Vino tinto de color rojo intenso con aromas a frutos rojos, especias y cuero.", "Vino blanco de color amarillo pajizo con aromas a heno, melocotón y cítricos."],
                 'bodega': self.bodegaSeleccionada,
+                'nombre Bodega': self.bodegaSeleccionada.nombre,
                 'tipoUva': ["Cabernet Sauvignon", "Sauvignon Blanc"]
             },
             {
@@ -131,6 +130,7 @@ class GestorImportadorBodega:
                 'Maridajes': ["Verdejo y Tapas", "Sauvignon Blanc y Ceviche"],
                 'Varietales': ["Vino tinto de color violeta intenso con aromas a frutos negros, pimienta negra y violetas.", "Vino blanco de color verde pálido con aromas a grosella espinosa, hierba fresca y pomelo."],
                 'bodega': self.bodegaSeleccionada,
+                'nombre Bodega': self.bodegaSeleccionada.nombre,
                 'tipoUva': ["Gewürztraminer", "Chardonnay"]
             }
         ]
@@ -146,11 +146,12 @@ class GestorImportadorBodega:
 
     def actualizarOCrearVinos(self):
         print('Llegue a la funcion actualizar o crear')
+        print('Vinos para actualizar: ', self.vinosParaActualizar)
         obtenerResumenVinos_dict = []
 
         for vino in self.vinosActualizados:
             if vino in self.vinosParaActualizar:
-                self.actualizarCaracteristicasVino(vino['fecha Actualizacion'], self.fechaActual, vino['Precio ARS'], vino['Nota de Cata'], vino['Imagen Etiqueta'])
+                self.actualizarCaracteristicasVino(vino['nombre'], vino['fecha Actualizacion'], self.fechaActual, vino['Precio ARS'], vino['Nota de Cata'], vino['Imagen Etiqueta'])
                 obtenerResumenVinos_dict.append(vino)
             else:
                 self.crearVino(vino)
@@ -159,12 +160,12 @@ class GestorImportadorBodega:
         print(f"FORMATO: {obtenerResumenVinos_dict}")
         return obtenerResumenVinos_dict
 
-    def actualizarCaracteristicasVino(self,fechaActualizacion,fechaActual,precio,notaCata,img):  
-        self.bodegaSeleccionada.actualizarDatosVino(fechaActualizacion,fechaActual,precio,notaCata,img)
+    def actualizarCaracteristicasVino(self, nombre, fechaActualizacion,fechaActual,precio,notaCata,img):  
+        self.bodegaSeleccionada.actualizarDatosVino(nombre, fechaActualizacion,fechaActual,precio,notaCata,img)
 
     def crearVino(self, vino):
-        maridaje = self.buscarMaridaje(vino)
-        tipoUva = self.buscarTipoUva(vino)
+        self.buscarMaridaje(vino)
+        self.buscarTipoUva(vino)
         self.vinosCreados.append(vino)
         print(f"Creando nuevo {vino['nombre']}")
 
@@ -185,13 +186,3 @@ class GestorImportadorBodega:
             if tipoUva:
                 tiposUva.append(tipoUva)
         return tiposUva
-
-
-# Función de prueba
-if __name__ == "__main__":
-    gestor = GestorImportadorBodega()
-    bodegas_actualizadas = gestor.buscarBodegasConActualizaciones()
-    # print(f"\nTotal de bodegas con actualizaciones disponibles: {bodegas_actualizadas}")
-
-    bodegasActual = gestor.actualizarOCrearVinos()
-    print(f"\nResumen de vinos actualizados y creados: {bodegasActual}")

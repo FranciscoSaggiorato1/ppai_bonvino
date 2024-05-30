@@ -1,6 +1,7 @@
 import csv
 import os
 from Modelo.tipoUva import TipoUva
+
 class Varietal():
     id=""
     descripcion = ""
@@ -75,3 +76,7 @@ if __name__ == "__main__":
         varietales = Varietal.cargarData("./Modelo/data/varietal.csv")
         for varietal in varietales:
             print(varietal)
+
+
+
+             
