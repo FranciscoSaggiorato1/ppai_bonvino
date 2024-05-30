@@ -41,6 +41,7 @@ class GestorImportadorBodega:
         script_dir = os.path.dirname(__file__)
         csv_path = os.path.join(script_dir, '..', 'Modelo', './data/bodega.csv')
         todas_las_bodegas = Bodega.cargarData(csv_path)
+        self.bodegasParaActualizar = []
         for bodega in todas_las_bodegas:
             if bodega.tieneActualizacionDisponible(self.getFechaActual()):
                 self.bodegasParaActualizar.append(bodega.tieneActualizacionDisponible(self.getFechaActual()))
@@ -52,7 +53,7 @@ class GestorImportadorBodega:
 
 
     def tomarBodegaSeleccionada(self, bodega):
-        self.bodegaSeleccionada = bodega
+        self.bodegaSeleccionada = Bodega.from_dict(bodega)
         print(f"Bodega seleccionada desde gestor: {self.bodegaSeleccionada}")
         
         # Llamado a la API, nos devuelve vinos actualizados, que pueden no pertenecer a la bodega seleccionada
@@ -60,9 +61,8 @@ class GestorImportadorBodega:
 
         # Determinar si los vinos actualizados pertenecen a la bodega seleccionada 
         self.determinarVinosParaActualizar()
-        
-        # Testeamos si se están cargando bien los vinos para actualizar
-        print(f"Vinos para actualizar: {self.vinosParaActualizar}")
+
+        self.actualizarOCrearVinos()
         
 
     def obtenerActualizacionVinosBodega(self):
@@ -70,7 +70,7 @@ class GestorImportadorBodega:
         self.vinosActualizados = [
             {
                 'nombre': 'Trumpeter', 
-                'añada': 2018, 
+                'añada': 2018,
                 'fecha Actualizacion': "2024-01-15", 
                 'Imagen Etiqueta': 'https://i.colnect.net/f/3919/903/Trumpeter---Sauvignon-Blanc.jpg',
                 'Nota de Cata': 'Notas de ciruela y roble',
@@ -129,31 +129,33 @@ class GestorImportadorBodega:
                 'tipoUva': ["Gewürztraminer", "Chardonnay"]
             }
         ]
-        
+
 
     def determinarVinosParaActualizar(self):
         """Esta función determina todos los vinos que nos devolvió la simulación de la API, que pertenecen a la bodega seleccionada"""
-        for vino in self.vinosParaActualizar: 
-            if Bodega.tienesEsteVino(self, self.bodegaSeleccionada, vino.nombre):
+        self.vinosParaActualizar = []
+        for vino in self.vinosActualizados:
+            if self.bodegaSeleccionada.tienesEsteVino(vino['nombre']):
                 self.vinosParaActualizar.append(vino)
 
 
     def actualizarOCrearVinos(self):
-        self.obtenerActualizacionVinosBodega()
+        print('Llegue a la funcion actualizar o crear')
         obtenerResumenVinos_dict = []
 
         for vino in self.vinosActualizados:
             if vino in self.vinosParaActualizar:
-                self.actualizarCaracteristicasVino(vino['fecha Actualizacion'], self.fechaActual, vino['Precio ARS'], vino['Nota de Cata'], vino['Imagen Etiqueta'])
+                self.actualizarCaracteristicasVino(vino['nombre'], vino['fecha Actualizacion'], self.fechaActual, vino['Precio ARS'], vino['Nota de Cata'], vino['Imagen Etiqueta'])
                 obtenerResumenVinos_dict.append(vino)
             else:
                 self.crearVino(vino)
                 obtenerResumenVinos_dict.append(vino)
         
+        print(f"FORMATO: {obtenerResumenVinos_dict}")
         return obtenerResumenVinos_dict
 
-    def actualizarCaracteristicasVino(self,fechaActualizacion,fechaActual,precio,notaCata,img):  
-        Bodega.actualizarDatosVino(self,fechaActualizacion,fechaActual,precio,notaCata,img)
+    def actualizarCaracteristicasVino(self, nombre, fechaActualizacion,fechaActual,precio,notaCata,img):  
+        self.bodegaSeleccionada.actualizarDatosVino(nombre, fechaActualizacion,fechaActual,precio,notaCata,img)
 
     def crearVino(self, vino):
         maridaje = self.buscarMaridaje(vino)

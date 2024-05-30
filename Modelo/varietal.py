@@ -1,6 +1,6 @@
 import csv
-
-
+import os
+from Modelo.tipoUva import TipoUva
 class Varietal():
     id=""
     descripcion = ""
@@ -47,8 +47,16 @@ class Varietal():
                         id=row['id'],
                         descripcion=row['descripcion'],
                         porcentajeComposicion=row['porcentajeComposicion'],
-                        tipoUva=row['tipoUva']
+                        tipoUva=""
                     )
+                    script_dir = os.path.dirname(__file__)
+                    path_tipoUva = os.path.join(script_dir, '..', 'Modelo', './data/tipoUva.csv')
+                    TodosLostipoUva = TipoUva.cargarData(path_tipoUva)
+                    tipoUva_id = row['tipoUva'],
+                    for tipo in TodosLostipoUva:
+                            if tipo.get_Id() == tipoUva_id:
+                                varietal.tipoUva = tipo
+                    
                     varietales.append(varietal)
                 except ValueError as e:
                     print(f"Error al procesar la fila: {row}. Error: {e}")

@@ -52,6 +52,11 @@ class Vino:
             return True
         else:
             return False
+    def esTuId(self,vino):
+        if self.id == vino.id:
+            return self
+        else:
+            return None
 
     def get_Id(self):
         return self.id
