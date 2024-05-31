@@ -244,7 +244,7 @@ QPushButton:pressed {
            </string>
           </property>
           <property name="text">
-           <string>Vinos actualizados y/o creados</string>
+           <string>Vinos actualizados</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -252,7 +252,61 @@ QPushButton:pressed {
          </widget>
         </item>
         <item>
-         <widget class="QTableWidget" name="tableVino">
+         <widget class="QTableWidget" name="tableVinoActualizados">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>50</horstretch>
+            <verstretch>50</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">
+            background-color: rgb(69, 5, 9);
+            color: rgb(255, 255, 240);
+            QHeaderView::section {
+              color: rgb(255, 255, 240);
+              background-color: rgb(255, 255, 240);
+            }
+            QTableWidgetItem::setData(Qt::BackgroundRole,Qt::grey)
+           </string>
+          </property>
+          <property name="verticalScrollBarPolicy">
+           <enum>Qt::ScrollBarAsNeeded</enum>
+          </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOff</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">
+            color: rgb(86, 7, 12);
+            background-color: rgb(255, 255, 240);
+            font-family: &quot;montserrat&quot;, Times, serif;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 10px;
+           </string>
+          </property>
+          <property name="text">
+           <string>Vinos creados</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTableWidget" name="tableVinoCreados">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>50</horstretch>
