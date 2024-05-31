@@ -1,15 +1,10 @@
 import csv  # Importa el módulo csv para trabajar con archivos CSV
 
 class Maridaje:
-    id = ""  # Atributo para almacenar el ID del maridaje
-    descripcion = ""  # Atributo para almacenar la descripción del maridaje
-    nombre = ""  # Atributo para almacenar el nombre del maridaje
-    
-    # Método de inicialización de la clase Maridaje
     def __init__(self, id, descripcion, nombre):
-        self.id = id  # Asigna el ID proporcionado al atributo id
-        self.descripcion = descripcion  # Asigna la descripción proporcionada al atributo descripcion
-        self.nombre = nombre  # Asigna el nombre proporcionado al atributo nombre
+        self.id = id  
+        self.descripcion = descripcion  
+        self.nombre = nombre  
     
     # Método para crear y devolver una nueva instancia de Maridaje
     def new(self, id, descripcion, nombre):

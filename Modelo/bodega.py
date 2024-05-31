@@ -6,17 +6,7 @@ import os
 import os
 
 class Bodega:
-    id = ""
-    coordenadasUbicacion = ""
-    descripcion = ""
-    historia = ""
-    nombre = ""
-    periodoActualizacion = 0
-    fechaUltimaActualizacion = ""
-    vinos = []
-
-
-    def __init__(self, id, coordenadasUbicacion, descripcion, historia, nombre, periodoActualizacion, fechaUltimaActualizacion, vinos):
+    def __init__(self, coordenadasUbicacion, descripcion, historia, nombre, periodoActualizacion, fechaUltimaActualizacion, vinos, id=""):
         self.id = id
         self.coordenadasUbicacion = coordenadasUbicacion
         self.descripcion = descripcion

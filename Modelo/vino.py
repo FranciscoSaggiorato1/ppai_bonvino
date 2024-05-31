@@ -18,10 +18,9 @@ class Vino:
     maridaje = []
 
     # Método de inicialización de la clase Vino
-    def __init__(self, id, nombre, añada, fechaActualizacion, precioARS, varietal, notaCataBodega, bodega, imagenEtiqueta, maridaje):
-        self.id = id
+    def __init__(self, año, fechaActualizacion, nombre, imagenEtiqueta, notaCataBodega, precioARS, varietal, maridaje, bodega):
+        self.año = año
         self.nombre = nombre
-        self.añada = añada
         self.fechaActualizacion = fechaActualizacion
         self.bodega = bodega
         self.maridaje = maridaje

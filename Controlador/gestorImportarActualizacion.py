@@ -12,8 +12,7 @@ sys.path.append(parent_dir)
 from Modelo.bodega import Bodega
 from Modelo.maridaje import Maridaje
 from Modelo.tipoUva import TipoUva
-from Modelo.usuario import Usuario
-from Modelo.base import bodegas, varietales, tiposUva
+from Modelo.base import bodegas, varietales, tiposUva, vino
     
 class GestorImportadorBodega:
     def __init__(self): 
@@ -48,10 +47,9 @@ class GestorImportadorBodega:
     def buscarBodegasConActualizaciones(self):
         script_dir = os.path.dirname(__file__)
         csv_path = os.path.join(script_dir, '..', 'Modelo', './data/bodega.csv')
-        todas_las_bodegas = Bodega.cargarData(csv_path)
         self.bodegasParaActualizar = []
-        for bodega in todas_las_bodegas:
-            if bodega.tieneActualizacionDisponible(self.getFechaActual()):
+        for bodega in bodegas:
+            if bodega.tieneActualizacionDisponible(self.fechaActual):
                 self.bodegasParaActualizar.append(bodega)
         for bodega in self.bodegasParaActualizar:
             bodega.get_nombre()
