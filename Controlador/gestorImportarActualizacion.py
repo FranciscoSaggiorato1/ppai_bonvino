@@ -54,6 +54,7 @@ class GestorImportadorBodega:
             if bodega.tieneActualizacionDisponible(self.fechaActual):
                 self.bodegasParaActualizar.append(bodega)
         for bodega in self.bodegasParaActualizar:
+            # Validar con diagrama de secuencias, no está este método en el diagrama
             bodega.getNombre()
         bodegasDict = [bodega.toDict() for bodega in self.bodegasParaActualizar]
         

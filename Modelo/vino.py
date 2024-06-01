@@ -7,8 +7,8 @@ from Modelo.maridaje import Maridaje  # Importa el módulo Modelo.maridaje para 
 class Vino:
 
     # Método de inicialización de la clase Vino
-    def __init__(self, año, fechaActualizacion, nombre, imagenEtiqueta, notaCataBodega, precioARS, varietal, maridaje, bodega):
-        self.año = año
+    def __init__(self, añada, fechaActualizacion, nombre, imagenEtiqueta, notaCataBodega, precioARS, varietal, maridaje, bodega):
+        self.añada = añada
         self.nombre = nombre
         self.fechaActualizacion = fechaActualizacion
         self.bodega = bodega
