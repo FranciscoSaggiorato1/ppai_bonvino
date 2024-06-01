@@ -6,15 +6,14 @@ import os
 import os
 
 class Bodega:
-    def __init__(self, coordenadasUbicacion, descripcion, historia, nombre, periodoActualizacion, fechaUltimaActualizacion, vinos, id=""):
-        self.id = id
+    def __init__(self, coordenadasUbicacion, descripcion, historia, nombre, periodoActualizacion, fechaUltimaActualizacion):
         self.coordenadasUbicacion = coordenadasUbicacion
         self.descripcion = descripcion
         self.historia = historia
         self.nombre = nombre
         self.periodoActualizacion = int(periodoActualizacion) if periodoActualizacion else 0
         self.fechaUltimaActualizacion = fechaUltimaActualizacion
-        self.vinos = vinos
+        self.vinos = []
 
     def __repr__(self):
         return (f"Bodega(nombre={self.nombre}, "
@@ -193,7 +192,6 @@ class Bodega:
     
     def to_dict(self):
         return {
-            'id': self.id,
             'coordenadasUbicacion': self.coordenadasUbicacion,
             'descripcion': self.descripcion,
             'historia': self.historia,
@@ -203,7 +201,6 @@ class Bodega:
             'vinos': self.vinos
         }
     def from_dict(data):
-        id = data['id']
         coordenadasUbicacion = data['coordenadasUbicacion']
         descripcion = data['descripcion']
         historia = data['historia']

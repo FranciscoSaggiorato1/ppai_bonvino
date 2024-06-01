@@ -2,8 +2,7 @@ import csv
 
 
 class TipoUva:
-    def __init__(self,id, descripcion, nombre):
-        self.id = id
+    def __init__(self, descripcion, nombre):
         self.descripcion = descripcion
         self.nombre = nombre
         

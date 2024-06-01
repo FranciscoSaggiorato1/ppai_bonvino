@@ -7,7 +7,7 @@ class Siguiendo:
     Clase para representar una relación de seguimiento entre un enófilo y una bodega.
     """
 
-    def __init__(self, id, fechaInicio, fechaFin, bodega, enofilo):
+    def __init__(self, fechaInicio, fechaFin, enofilo, bodega):
         """
         Inicializa una nueva instancia de la clase Siguiendo.
 
@@ -18,11 +18,11 @@ class Siguiendo:
             bodega (Bodega): La bodega seguida.
             enofilo (Enofilo): El enófilo seguido.
         """
-        self.id = id
         self.fechaInicio = fechaInicio
         self.fechaFin = fechaFin
-        self.bodega = bodega
         self.enofilo = enofilo
+        self.bodega = bodega
+        
 
     def new(self, id, fechaInicio, fechaFin, bodega, enofilo):
         """
