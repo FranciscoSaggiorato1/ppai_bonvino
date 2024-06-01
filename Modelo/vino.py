@@ -5,17 +5,6 @@ import os
 from Modelo.maridaje import Maridaje  # Importa el módulo Modelo.maridaje para trabajar con maridajes
 
 class Vino:
-    # Atributos de la clase Vino
-    id = ""
-    nombre = ""
-    añada = ""
-    fechaActualizacion = ""
-    precioARS = 0
-    varietal = []
-    notaCataBodega = ""
-    bodega = ""
-    imagenEtiqueta = ""
-    maridaje = []
 
     # Método de inicialización de la clase Vino
     def __init__(self, año, fechaActualizacion, nombre, imagenEtiqueta, notaCataBodega, precioARS, varietal, maridaje, bodega):
