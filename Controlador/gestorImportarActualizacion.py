@@ -13,7 +13,8 @@ from Modelo.bodega import Bodega
 from Modelo.maridaje import Maridaje
 from Modelo.tipoUva import TipoUva
 from Modelo.vino import Vino
-from Modelo.base import bodegas, varietales, tiposUva, vino
+from Modelo.base import bodegas, varietales, tiposUva, vinos, enofilos, siguiendos, usuarios, maridajes
+
     
 class GestorImportadorBodega:
     def __init__(self): 
@@ -30,7 +31,9 @@ class GestorImportadorBodega:
         self.varietales = []
         self.maridajes = []
         self.tiposUva = []
-        
+        self.enofilos = []
+        self.siguiendo = []
+        self.usarios = []        
 
     def nuevaImportacionActualizacionVinos(self):
         self.cargarBase()
@@ -40,8 +43,13 @@ class GestorImportadorBodega:
 
     def cargarBase(self):
         self.bodegas = bodegas
-        self.varietales= varietales
+        self.enofilos = enofilos
+        self.maridaje = maridajes
+        self.siguiendo = siguiendos
         self.tiposUva= tiposUva
+        self.usuarios = usuarios
+        self.varietales= varietales
+        self.vinos = vinos
 
 
     def getFechaActual(self):
@@ -71,7 +79,7 @@ class GestorImportadorBodega:
 
     def obtenerActualizacionVinosBodega(self):
         # Simulación de obtención de actualizaciones de vinos para la bodega seleccionada por parte de una API.
-        vinosActualizados = [
+        self.vinosActualizados = [
             {
                 'nombre': 'Trumpeter', 
                 'añada': 2018,
@@ -139,8 +147,8 @@ class GestorImportadorBodega:
             }
         ]
 
-        for vino in vinosActualizados:   
-            self.vinosActualizados.append(Vino(vino['nombre'], vino['añada'], vino['fechaActualizacion'], vino['imagenEtiqueta'], vino['notaCata'], vino['precioArs'], vino['varietales'], vino['maridajes'], vino['bodega']))
+        """for vino in vinosActualizados:   
+            self.vinosActualizados.append(Vino(vino['añada'], vino['fechaActualizacion'], vino['nombre'], vino['imagenEtiqueta'], vino['notaCata'], vino['precioArs'], vino['varietales'], vino['maridajes'], vino['bodega']))"""
 
 
     def determinarVinosParaActualizar(self):
@@ -149,51 +157,67 @@ class GestorImportadorBodega:
         print('Vinos actualizados: ', self.vinosActualizados)
         print('\nSELECCIONADA BODEGA:', self.bodegaSeleccionada)
         for vino in self.vinosActualizados:
-            if self.bodegaSeleccionada.tienesEsteVino(vino['nombre']):
+            #HAY QUE FIJARNOS DE CREAR UNA FUNCION QUE PERMITA AÑADIRLE VINOS A LA BODEGA, PORQUE ACA NO TE LOS APPENDEA YA QUE LA BODEGA NO TIENE VINOS
+            if self.bodegaSeleccionada.tienesEsteVino(vino):
                 self.vinosParaActualizar.append(vino)
 
         print('Vinos actualizados: ', self.vinosActualizados)
 
 
     def actualizarOCrearVinos(self):
-        vinos_actualizados = []
-        vinos_creados = []
+        vinosActualizados = []
+        vinosCreados = []
 
         for vino in self.vinosActualizados:
             if vino in self.vinosParaActualizar:
-                self.bodegaSeleccionada.actualizarDatosVino(vino['nombre'], vino['fecha Actualizacion'], self.fechaActual, vino['Precio ARS'], vino['Nota de Cata'], vino['Imagen Etiqueta'])
-                vinos_actualizados.append(vino)
+                self.bodegaSeleccionada.actualizarDatosVino(vino['nombre'], vino['fechaActualizacion'], self.fechaActual, vino['precioArs'], vino['notaCata'], vino['imagenEtiqueta'])
+                vinosActualizados.append(vino)
             else:
                 self.crearVino(vino)
-                vinos_creados.append(vino)
+                vinosCreados.append(vino)
         
         # print(f"FORMATO: {obtenerResumenVinos_dict}")
-        return vinos_actualizados, vinos_creados
+        return vinosActualizados, vinosCreados
     
 
     def crearVino(self, vino):
-        self.buscarMaridaje(vino)
-        self.buscarTipoUva(vino)
+        maridajes = self.buscarMaridaje(vino)
+        tiposUva = self.buscarTipoUva(vino)
         self.vinosCreados.append(vino)
+        # FALTARÍA AGREGAR EL VINO AL ARCHIVO BASE.PY Y HABRÍA QUE LLAMAR AL METODO NEW() DEL VINO
         # print(f"Creando nuevo {vino['nombre']}")
 
 
     def buscarMaridaje(self, vino):
-        maridajes = []
-        for maridaje_nombre in vino['maridajes']:
-            maridaje = Maridaje.sosMaridaje(maridaje_nombre)
-            if maridaje:
+        arrayMaridajes = []
+
+        for maridaje in self.maridajes:
+            for strMaridajeVino in vino['maridajes']:
+                if maridaje.sosMaridaje(strMaridajeVino):
+                    arrayMaridajes.append(maridaje)
+
+        return arrayMaridajes
+            #if maridaje.sosMaridaje(vino.maridaje):
+        """for maridaje in vino.maridaje:
+            if Maridaje.sosMaridaje(maridaje):
                 maridajes.append(maridaje)
-        return maridajes
+        return maridajes"""
 
         
     def buscarTipoUva(self, vino):
-        tiposUva = []
-        for tipoUva_nombre in vino['tipoUva']:
-            tipoUva = TipoUva.sosTipoUva(tipoUva_nombre)
-            if tipoUva:
+        arrayTiposUva = []
+        #VINO NO TIENE ATRIBUTO TIPOUVA, TENEMOS QUE CAMBIAR LOS VINOS TRAIDOS POR LA API
+        for tipoUva in self.tiposUva:
+            for strTipoUvaNombre in vino['tipoUva']:
+                if tipoUva.sosTipoUva(strTipoUvaNombre):
+                    arrayTiposUva.append(tipoUva)
+
+        return arrayTiposUva
+            
+        """vino.tipoUva:
+            if TipoUva.sosTipoUva(tipoUva):
                 tiposUva.append(tipoUva)
-        return tiposUva
+        return tiposUva"""
     
 
     """def buscarSeguidoresDeBodega(self):

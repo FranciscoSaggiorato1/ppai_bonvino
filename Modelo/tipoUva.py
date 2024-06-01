@@ -24,10 +24,14 @@ class TipoUva:
                 return tipo
         return None"""
     
-    # Implementacion de sosTipoUva() de una forma alternativa 
-    @staticmethod
-    def sosTipoUva(tipoUva):
-        return isinstance(tipoUva, TipoUva)
+    # Implementacion de sosTipoUva() de una forma alternativa
+    # ACA LO MISMO QUE CON MARIDAJES, NO DEBERÍA IR EL STATICMETHOD
+    
+    def sosTipoUva(self, nombreTipoUva):
+        if self.nombre == nombreTipoUva:
+            return self
+        return False
+        #return isinstance(tipoUva, TipoUva)
      
     def get_Id(self):
         return self.id

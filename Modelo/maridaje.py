@@ -26,9 +26,13 @@ class Maridaje:
         return None"""
 
     # Implementacion de sosMaridaje() de una forma alternativa 
-    @staticmethod
-    def sosMaridaje(maridaje):
-        return isinstance(maridaje, Maridaje)
+    # ACA EN REALIDAD NO IRÍA EL STATICMETHOD CREO, YA QUE NO ESTAMOS USANDO NINGUN ATRIBUTO DE LA CLASE, SOLAMENTE PREGUNTAMOS SI EL OBJETO ES MARIDAJE O NO
+    
+    def sosMaridaje(self, nombreMaridaje):
+        if self.nombre == nombreMaridaje:
+            return self
+        return False
+        # return isinstance(maridaje, Maridaje)
 
     # Métodos getter y setter para los atributos de la clase
     def get_Id(self):

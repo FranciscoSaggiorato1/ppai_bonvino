@@ -88,22 +88,22 @@ class Bodega:
     def set_fechaUltimaActualizacion(self, fechaUltimaActualizacion):
         self.fechaUltimaActualizacion = fechaUltimaActualizacion
 
-    def tienesEsteVino(self, nombreVino):
+    def tienesEsteVino(self, vinoObject):
         for vino in self.vinos:
-           if vino.sosEsteVino(nombreVino):
+           if vino.sosEsteVino(vinoObject):
                 return True
 
 
     def actualizarDatosVino(self, nombre, fechaActualizacion, fechaActual, precio, notaCata, img):
         for vino in self.vinos:
-            if vino.sosEsteVino(nombre):
+            if vino.sosEsteVino(vino):
                 vino.setNombre(nombre)
                 vino.setPrecioARS(precio)
                 vino.setNotaCataBodega(notaCata)
                 vino.setImagenEtiqueta(img)
                 vino.setFechaActualizacion(fechaActualizacion)
                 # print(f"Vino {nombre} actualizado correctamente.")  # Mensaje de depuración
-                self.guardarDatosCSV(vino)
+                # self.guardarDatosCSV(vino)
             
         return False
     

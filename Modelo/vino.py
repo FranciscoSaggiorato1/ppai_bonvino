@@ -7,24 +7,24 @@ from Modelo.maridaje import Maridaje  # Importa el módulo Modelo.maridaje para 
 class Vino:
 
     # Método de inicialización de la clase Vino
-    def __init__(self, añada, fechaActualizacion, nombre, imagenEtiqueta, notaCataBodega, precioARS, varietal, maridaje, bodega):
+    def __init__(self, añada, fechaActualizacion, nombre, imagenEtiqueta, notaCata, precioARS, varietal, maridaje, bodega):
         self.añada = añada
         self.nombre = nombre
         self.fechaActualizacion = fechaActualizacion
         self.bodega = bodega
         self.maridaje = maridaje
-        self.notaCataBodega = notaCataBodega
+        self.notaCata = notaCata
         self.precioARS = precioARS
         self.varietal = varietal
         self.imagenEtiqueta = imagenEtiqueta
 
     # Método para crear y devolver una nueva instancia de Vino
-    def new(self, id, nombre, añada, fechaActualizacion, precioARS, varietal, notaCataBodega, bodega, imagenEtiqueta, maridaje, id_varietal, descripcion, porcentajeComposicion, tiposUvas):
+    def new(self, id, nombre, añada, fechaActualizacion, precioARS, varietal, notaCata, bodega, imagenEtiqueta, maridaje, id_varietal, descripcion, porcentajeComposicion, tiposUvas):
         varietales = []
         for tipo in tiposUvas:
             nuevo = self.crear_Varietal(id_varietal, descripcion, porcentajeComposicion, tipo)
             varietales.append(nuevo)
-        return Vino(id, nombre, añada, fechaActualizacion, precioARS, varietales, notaCataBodega, bodega, imagenEtiqueta, maridaje)
+        return Vino(id, nombre, añada, fechaActualizacion, precioARS, varietales, notaCata, bodega, imagenEtiqueta, maridaje)
 
     # Método especial para representar la instancia de Vino como una cadena
     def __repr__(self):
@@ -32,7 +32,7 @@ class Vino:
                 f"fechaActualizacion={self.fechaActualizacion},  "
                 f"precioARS={self.precioARS},"
                 f"varietal={self.varietal},"
-                f"notaCataBodega={self.notaCataBodega},"
+                f"notaCata={self.notaCata},"
                 f"bodega={self.bodega},"
                 f"imagenEtiqueta={self.imagenEtiqueta},"
                 f"maridaje={self.maridaje}"
@@ -76,9 +76,9 @@ class Vino:
     def setMaridaje(self, maridaje):
         self.maridaje = maridaje
     def getNotaCataBodega(self):
-        return self.notaCataBodega
-    def setNotaCataBodega(self, notaCataBodega):
-        self.notaCataBodega = notaCataBodega
+        return self.notaCata
+    def setNotaCataBodega(self, notaCata):
+        self.notaCata = notaCata
     def getPrecioARS(self):
         return self.precioARS
     def setPrecioARS(self, precioARS):
@@ -138,7 +138,7 @@ class Vino:
                         añada=row['añada'],
                         fechaActualizacion=row['fecha Actualizacion'],
                         precioARS=row['Precio ARS'],
-                        notaCataBodega=row['Nota de Cata'],
+                        notaCata=row['Nota de Cata'],
                         bodega=row['Bodega'],
                         imagenEtiqueta=row['Imagen Etiqueta'],
                         maridaje = [],
@@ -177,7 +177,7 @@ class Vino:
             "fechaActualizacion": self.fechaActualizacion,
             "precioARS": self.precioARS,
             "varietal": self.varietal,
-            "notaCataBodega": self.notaCataBodega,
+            "notaCata": self.notaCata,
             "bodega": self.bodega,
             "imagenEtiqueta": self.imagenEtiqueta,
             "maridaje": self.maridaje
