@@ -26,7 +26,8 @@ class Maridaje:
         return None"""
 
     # Implementacion de sosMaridaje() de una forma alternativa 
-    def sosMaridaje(self, maridaje):
+    @staticmethod
+    def sosMaridaje(maridaje):
         return isinstance(maridaje, Maridaje)
 
     # Métodos getter y setter para los atributos de la clase

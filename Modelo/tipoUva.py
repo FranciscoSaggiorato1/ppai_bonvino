@@ -24,8 +24,9 @@ class TipoUva:
                 return tipo
         return None"""
     
-    # Implementacion de sosMaridaje() de una forma alternativa 
-    def sosTipoUva(self, tipoUva):
+    # Implementacion de sosTipoUva() de una forma alternativa 
+    @staticmethod
+    def sosTipoUva(tipoUva):
         return isinstance(tipoUva, TipoUva)
      
     def get_Id(self):
