@@ -2,8 +2,7 @@ import csv
 
 
 class TipoUva:
-    def __init__(self,id, descripcion, nombre):
-        self.id = id
+    def __init__(self, descripcion, nombre):
         self.descripcion = descripcion
         self.nombre = nombre
         
@@ -25,8 +24,9 @@ class TipoUva:
                 return tipo
         return None"""
     
-    # Implementacion de sosMaridaje() de una forma alternativa 
-    def sosTipoUva(self, tipoUva):
+    # Implementacion de sosTipoUva() de una forma alternativa 
+    @staticmethod
+    def sosTipoUva(tipoUva):
         return isinstance(tipoUva, TipoUva)
      
     def get_Id(self):

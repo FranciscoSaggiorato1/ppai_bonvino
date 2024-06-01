@@ -1,20 +1,19 @@
 import csv
-from datetime import datetime
+from datetime import datetime, date
 from dateutil.relativedelta import relativedelta  
 from Modelo.vino import Vino
 import os
 import os
 
 class Bodega:
-    def __init__(self, coordenadasUbicacion, descripcion, historia, nombre, periodoActualizacion, fechaUltimaActualizacion, vinos, id=""):
-        self.id = id
+    def __init__(self, coordenadasUbicacion, descripcion, historia, nombre, periodoActualizacion, fechaUltimaActualizacion, vinos):
         self.coordenadasUbicacion = coordenadasUbicacion
         self.descripcion = descripcion
         self.historia = historia
         self.nombre = nombre
         self.periodoActualizacion = periodoActualizacion
         self.fechaUltimaActualizacion = fechaUltimaActualizacion
-        self.vinos = vinos
+        self.vinos = vinos if vinos is not None else []
 
     def __repr__(self):
         return (f"Bodega(nombre={self.nombre}, "
@@ -72,11 +71,16 @@ class Bodega:
 
         if fechaActualizacion < fechaActual:
             return self
-        
+
     def get_fechaUltimaActualizacion(self):
         if self.fechaUltimaActualizacion:
-            return datetime.strptime(self.fechaUltimaActualizacion, '%d/%m/%Y')
+            # Si fechaUltimaActualizacion ya es un objeto datetime.date, simplemente devolverlo
+            if isinstance(self.fechaUltimaActualizacion, date):
+                return self.fechaUltimaActualizacion
+            # Si no, convertirlo desde cadena de texto
+            return datetime.strptime(self.fechaUltimaActualizacion, '%d/%m/%y')
         return None
+
     
     def get_periodoActualizacion(self):
         return self.periodoActualizacion
@@ -193,7 +197,6 @@ class Bodega:
     # Esta función se encarga de transformar un objeto en diccionario
     def toDict(self):
         return {
-            'id': self.id,
             'coordenadasUbicacion': self.coordenadasUbicacion,
             'descripcion': self.descripcion,
             'historia': self.historia,
@@ -204,7 +207,6 @@ class Bodega:
         }
     
     def from_dict(data):
-        id = data['id']
         coordenadasUbicacion = data['coordenadasUbicacion']
         descripcion = data['descripcion']
         historia = data['historia']
@@ -213,4 +215,4 @@ class Bodega:
         fechaUltimaActualizacion = data['fechaUltimaActualizacion']
         vinos = data['vinos']
         
-        return Bodega(id, coordenadasUbicacion, descripcion, historia, nombre, periodoActualizacion, fechaUltimaActualizacion, vinos)
+        return Bodega(coordenadasUbicacion, descripcion, historia, nombre, periodoActualizacion, fechaUltimaActualizacion, vinos)

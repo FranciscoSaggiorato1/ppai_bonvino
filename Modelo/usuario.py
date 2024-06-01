@@ -8,8 +8,7 @@ class Usuario:
     premium = None  # Atributo para indicar si el usuario es premium o no
 
     # Método de inicialización de la clase Usuario
-    def __init__(self, id, nombre, contraseña, premium):
-        self.id = id  # Asigna el ID proporcionado al atributo id
+    def __init__(self, nombre, contraseña, premium):
         self.nombre = nombre  # Asigna el nombre proporcionado al atributo nombre
         self.contraseña = contraseña  # Asigna la contraseña proporcionada al atributo contraseña
         self.premium = premium  # Asigna el estado de premium proporcionado al atributo premium

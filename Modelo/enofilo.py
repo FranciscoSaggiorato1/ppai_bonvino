@@ -9,7 +9,7 @@ class Enofilo:
     """
     Clase para representar un enófilo.
     """
-    def __init__(self, id, apellido, imagenPerfil, nombre, seguidos, usuario):
+    def __init__(self, apellido, imagenPerfil, nombre, seguidos, usuario):
         """
         Inicializa un objeto Enofilo.
 
@@ -20,7 +20,6 @@ class Enofilo:
         :param seguidos: Lista de usuarios seguidos por el enófilo.
         :param usuario: Usuario relacionado con el enófilo.
         """
-        self.id = id
         self.apellido = apellido
         self.imagenPerfil = imagenPerfil
         self.nombre = nombre

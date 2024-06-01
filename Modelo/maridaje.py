@@ -1,8 +1,7 @@
 import csv  # Importa el módulo csv para trabajar con archivos CSV
 
 class Maridaje:
-    def __init__(self, id, descripcion, nombre):
-        self.id = id  
+    def __init__(self, descripcion, nombre): 
         self.descripcion = descripcion  
         self.nombre = nombre 
     
@@ -27,7 +26,8 @@ class Maridaje:
         return None"""
 
     # Implementacion de sosMaridaje() de una forma alternativa 
-    def sosMaridaje(self, maridaje):
+    @staticmethod
+    def sosMaridaje(maridaje):
         return isinstance(maridaje, Maridaje)
 
     # Métodos getter y setter para los atributos de la clase

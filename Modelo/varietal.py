@@ -3,8 +3,7 @@ import os
 from Modelo.tipoUva import TipoUva
 
 class Varietal():
-    def __init__(self, id, descripcion, porcentajeComposicion, tipoUva):
-        self.id = id
+    def __init__(self, descripcion, porcentajeComposicion, tipoUva):
         self.descripcion = descripcion
         self.porcentajeComposicion = porcentajeComposicion
         self.tipoUva = tipoUva

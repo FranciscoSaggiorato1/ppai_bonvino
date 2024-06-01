@@ -2,7 +2,7 @@
 
 import os
 import sys
-from datetime import datetime 
+from datetime import datetime, date 
 
 # Añadir el directorio principal del proyecto al sys.path
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -45,7 +45,7 @@ class GestorImportadorBodega:
 
 
     def getFechaActual(self):
-        self.fechaActual = datetime.now()
+        self.fechaActual = datetime.now().date()
         return self.fechaActual
 
     def buscarBodegasConActualizaciones(self):
@@ -155,18 +155,19 @@ class GestorImportadorBodega:
 
 
     def actualizarOCrearVinos(self):
-        obtenerResumenVinos_dict = []
+        vinos_actualizados = []
+        vinos_creados = []
 
         for vino in self.vinosActualizados:
             if vino in self.vinosParaActualizar:
-                self.bodegaSeleccionada.actualizarDatosVino(vino['nombre'], vino['fechaActualizacion'], self.fechaActual, vino['precioArs'], vino['notaCata'], vino['imagenEtiqueta'])
-                obtenerResumenVinos_dict.append(vino)
+                self.bodegaSeleccionada.actualizarDatosVino(vino['nombre'], vino['fecha Actualizacion'], self.fechaActual, vino['Precio ARS'], vino['Nota de Cata'], vino['Imagen Etiqueta'])
+                vinos_actualizados.append(vino)
             else:
                 self.crearVino(vino)
-                obtenerResumenVinos_dict.append(vino)
+                vinos_creados.append(vino)
         
         # print(f"FORMATO: {obtenerResumenVinos_dict}")
-        return obtenerResumenVinos_dict
+        return vinos_actualizados, vinos_creados
     
 
     def crearVino(self, vino):
