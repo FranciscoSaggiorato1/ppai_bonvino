@@ -49,12 +49,9 @@ class Vino:
                 f"maridaje={self.maridaje}"
                 f"añada={self.añada}")
 
-    # Método para verificar si el nombre del vino coincide
-    def sos_Este_Vino(self, nombre):
-        if self.nombre == nombre:
-            return True
-        else:
-            return False
+    # Método para verificar si el objeto es efectivamente un vino
+    def sosEsteVino(self, vino):
+        return isinstance(vino, Vino)
 
     # Método para verificar si el ID del vino coincide
     def esTuId(self, vino):

@@ -4,7 +4,7 @@ class Maridaje:
     def __init__(self, id, descripcion, nombre):
         self.id = id  
         self.descripcion = descripcion  
-        self.nombre = nombre  
+        self.nombre = nombre 
     
     # Método para crear y devolver una nueva instancia de Maridaje
     def new(self, id, descripcion, nombre):

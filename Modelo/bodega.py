@@ -12,7 +12,7 @@ class Bodega:
         self.descripcion = descripcion
         self.historia = historia
         self.nombre = nombre
-        self.periodoActualizacion = int(periodoActualizacion) if periodoActualizacion else 0
+        self.periodoActualizacion = periodoActualizacion
         self.fechaUltimaActualizacion = fechaUltimaActualizacion
         self.vinos = vinos
 
@@ -50,7 +50,7 @@ class Bodega:
     def set_historia(self, historia):
         self.historia = historia
 
-    def get_nombre(self):
+    def getNombre(self):
         return self.nombre
 
     def set_nombre(self, nombre):
@@ -67,7 +67,6 @@ class Bodega:
 
     def tieneActualizacionDisponible(self, fechaActual):
         fechaUltimaActualizacion = self.get_fechaUltimaActualizacion()
-
         periodoActualizacion = self.get_periodoActualizacion()
         fechaActualizacion = fechaUltimaActualizacion + relativedelta(months=periodoActualizacion)
 
@@ -87,13 +86,13 @@ class Bodega:
 
     def tienesEsteVino(self, nombreVino):
         for vino in self.vinos:
-           if vino.sos_Este_Vino(nombreVino):
+           if vino.sosEsteVino(nombreVino):
                 return True
 
 
     def actualizarDatosVino(self, nombre, fechaActualizacion, fechaActual, precio, notaCata, img):
         for vino in self.vinos:
-            if vino.sos_Este_Vino(nombre):
+            if vino.sosEsteVino(nombre):
                 vino.setNombre(nombre)
                 vino.setPrecioARS(precio)
                 vino.setNotaCataBodega(notaCata)
@@ -191,7 +190,8 @@ class Bodega:
                     print(f"Error al procesar la fila: {row}. Error: {e}")
         return bodegas
     
-    def to_dict(self):
+    # Esta función se encarga de transformar un objeto en diccionario
+    def toDict(self):
         return {
             'id': self.id,
             'coordenadasUbicacion': self.coordenadasUbicacion,
@@ -202,6 +202,7 @@ class Bodega:
             'fechaUltimaActualizacion': self.fechaUltimaActualizacion,
             'vinos': self.vinos
         }
+    
     def from_dict(data):
         id = data['id']
         coordenadasUbicacion = data['coordenadasUbicacion']
