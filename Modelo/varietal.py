@@ -8,8 +8,8 @@ class Varietal():
         self.porcentajeComposicion = porcentajeComposicion
         self.tipoUva = tipoUva
 
-    def new(self,id, descripcion, porcentajeComposicion,tipoUva):
-        return Varietal(id,descripcion, porcentajeComposicion,tipoUva) 
+    def new(self, descripcion, porcentajeComposicion, tipoUva):
+        return Varietal(descripcion, porcentajeComposicion, tipoUva) 
 
     def __repr__(self):
         return (f"Varietal(descripcion={self.descripcion}, "

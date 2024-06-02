@@ -7,24 +7,24 @@ from Modelo.maridaje import Maridaje  # Importa el módulo Modelo.maridaje para 
 class Vino:
 
     # Método de inicialización de la clase Vino
-    def __init__(self, añada, fechaActualizacion, nombre, imagenEtiqueta, notaCata, precioARS, varietal, maridaje, bodega):
+    def __init__(self, añada, fechaActualizacion, nombre, imagenEtiqueta, notaCata, precioArs, varietal, maridaje, bodega):
         self.añada = añada
         self.nombre = nombre
         self.fechaActualizacion = fechaActualizacion
         self.bodega = bodega
         self.maridaje = maridaje
         self.notaCata = notaCata
-        self.precioARS = precioARS
+        self.precioArs = precioArs
         self.varietal = varietal
         self.imagenEtiqueta = imagenEtiqueta
 
     # Método para crear y devolver una nueva instancia de Vino
-    def new(self, id, nombre, añada, fechaActualizacion, precioARS, varietal, notaCata, bodega, imagenEtiqueta, maridaje, id_varietal, descripcion, porcentajeComposicion, tiposUvas):
+    def new(self, nombre, añada, fechaActualizacion, precioArs, notaCata, bodega, imagenEtiqueta, maridaje, descripcion, porcentajeComposicion, tiposUvas):
         varietales = []
         for tipo in tiposUvas:
-            nuevo = self.crear_Varietal(id_varietal, descripcion, porcentajeComposicion, tipo)
+            nuevo = self.crearVarietal(descripcion, porcentajeComposicion, tipo)
             varietales.append(nuevo)
-        return Vino(id, nombre, añada, fechaActualizacion, precioARS, varietales, notaCata, bodega, imagenEtiqueta, maridaje)
+        return Vino(añada, fechaActualizacion, nombre, imagenEtiqueta, notaCata, precioArs, varietales, maridaje, bodega)
 
     # Método especial para representar la instancia de Vino como una cadena
     def __repr__(self):
@@ -39,8 +39,11 @@ class Vino:
                 f"añada={self.añada}")
 
     # Método para verificar si el objeto es efectivamente un vino
-    def sosEsteVino(self, vino):
-        return isinstance(vino, Vino)
+    def sosEsteVino(self, nombreVino):
+        if self.nombre == nombreVino:
+            return True
+        return False
+        #return isinstance(vino, Vino)
 
     # Método para verificar si el ID del vino coincide
     def esTuId(self, vino):
@@ -94,10 +97,9 @@ class Vino:
         self.varietal = varietal
 
     # Método para crear una nueva instancia de Varietal
-    def crear_Varietal(self, id, descripcion, porcentajeComposicion, tipoUva):
-        varietal_nuevo = Varietal.new(id, descripcion, porcentajeComposicion, tipoUva)
-        self.varietal.append(varietal_nuevo)
-        return varietal_nuevo
+    def crearVarietal(self, descripcion, porcentajeComposicion, tipoUva):
+        varietalNuevo = Varietal.new(descripcion, porcentajeComposicion, tipoUva)
+        return varietalNuevo
 
     # Método para verificar si el vino es de una bodega específica
     def es_De_Bodega(self, bodega):

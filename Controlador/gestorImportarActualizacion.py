@@ -21,7 +21,7 @@ class GestorImportadorBodega:
         self.fechaActual = None
         self.bodegasParaActualizar = [] 
         self.bodegaSeleccionada = None
-        self.vinosActualizados = []
+        self.vinosApi = []
         self.vinosCreados = []
         self.varietales= None
         self.seguidoresDeBodega = []
@@ -51,24 +51,30 @@ class GestorImportadorBodega:
         self.varietales= varietales
         self.vinos = vinos
 
-
+    # Esta función se encarga de cargar los vinos en las bodegas
+    def cargarVinosEnBodegas(self):
+        for vino in self.vinos:
+            vino.bodega.agregar_vino(vino)
+        
     def getFechaActual(self):
         self.fechaActual = datetime.now().date()
         return self.fechaActual
 
     def buscarBodegasConActualizaciones(self):
         self.bodegasParaActualizar = []
-        for bodega in bodegas:
+        for bodega in self.bodegas:
             if bodega.tieneActualizacionDisponible(self.fechaActual):
                 self.bodegasParaActualizar.append(bodega)
-        for bodega in self.bodegasParaActualizar:
+        # for bodega in self.bodegasParaActualizar:
             # Validar con diagrama de secuencias, no está este método en el diagrama
-            bodega.getNombre()
+            # bodega.getNombre()
+        # Si usamos el método toDict() para qué le pedimos el nombre? Prefiero que me den el nombre nomas con el getNombre() en un array
         bodegasDict = [bodega.toDict() for bodega in self.bodegasParaActualizar]
         
         return bodegasDict
 
     def tomarBodegaSeleccionada(self, bodega):
+        # Depende de como nos manden a la interfaz la bodega seleccionada, si nos mandan el nombre de la bodega o un diccionario
         self.bodegaSeleccionada = Bodega.from_dict(bodega)
         # print(f"Bodega seleccionada desde gestor: {self.bodegaSeleccionada}")
         self.obtenerActualizacionVinosBodega()
@@ -79,7 +85,9 @@ class GestorImportadorBodega:
 
     def obtenerActualizacionVinosBodega(self):
         # Simulación de obtención de actualizaciones de vinos para la bodega seleccionada por parte de una API.
-        self.vinosActualizados = [
+        # HAY QUE PONER LOS VARIETALES, MARIJADES Y TIPOS DE UVA QUE CORRESPONDAN A CADA VINO QUE NO SE CREA, ES DECIR QUE YA ESTA EN BASE.PY
+        # SI NO, NI HACE FALTA QUE LOS PONGAMOS
+        self.vinosApi = [
             {
                 'nombre': 'Trumpeter', 
                 'añada': 2018,
@@ -89,6 +97,7 @@ class GestorImportadorBodega:
                 'precioArs': 1500,
                 'maridajes': ["Malbec y Gouda", "Chardonnay y Salmón", "Cabernet Sauvignon y Cordero"],
                 'varietales': ["Vino tinto de color rojo rubí con aromas a cereza, vainilla y cuero."],
+                'porcentaje': ["90%"],
                 'bodega': self.bodegaSeleccionada,
                 'nombreBodega': self.bodegaSeleccionada.nombre,
                 'tipoUva': ["Pinot Grigio"]
@@ -102,6 +111,7 @@ class GestorImportadorBodega:
                 'precioArs': 2000,
                 'maridajes': ["Pinot Noir y Ensalada","Brut Rosé y Sushi"],
                 'varietales': ["Vino tinto de color rojo claro con aromas a fresa, cereza roja y setas.", "Vino blanco de color amarillo pajizo con aromas a heno, melocotón y cítricos."],
+                'porcentaje': ["50%", "50%"],
                 'bodega': self.bodegaSeleccionada,
                 'nombreBodega': self.bodegaSeleccionada.nombre,
                 'tipoUva': ["Syrah", "Sauvignon Blanc"]
@@ -114,7 +124,8 @@ class GestorImportadorBodega:
                 'notaCata': 'Aromas de frutas rojas y especias',
                 'precioArs': 1800,
                 'maridajes': ["Chardonnay y Salmón", "Cabernet Sauvignon y Cordero"],
-                'varietales': ["Vino tinto de color púrpura oscuro con aromas a grosella negra, cedro y tabaco.", "Vino tinto de color rojo rubí con aromas a cereza, vainilla y cuero."],
+                'varietales': ["Vino tinto de color púrpura oscuro con aromas a cedro, tomillo y tabaco.", "Vino tinto de color rojo rubí con aromas a frutilla, maracuya y lienzo."],
+                'porcentaje': ["70%", "30%"],
                 'bodega': self.bodegaSeleccionada,
                 'nombreBodega': self.bodegaSeleccionada.nombre,
                 'tipoUva': ["Malbec", "Pinot Grigio"]
@@ -127,7 +138,8 @@ class GestorImportadorBodega:
                 'notaCata': 'Sabor intenso con notas de chocolate y vainilla',
                 'precioArs': 2200,
                 'maridajes': ["Malbec y Gouda", "Brut Rosé y Sushi"],
-                'varietales': ["Vino tinto de color rojo intenso con aromas a frutos rojos, especias y cuero.", "Vino blanco de color amarillo pajizo con aromas a heno, melocotón y cítricos."],
+                'varietales': ["Vino tinto de color rojo intenso con aromas a frutos rojos, nuez y menta.", "Vino blanco de color naranja pajizo con aromas a hiervas secas, melón y limón."],
+                'porcentaje': ["60%", "40%"],
                 'bodega': self.bodegaSeleccionada,
                 'nombreBodega': self.bodegaSeleccionada.nombre,
                 'tipoUva': ["Cabernet Sauvignon", "Sauvignon Blanc"]
@@ -140,37 +152,38 @@ class GestorImportadorBodega:
                 'notaCata': 'Textura suave y aterciopelada con toques de mora',
                 'precioArs': 2500,
                 'maridajes': ["Verdejo y Tapas", "Sauvignon Blanc y Ceviche"],
-                'varietales': ["Vino tinto de color violeta intenso con aromas a frutos negros, pimienta negra y violetas.", "Vino blanco de color verde pálido con aromas a grosella espinosa, hierba fresca y pomelo."],
+                'varietales': ["Vino tinto de color violeta intenso con aromas amaderados y citricos.", "Vino blanco de color verde pálido con aromas a eucalipto, menta fresca y cereza."],
+                'porcentaje': ["80%", "70%"],
                 'bodega': self.bodegaSeleccionada,
                 'nombreBodega': self.bodegaSeleccionada.nombre,
                 'tipoUva': ["Gewürztraminer", "Chardonnay"]
             }
         ]
 
-        """for vino in vinosActualizados:   
-            self.vinosActualizados.append(Vino(vino['añada'], vino['fechaActualizacion'], vino['nombre'], vino['imagenEtiqueta'], vino['notaCata'], vino['precioArs'], vino['varietales'], vino['maridajes'], vino['bodega']))"""
+        """for vino in vinosApi:   
+            self.vinosApi.append(Vino(vino['añada'], vino['fechaActualizacion'], vino['nombre'], vino['imagenEtiqueta'], vino['notaCata'], vino['precioArs'], vino['varietales'], vino['maridajes'], vino['bodega']))"""
 
 
     def determinarVinosParaActualizar(self):
         """Esta función determina todos los vinos que nos devolvió la simulación de la API, que pertenecen a la bodega seleccionada"""
         self.vinosParaActualizar = []
-        print('Vinos actualizados: ', self.vinosActualizados)
+        print('Vinos actualizados: ', self.vinosApi)
         print('\nSELECCIONADA BODEGA:', self.bodegaSeleccionada)
-        for vino in self.vinosActualizados:
+        for vino in self.vinosApi:
             #HAY QUE FIJARNOS DE CREAR UNA FUNCION QUE PERMITA AÑADIRLE VINOS A LA BODEGA, PORQUE ACA NO TE LOS APPENDEA YA QUE LA BODEGA NO TIENE VINOS
-            if self.bodegaSeleccionada.tienesEsteVino(vino):
+            if self.bodegaSeleccionada.tienesEsteVino(vino['nombre']):
                 self.vinosParaActualizar.append(vino)
 
-        print('Vinos actualizados: ', self.vinosActualizados)
+        print('Vinos actualizados: ', self.vinosParaActualizar)
 
 
     def actualizarOCrearVinos(self):
         vinosActualizados = []
         vinosCreados = []
 
-        for vino in self.vinosActualizados:
+        for vino in self.vinosApi:
             if vino in self.vinosParaActualizar:
-                self.bodegaSeleccionada.actualizarDatosVino(vino['nombre'], vino['fechaActualizacion'], self.fechaActual, vino['precioArs'], vino['notaCata'], vino['imagenEtiqueta'])
+                self.bodegaSeleccionada.actualizarDatosVino(vino['nombre'], self.fechaActual, vino['precioArs'], vino['notaCata'], vino['imagenEtiqueta'])
                 vinosActualizados.append(vino)
             else:
                 self.crearVino(vino)
@@ -183,7 +196,20 @@ class GestorImportadorBodega:
     def crearVino(self, vino):
         maridajes = self.buscarMaridaje(vino)
         tiposUva = self.buscarTipoUva(vino)
+        print("TIPOS UVA: ", tiposUva)
         self.vinosCreados.append(vino)
+        self.vinos.append(Vino.new(
+            nombre=vino['nombre'],
+            añada=vino['añada'],
+            fechaActualizacion=self.fechaActual,
+            precioArs=vino['precioArs'],
+            notaCata=vino['notaCata'],
+            bodega=self.bodegaSeleccionada,
+            imagenEtiqueta=vino['imagenEtiqueta'],
+            maridaje=maridajes,
+            descripcion=vino['varietales'],
+            porcentajeComposicion=vino['porcentaje'],
+            tiposUvas=tiposUva))
         # FALTARÍA AGREGAR EL VINO AL ARCHIVO BASE.PY Y HABRÍA QUE LLAMAR AL METODO NEW() DEL VINO
         # print(f"Creando nuevo {vino['nombre']}")
 
@@ -206,7 +232,6 @@ class GestorImportadorBodega:
         
     def buscarTipoUva(self, vino):
         arrayTiposUva = []
-        #VINO NO TIENE ATRIBUTO TIPOUVA, TENEMOS QUE CAMBIAR LOS VINOS TRAIDOS POR LA API
         for tipoUva in self.tiposUva:
             for strTipoUvaNombre in vino['tipoUva']:
                 if tipoUva.sosTipoUva(strTipoUvaNombre):

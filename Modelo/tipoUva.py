@@ -29,7 +29,7 @@ class TipoUva:
     
     def sosTipoUva(self, nombreTipoUva):
         if self.nombre == nombreTipoUva:
-            return self
+            return True
         return False
         #return isinstance(tipoUva, TipoUva)
      

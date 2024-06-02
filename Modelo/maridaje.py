@@ -30,7 +30,7 @@ class Maridaje:
     
     def sosMaridaje(self, nombreMaridaje):
         if self.nombre == nombreMaridaje:
-            return self
+            return True
         return False
         # return isinstance(maridaje, Maridaje)
 

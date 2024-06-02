@@ -6,14 +6,18 @@ import os
 import os
 
 class Bodega:
-    def __init__(self, coordenadasUbicacion, descripcion, historia, nombre, periodoActualizacion, fechaUltimaActualizacion, vinos):
+    def __init__(self, coordenadasUbicacion, descripcion, historia, nombre, periodoActualizacion, fechaUltimaActualizacion):
         self.coordenadasUbicacion = coordenadasUbicacion
         self.descripcion = descripcion
         self.historia = historia
         self.nombre = nombre
         self.periodoActualizacion = periodoActualizacion
         self.fechaUltimaActualizacion = fechaUltimaActualizacion
-        self.vinos = vinos if vinos is not None else []
+        self.vinos = [] #vinos if vinos is not None else []
+
+    # Esta funcion agrega los vinos a la bodega
+    def agregar_vino(self, vino):
+        self.vinos.append(vino)
 
     def __repr__(self):
         return (f"Bodega(nombre={self.nombre}, "
@@ -25,43 +29,44 @@ class Bodega:
                 f"vino={self.vinos})")
 
     # MÃ©todos de la clase BODEGA
-    def get_id(self):
+    def getId(self):
         return self.id
 
-    def set_id(self, id):
+    def setId(self, id):
         self.id = id
 
-    def get_coordenadasUbicacion(self):
+    def getCoordenadasUbicacion(self):
         return self.coordenadasUbicacion
 
-    def set_coordenadasUbicacion(self, coordenadasUbicacion):
+    def setCoordenadasUbicacion(self, coordenadasUbicacion):
         self.coordenadasUbicacion = coordenadasUbicacion
 
-    def get_descripcion(self):
+    def getDescripcion(self):
         return self.descripcion
 
-    def set_descripcion(self, descripcion):
+    def setDescripcion(self, descripcion):
         self.descripcion = descripcion
 
-    def get_historia(self):
+    def getHistoria(self):
         return self.historia
 
-    def set_historia(self, historia):
+    def setHistoria(self, historia):
         self.historia = historia
 
     def getNombre(self):
         return self.nombre
 
-    def set_nombre(self, nombre):
+    def setNombre(self, nombre):
         self.nombre = nombre
 
-    def set_periodoActualizacion(self, periodoActualizacion):
+    def setPeriodoActualizacion(self, periodoActualizacion):
         self.periodoActualizacion = int(periodoActualizacion)
 
-    def get_Vinos(self):
+    # Habría que ver si realemente se necesita estos geters y seters
+    def getVinos(self):
         return self.vinos
 
-    def set_Vinos(self, vinos):
+    def setVinos(self, vinos):
         self.vinos = vinos
 
     def tieneActualizacionDisponible(self, fechaActual):
@@ -70,7 +75,9 @@ class Bodega:
         fechaActualizacion = fechaUltimaActualizacion + relativedelta(months=periodoActualizacion)
 
         if fechaActualizacion < fechaActual:
-            return self
+            return True
+        else:
+           return False
 
     def get_fechaUltimaActualizacion(self):
         if self.fechaUltimaActualizacion:
@@ -88,20 +95,21 @@ class Bodega:
     def set_fechaUltimaActualizacion(self, fechaUltimaActualizacion):
         self.fechaUltimaActualizacion = fechaUltimaActualizacion
 
-    def tienesEsteVino(self, vinoObject):
+    def tienesEsteVino(self, nombreVino):
         for vino in self.vinos:
-           if vino.sosEsteVino(vinoObject):
+           if vino.sosEsteVino(nombreVino):
                 return True
+           
+        return False
 
 
-    def actualizarDatosVino(self, nombre, fechaActualizacion, fechaActual, precio, notaCata, img):
+    def actualizarDatosVino(self, nombre, fechaActual, precio, notaCata, img):
         for vino in self.vinos:
-            if vino.sosEsteVino(vino):
-                vino.setNombre(nombre)
+            if vino.sosEsteVino(nombre):
                 vino.setPrecioARS(precio)
                 vino.setNotaCataBodega(notaCata)
                 vino.setImagenEtiqueta(img)
-                vino.setFechaActualizacion(fechaActualizacion)
+                vino.setFechaActualizacion(fechaActual)
                 # print(f"Vino {nombre} actualizado correctamente.")  # Mensaje de depuración
                 # self.guardarDatosCSV(vino)
             
@@ -213,6 +221,5 @@ class Bodega:
         nombre = data['nombre']
         periodoActualizacion = data['periodoActualizacion']
         fechaUltimaActualizacion = data['fechaUltimaActualizacion']
-        vinos = data['vinos']
         
-        return Bodega(coordenadasUbicacion, descripcion, historia, nombre, periodoActualizacion, fechaUltimaActualizacion, vinos)
+        return Bodega(coordenadasUbicacion, descripcion, historia, nombre, periodoActualizacion, fechaUltimaActualizacion)
