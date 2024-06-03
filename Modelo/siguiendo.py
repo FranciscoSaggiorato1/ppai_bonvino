@@ -24,7 +24,7 @@ class Siguiendo:
         self.bodega = bodega
         
 
-    def new(self, id, fechaInicio, fechaFin, bodega, enofilo):
+    def new(self, fechaInicio, fechaFin, bodega, enofilo):
         """
         Método para crear y devolver una nueva instancia de Siguiendo.
 
@@ -38,7 +38,7 @@ class Siguiendo:
         Returns:
             Siguiendo: Una nueva instancia de la clase Siguiendo.
         """
-        return Siguiendo(id, fechaInicio, fechaFin, bodega, enofilo)
+        return Siguiendo(fechaInicio, fechaFin, bodega, enofilo)
 
     def __repr__(self):
         """
@@ -51,14 +51,15 @@ class Siguiendo:
             f"enofilo={self.enofilo}"
         )
 
-    def sosDeBodega(self):
+    def sosDeBodega(self, bodega):
         """
         Verifica si la relación de seguimiento es de una bodega.
 
         Returns:
             bool: True si la relación es de una bodega, False en caso contrario.
         """
-        if self.bodega != None:
+        
+        if self.bodega == bodega:
             return True
         else:
             return False
@@ -119,7 +120,6 @@ class Siguiendo:
             dict: Un diccionario con los atributos de Siguiendo.
         """
         return {
-            "id": self.id,
             "fechaInicio": self.fechaInicio,
             "fechaFin": self.fechaFin,
             "bodega": self.bodega,

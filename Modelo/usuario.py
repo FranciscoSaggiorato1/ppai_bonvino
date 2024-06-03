@@ -8,14 +8,14 @@ class Usuario:
     premium = None  # Atributo para indicar si el usuario es premium o no
 
     # Método de inicialización de la clase Usuario
-    def __init__(self, nombre, contraseña, premium):
+    def __init__(self, contraseña, nombre, premium):
         self.nombre = nombre  # Asigna el nombre proporcionado al atributo nombre
         self.contraseña = contraseña  # Asigna la contraseña proporcionada al atributo contraseña
         self.premium = premium  # Asigna el estado de premium proporcionado al atributo premium
 
     # Método para crear y devolver una nueva instancia de Usuario
-    def new(self, id, nombre, contraseña, premium):
-        return Usuario(id, nombre, contraseña, premium)
+    def new(self, contraseña, nombre, premium):
+        return Usuario(contraseña, nombre, premium)
 
     # Método especial para representar la instancia de Usuario como una cadena
     def __repr__(self):
@@ -25,11 +25,8 @@ class Usuario:
                 )
 
     # Métodos getter y setter para los atributos de la clase
-    def get_Id(self):
-        return self.id
-    def set_Id(self, id):
-        self.id = id
-    def getNombre(self, nombre):
+
+    def getNombre(self):
         return self.nombre
     def setNombre(self, nombre):
         self.nombre = nombre

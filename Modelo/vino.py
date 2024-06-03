@@ -19,18 +19,19 @@ class Vino:
         self.imagenEtiqueta = imagenEtiqueta
 
     # Método para crear y devolver una nueva instancia de Vino
-    def new(self, nombre, añada, fechaActualizacion, precioArs, notaCata, bodega, imagenEtiqueta, maridaje, descripcion, porcentajeComposicion, tiposUvas):
+    @classmethod
+    def new(cls, nombre, añada, fechaActualizacion, precioArs, notaCata, bodega, imagenEtiqueta, maridaje, descripcion, porcentajeComposicion, tiposUvas):
         varietales = []
-        for tipo in tiposUvas:
-            nuevo = self.crearVarietal(descripcion, porcentajeComposicion, tipo)
+        for descripcion, porcentaje, tipo in zip(descripcion, porcentajeComposicion, tiposUvas):
+            nuevo = cls.crearVarietal(descripcion, porcentaje, tipo)
             varietales.append(nuevo)
-        return Vino(añada, fechaActualizacion, nombre, imagenEtiqueta, notaCata, precioArs, varietales, maridaje, bodega)
+        return cls(añada, fechaActualizacion, nombre, imagenEtiqueta, notaCata, precioArs, varietales, maridaje, bodega)
 
     # Método especial para representar la instancia de Vino como una cadena
     def __repr__(self):
         return (f"Vino(nombre={self.nombre}, "
                 f"fechaActualizacion={self.fechaActualizacion},  "
-                f"precioARS={self.precioARS},"
+                f"precioARS={self.precioArs},"
                 f"varietal={self.varietal},"
                 f"notaCata={self.notaCata},"
                 f"bodega={self.bodega},"
@@ -97,8 +98,12 @@ class Vino:
         self.varietal = varietal
 
     # Método para crear una nueva instancia de Varietal
-    def crearVarietal(self, descripcion, porcentajeComposicion, tipoUva):
-        varietalNuevo = Varietal.new(descripcion, porcentajeComposicion, tipoUva)
+    @staticmethod
+    def crearVarietal(descripcion, porcentajeComposicion, tipoUva):
+        varietalNuevo = Varietal.new(
+            descripcion=descripcion, 
+            porcentajeComposicion=porcentajeComposicion, 
+            tipoUva=tipoUva)
         return varietalNuevo
 
     # Método para verificar si el vino es de una bodega específica

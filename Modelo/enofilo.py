@@ -26,11 +26,10 @@ class Enofilo:
         self.seguidos = seguidos
         self.usuario = usuario
 
-    def new(self, id, apellido, imagenPerfil, nombre, seguido, usuario):
+    def new(self, apellido, imagenPerfil, nombre, seguidos, usuario):
         """
         Método para crear y devolver una nueva instancia de Enofilo.
 
-        :param id: ID del enófilo.
         :param apellido: Apellido del enófilo.
         :param imagenPerfil: Imagen de perfil del enófilo.
         :param nombre: Nombre del enófilo.
@@ -38,7 +37,7 @@ class Enofilo:
         :param usuario: Usuario relacionado con el enófilo.
         :return: Nueva instancia de Enofilo.
         """
-        return Enofilo(id, apellido, imagenPerfil, nombre, seguido, usuario)
+        return Enofilo(apellido, imagenPerfil, nombre, seguidos, usuario)
 
     def __repr__(self):
         """
@@ -47,19 +46,13 @@ class Enofilo:
         :return: Cadena representando la instancia de Enofilo.
         """
         return (
-            f"Enofilo(id={self.id}, "
             f"apellido={self.apellido},  "
             f"imagenPerfil={self.imagenPerfil},"
             f"nombre={self.nombre},"
-            f"seguido={self.seguido},"
+            f"seguido={self.seguidos},"
             f"usuario={self.usuario}"
         )
 
-    def get_id(self):
-        return self.id
-
-    def set_id(self, id):
-        self.id = id
 
     def get_apellido(self):
         return self.apellido
@@ -80,10 +73,10 @@ class Enofilo:
         self.nombre = nombre
 
     def get_seguido(self):
-        return self.seguido
+        return self.seguidos
 
     def set_seguido(self, seguido):
-        self.seguido = seguido
+        self.seguidos = seguido
 
     def get_usuario(self):
         return self.usuario  
@@ -91,14 +84,14 @@ class Enofilo:
     def set_usuario(self, usuario):
         self.usuario = usuario
 
-    def seguisBodega(self):
+    def seguisBodega(self, bodega):
         """
         Método para verificar si el enófilo sigue alguna bodega.
 
         :return: True si el enófilo sigue alguna bodega, False en caso contrario.
         """
-        for i in self.seguido:
-            if i.sosDeBodega():
+        for seguido in self.seguidos:
+            if seguido.sosDeBodega(bodega):
                 return True
         return False
 
@@ -161,7 +154,6 @@ class Enofilo:
         :return: Diccionario representando la instancia de Enofilo.
         """
         return {
-            "id": self.id,
             "apellido": self.apellido,
             "imagenPerfil": self.imagenPerfil,
             "nombre": self.nombre,

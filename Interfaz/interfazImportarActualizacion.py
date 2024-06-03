@@ -126,22 +126,22 @@ class PantallaImportadorBodega(QMainWindow):
                 #self.tableWidget.setMinimumSize(400, 300)  # Ajustar el tamaño mínimo según sea necesario
 
                 for row_index, vino in enumerate(vinos_actualizados):
-                    self.tableVinoActualizados.setItem(row_index, 0, QTableWidgetItem(vino['nombre Bodega']))
+                    self.tableVinoActualizados.setItem(row_index, 0, QTableWidgetItem(vino['nombreBodega']))
                     self.tableVinoActualizados.setItem(row_index, 1, QTableWidgetItem(vino['nombre']))
 
                     # Convertir lista a cadena si es necesario
-                    varietales = ", ".join(vino['Varietales']) if isinstance(vino['Varietales'], list) else vino['Varietales']
+                    varietales = ", ".join(vino['varietales']) if isinstance(vino['varietales'], list) else vino['varietales']
                     self.tableVinoActualizados.setItem(row_index, 2, QTableWidgetItem(varietales))
 
                     tipo_uva = vino['tipoUva'] if isinstance(vino['tipoUva'], str) else ", ".join(vino['tipoUva'])
                     self.tableVinoActualizados.setItem(row_index, 3, QTableWidgetItem(tipo_uva))
 
-                    maridajes = ", ".join(vino['Maridajes']) if isinstance(vino['Maridajes'], list) else vino['Maridajes']
+                    maridajes = ", ".join(vino['maridajes']) if isinstance(vino['maridajes'], list) else vino['maridajes']
                     self.tableVinoActualizados.setItem(row_index, 4, QTableWidgetItem(maridajes))
 
-                    self.tableVinoActualizados.setItem(row_index, 5, QTableWidgetItem(vino['fecha Actualizacion']))
+                    self.tableVinoActualizados.setItem(row_index, 5, QTableWidgetItem(vino['fechaActualizacion']))
                     self.tableVinoActualizados.setItem(row_index, 6, QTableWidgetItem(str(vino['añada'])))
-                    self.tableVinoActualizados.setItem(row_index, 7, QTableWidgetItem(str(vino['Precio ARS'])))
+                    self.tableVinoActualizados.setItem(row_index, 7, QTableWidgetItem(str(vino['precioArs'])))
             else:
                 self.tableVinoActualizados.setRowCount(1)
                 self.tableVinoActualizados.setColumnCount(1)
@@ -175,22 +175,22 @@ class PantallaImportadorBodega(QMainWindow):
                 #self.tableWidget.setMinimumSize(400, 300)  # Ajustar el tamaño mínimo según sea necesario
 
                 for row_index, vino in enumerate(vinos_creados):
-                    self.tableVinoCreados.setItem(row_index, 0, QTableWidgetItem(vino['nombre Bodega']))
+                    self.tableVinoCreados.setItem(row_index, 0, QTableWidgetItem(vino['nombreBodega']))
                     self.tableVinoCreados.setItem(row_index, 1, QTableWidgetItem(vino['nombre']))
 
                     # Convertir lista a cadena si es necesario
-                    varietales = ", ".join(vino['Varietales']) if isinstance(vino['Varietales'], list) else vino['Varietales']
+                    varietales = ", ".join(vino['varietales']) if isinstance(vino['varietales'], list) else vino['varietales']
                     self.tableVinoCreados.setItem(row_index, 2, QTableWidgetItem(varietales))
 
                     tipo_uva = vino['tipoUva'] if isinstance(vino['tipoUva'], str) else ", ".join(vino['tipoUva'])
                     self.tableVinoCreados.setItem(row_index, 3, QTableWidgetItem(tipo_uva))
 
-                    maridajes = ", ".join(vino['Maridajes']) if isinstance(vino['Maridajes'], list) else vino['Maridajes']
+                    maridajes = ", ".join(vino['maridajes']) if isinstance(vino['maridajes'], list) else vino['maridajes']
                     self.tableVinoCreados.setItem(row_index, 4, QTableWidgetItem(maridajes))
 
-                    self.tableVinoCreados.setItem(row_index, 5, QTableWidgetItem(vino['fecha Actualizacion']))
+                    self.tableVinoCreados.setItem(row_index, 5, QTableWidgetItem(vino['fechaActualizacion']))
                     self.tableVinoCreados.setItem(row_index, 6, QTableWidgetItem(str(vino['añada'])))
-                    self.tableVinoCreados.setItem(row_index, 7, QTableWidgetItem(str(vino['Precio ARS'])))
+                    self.tableVinoCreados.setItem(row_index, 7, QTableWidgetItem(str(vino['precioArs'])))
             else:
                 self.tableVinoCreados.setRowCount(1)
                 self.tableVinoCreados.setColumnCount(1)

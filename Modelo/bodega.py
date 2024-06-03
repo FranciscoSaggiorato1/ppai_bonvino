@@ -221,5 +221,6 @@ class Bodega:
         nombre = data['nombre']
         periodoActualizacion = data['periodoActualizacion']
         fechaUltimaActualizacion = data['fechaUltimaActualizacion']
+        vinos = data['vinos']
         
-        return Bodega(coordenadasUbicacion, descripcion, historia, nombre, periodoActualizacion, fechaUltimaActualizacion)
+        return Bodega(coordenadasUbicacion, descripcion, historia, nombre, periodoActualizacion, fechaUltimaActualizacion, vinos)
