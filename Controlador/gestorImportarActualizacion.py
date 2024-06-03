@@ -33,7 +33,8 @@ class GestorImportadorBodega:
         self.tiposUva = []
         self.enofilos = []
         self.siguiendo = []
-        self.usarios = []        
+        self.usarios = []      
+        self.nombresUsuarios = []  
 
     def nuevaImportacionActualizacionVinos(self):
         self.cargarBase()
@@ -52,30 +53,84 @@ class GestorImportadorBodega:
         self.vinos = vinos
         self.cargarVinosEnBodegas()
 
-    # Esta función se encarga de cargar los vinos en las bodegas
     def cargarVinosEnBodegas(self):
+        """
+        Asocia cada vino a su respectiva bodega.
+
+        Este método recorre la lista de vinos (`self.vinos`) y, para cada vino, llama al método
+        `agregar_vino` de la bodega correspondiente, asociando así el vino a su bodega.
+
+        """
+        # Itera sobre cada vino en la lista de vinos
         for vino in self.vinos:
+            # Asocia el vino a su bodega correspondiente
             vino.bodega.agregar_vino(vino)
-        
+
+
     def getFechaActual(self):
+        """
+        Obtiene la fecha actual y la guarda en el atributo `fechaActual`.
+
+        Este método utiliza la clase `datetime` para obtener la fecha actual y la guarda en el
+        atributo `self.fechaActual`. Luego, retorna esta fecha.
+
+        Returns:
+            date: La fecha actual.
+        """
+        # Obtiene la fecha actual
         self.fechaActual = datetime.now().date()
+        # Retorna la fecha actual
         return self.fechaActual
 
+
     def buscarBodegasConActualizaciones(self):
+        """
+        Busca las bodegas que tienen actualizaciones disponibles en la fecha actual.
+
+        Este método recorre la lista de bodegas (`self.bodegas`) y verifica si cada bodega
+        tiene actualizaciones disponibles para la fecha actual (`self.fechaActual`). Si una
+        bodega tiene actualizaciones, se añade a la lista `self.bodegasParaActualizar`.
+        Finalmente, retorna una lista de diccionarios con las bodegas que tienen actualizaciones.
+
+        Returns:
+            list: Una lista de diccionarios con las bodegas que tienen actualizaciones disponibles.
+        """
+        # Inicializa la lista de bodegas para actualizar
         self.bodegasParaActualizar = []
+        # Itera sobre cada bodega en la lista de bodegas
         for bodega in self.bodegas:
+            # Verifica si la bodega tiene actualizaciones disponibles para la fecha actual
             if bodega.tieneActualizacionDisponible(self.fechaActual):
+                # Añade la bodega a la lista de bodegas para actualizar
                 self.bodegasParaActualizar.append(bodega)
 
+        # Convierte las bodegas a diccionarios
         bodegasDict = [bodega.toDict() for bodega in self.bodegasParaActualizar]
-
+        
+        # Retorna la lista de diccionarios de bodegas con actualizaciones
         return bodegasDict
 
+
     def tomarBodegaSeleccionada(self, bodega):
+        """
+        Selecciona una bodega y actualiza sus vinos.
+
+        Este método toma un diccionario con la información de una bodega, la busca en la lista
+        de bodegas conocidas (`self.bodegas`), y si la encuentra, la establece como la bodega
+        seleccionada (`self.bodegaSeleccionada`). Luego, realiza varias operaciones de actualización
+        de vinos para esta bodega.
+
+        Args:
+            bodega (dict): Un diccionario que contiene los datos de la bodega a seleccionar. Debe tener
+                        la clave 'nombre'.
+        """
+        # Busca la bodega en la lista de bodegas conocidas
         for bodegaConocida in self.bodegas:
             if bodegaConocida.getNombre() == bodega['nombre']:
+                # Establece la bodega como la bodega seleccionada
                 self.bodegaSeleccionada = bodegaConocida
-        # Depende de como nos manden a la interfaz la bodega seleccionada, si nos mandan el nombre de la bodega o un diccionario
+        
+        # Realiza las operaciones de actualización de vinos para la bodega seleccionada
         self.obtenerActualizacionVinosBodega()
         self.determinarVinosParaActualizar()
         self.actualizarOCrearVinos()
@@ -83,7 +138,7 @@ class GestorImportadorBodega:
         
 
     def obtenerActualizacionVinosBodega(self):
-        # Simulación de obtención de actualizaciones de vinos para la bodega seleccionada por parte de una API.
+        """ Simulación de obtención de actualizaciones de vinos para la bodega seleccionada por parte de una API. """
         self.vinosApi = [
             {
                 'nombre': 'Trumpeter', 
@@ -167,25 +222,74 @@ class GestorImportadorBodega:
 
 
     def actualizarOCrearVinos(self):
+        """
+            Actualiza los datos de los vinos existentes o crea nuevos vinos según los datos proporcionados.
+
+            Este método recorre la lista de vinos proporcionada por la API (`self.vinosApi`) y, para cada vino,
+            verifica si debe ser actualizado (si está en `self.vinosParaActualizar`) o si debe ser creado
+            como un nuevo vino. Los vinos actualizados y creados se almacenan en listas separadas, las cuales
+            se retornan al final del método.
+
+            Returns:
+                tuple: Dos listas, la primera contiene los vinos actualizados y la segunda los vinos creados.
+        """
+
+        # Listas para almacenar los vinos actualizados y creados
         vinosActualizados = []
         vinosCreados = []
 
+        # Itera sobre cada vino en la lista de vinos proporcionada por la API
         for vino in self.vinosApi:
             if vino in self.vinosParaActualizar:
-                self.bodegaSeleccionada.actualizarDatosVino(vino['nombre'], self.fechaActual, vino['precioArs'], vino['notaCata'], vino['imagenEtiqueta'])
+                # Si el vino está en la lista de vinos para actualizar, se actualizan sus datos
+                self.bodegaSeleccionada.actualizarDatosVino(
+                    vino['nombre'], 
+                    self.fechaActual, 
+                    vino['precioArs'], 
+                    vino['notaCata'], 
+                    vino['imagenEtiqueta']
+                )
+                # Añade el vino a la lista de vinos actualizados
                 vinosActualizados.append(vino)
             else:
+                # Si el vino no está en la lista de vinos para actualizar, se crea como un nuevo vino
                 self.crearVino(vino)
+                # Añade el vino a la lista de vinos creados
                 vinosCreados.append(vino)
         
+        # Retorna las listas de vinos actualizados y creados
         return vinosActualizados, vinosCreados
     
 
     def crearVino(self, vino):
+        """
+            Crea un nuevo objeto Vino y lo añade a la lista de vinos.
+
+            Este método toma un diccionario con los datos de un vino, busca los maridajes y tipos de uva
+            asociados, y luego crea un nuevo objeto `Vino` con esos datos. El nuevo vino se añade a las listas
+            `self.vinosCreados` y `self.vinos`.
+
+            Args:
+                vino (dict): Un diccionario que contiene los datos del vino. Debe tener las siguientes claves:
+                    - 'nombre': str, nombre del vino
+                    - 'añada': str, año de producción del vino
+                    - 'precioArs': float, precio en ARS del vino
+                    - 'notaCata': str, nota de cata del vino
+                    - 'imagenEtiqueta': str, URL o ruta de la imagen de la etiqueta del vino
+                    - 'varietales': str, descripción de los varietales del vino
+                    - 'porcentaje': float, porcentaje de composición del vino
+        """
+        
+        # Busca los maridajes asociados al vino
         maridajes = self.buscarMaridaje(vino)
+        # Busca los tipos de uva asociados al vino
         tiposUva = self.buscarTipoUva(vino)
+        
+        # Añade el diccionario del vino a la lista de vinos creados
         self.vinosCreados.append(vino)
-        self.vinos.append(Vino.new(
+        
+        # Crea un nuevo objeto Vino con los datos proporcionados y las búsquedas realizadas
+        nuevo_vino = Vino.new(
             nombre=vino['nombre'],
             añada=vino['añada'],
             fechaActualizacion=self.fechaActual,
@@ -196,38 +300,99 @@ class GestorImportadorBodega:
             maridaje=maridajes,
             descripcion=vino['varietales'],
             porcentajeComposicion=vino['porcentaje'],
-            tiposUvas=tiposUva))
+            tiposUvas=tiposUva
+        )
+        
+        # Añade el nuevo objeto Vino a la lista de vinos
+        self.vinos.append(nuevo_vino)
 
 
     def buscarMaridaje(self, vino):
+        """
+        Busca y retorna los maridajes adecuados para un vino.
+
+        Este método recorre la lista de maridajes (`self.maridajes`) y verifica si cada maridaje es adecuado
+        para el vino proporcionado (`vino`). Si un maridaje es adecuado, se añade a la lista de maridajes del vino.
+
+        Args:
+            vino (dict): Un diccionario que contiene los datos del vino. Debe tener una clave 'maridajes' con
+                        una lista de maridajes en formato de cadena de texto.
+
+        Returns:
+            list: Una lista de objetos maridaje que son adecuados para el vino proporcionado.
+        """
         arrayMaridajes = []
 
+        # Itera sobre cada maridaje en la lista de maridajes
         for maridaje in self.maridajes:
+            # Itera sobre cada maridaje en la lista de maridajes del vino
             for strMaridajeVino in vino['maridajes']:
+                # Verifica si el maridaje es adecuado para el vino
                 if maridaje.sosMaridaje(strMaridajeVino):
                     arrayMaridajes.append(maridaje)
 
+        # Retorna la lista de maridajes adecuados para el vino
         return arrayMaridajes
-        
-        
+
+
     def buscarTipoUva(self, vino):
+        """
+        Busca y retorna los tipos de uva adecuados para un vino.
+
+        Este método recorre la lista de tipos de uva (`self.tiposUva`) y verifica si cada tipo de uva es adecuado
+        para el vino proporcionado (`vino`). Si un tipo de uva es adecuado, se añade a la lista de tipos de uva del vino.
+
+        Args:
+            vino (dict): Un diccionario que contiene los datos del vino. Debe tener una clave 'tipoUva' con
+                        una lista de tipos de uva en formato de cadena de texto.
+
+        Returns:
+            list: Una lista de objetos tipo de uva que son adecuados para el vino proporcionado.
+        """
         arrayTiposUva = []
+
+        # Itera sobre cada tipo de uva en la lista de tipos de uva
         for tipoUva in self.tiposUva:
+            # Itera sobre cada tipo de uva en la lista de tipos de uva del vino
             for strTipoUvaNombre in vino['tipoUva']:
+                # Verifica si el tipo de uva es adecuado para el vino
                 if tipoUva.sosTipoUva(strTipoUvaNombre):
                     arrayTiposUva.append(tipoUva)
 
+        # Retorna la lista de tipos de uva adecuados para el vino
         return arrayTiposUva
-            
-    
+
+
     def buscarSeguidoresDeBodega(self):
+        """
+        Busca y almacena los seguidores de la bodega seleccionada.
+
+        Este método recorre la lista de enófilos (`self.enofilos`) y verifica si cada enófilo sigue la bodega
+        seleccionada (`self.bodegaSeleccionada`). Si un enófilo sigue la bodega, se añade a la lista de
+        seguidores de la bodega (`self.seguidoresDeBodega`). Luego, almacena los nombres de usuario de
+        estos seguidores en `self.nombresUsuarios`.
+
+        """
+        # Inicializa la lista de nombres de usuarios
+        self.nombresUsuarios = []
+
+        # Itera sobre cada enófilo en la lista de enófilos
         for enofilo in self.enofilos:
+            # Verifica si el enófilo sigue la bodega seleccionada
             if enofilo.seguisBodega(self.bodegaSeleccionada):
                 self.seguidoresDeBodega.append(enofilo)
 
+        # Itera sobre cada seguidor de la bodega
         for seguidor in self.seguidoresDeBodega:
-            nombresUsuarios = seguidor.obtenerNombreUsuario()
+            # Obtiene y almacena el nombre de usuario del seguidor
+            nomUsuarios = seguidor.obtenerNombreUsuario()
+            self.nombresUsuarios.append(nomUsuarios)
 
 
     def finCU(self):
+        """
+        Termina la ejecución del programa.
+
+        Este método finaliza la ejecución del programa llamando a `sys.exit()`.
+        """
         sys.exit()
