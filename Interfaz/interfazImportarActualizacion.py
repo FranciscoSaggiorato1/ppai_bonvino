@@ -67,8 +67,20 @@ class PantallaImportadorBodega(QMainWindow):
     
     def mostrarParaSeleccionarBodegasConActualizaciones(self, bodegas):
         row_count = len(bodegas)
-        if len(bodegas) == 0:
+        if row_count == 0:
             self.mostrarMensajeError("No se encontraron bodegas con actualizaciones.")
+            self.tableWidget.setRowCount(0)
+            self.tableWidget.setColumnCount(1)
+            self.tableWidget.verticalHeader().hide()
+            headers = ["No existen bodegas con actualizaciones para mostrar"]
+            self.tableWidget.setHorizontalHeaderLabels(headers)
+
+            # Ajustar el tamaño de las columnas al contenido
+            self.tableWidget.horizontalHeader().setStretchLastSection(True)
+            self.tableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
+            self.tableWidget.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Preferred)
+            self.tableWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
+            self.tableWidget.setIconSize(QSize(50, 50))
             return
         else:
             column_count = 2  # Número de columnas

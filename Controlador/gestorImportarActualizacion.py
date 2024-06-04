@@ -87,8 +87,9 @@ class GestorImportadorBodega:
         # Busca la bodega en la lista de bodegas conocidas
         for bodegaConocida in self.bodegas:
             if bodegaConocida.getNombre() == bodega['nombre']:
-                # Establece la bodega como la bodega seleccionada
+                # Establece la bodega como la bodega seleccionada y actualiza su fecha ultima actualizacion
                 self.bodegaSeleccionada = bodegaConocida
+                self.bodegaSeleccionada.setFechaUltimaActualizacion(self.fechaActual)
         
         # Realiza las operaciones de actualización de vinos para la bodega seleccionada
         self.obtenerActualizacionVinosBodega()
