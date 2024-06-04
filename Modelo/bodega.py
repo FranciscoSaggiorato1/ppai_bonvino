@@ -110,8 +110,8 @@ class Bodega:
     def actualizarDatosVino(self, nombre, fechaActual, precio, notaCata, img):
         for vino in self.vinos:
             if vino.sosEsteVino(nombre):
-                vino.setPrecioARS(precio)
-                vino.setNotaCataBodega(notaCata)
+                vino.setPrecioArs(precio)
+                vino.setNotaCata(notaCata)
                 vino.setImagenEtiqueta(img)
                 vino.setFechaActualizacion(fechaActual)
         return False

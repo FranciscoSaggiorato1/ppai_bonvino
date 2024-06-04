@@ -28,8 +28,7 @@ class GestorImportadorBodega:
         self.maridajes = []
         self.tiposUva = []
         self.enofilos = []
-        self.siguiendo = []
-        self.usarios = []      
+        self.siguiendo = []     
         self.nombresUsuarios = []  
 
 
@@ -288,6 +287,10 @@ class GestorImportadorBodega:
             nomUsuarios = seguidor.obtenerNombreUsuario()
             self.nombresUsuarios.append(nomUsuarios)
 
+
+    def generarNotificacionNovedades():
+        # Genera la notificación con los datos obtenidos
+        pass
 
     def finCU(self):
         """ Termina la ejecución del programa. """

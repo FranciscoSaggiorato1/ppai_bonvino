@@ -5,21 +5,15 @@ import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QPushButton, QMessageBox
 from PyQt6 import uic, QtWidgets
 from PyQt6.QtCore import Qt, QSize
-from PyQt6.QtGui import QIcon, QPixmap
+from PyQt6.QtGui import QIcon
 from functools import partial
 import recursos
-import requests
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
 
 from Controlador.gestorImportarActualizacion import GestorImportadorBodega
-
-
-def get_image_data(url):
-    response = requests.get(url)
-    return response.content
 
 class PantallaImportadorBodega(QMainWindow):
     def __init__(self):

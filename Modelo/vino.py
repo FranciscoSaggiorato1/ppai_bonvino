@@ -75,19 +75,19 @@ class Vino:
         self.maridaje = maridaje
     
     
-    def getNotaCataBodega(self):
+    def getNotaCata(self):
         return self.notaCata
     
     
-    def setNotaCataBodega(self, notaCata):
+    def setNotaCata(self, notaCata):
         self.notaCata = notaCata
     
     
-    def getPrecioARS(self):
+    def getPrecioArs(self):
         return self.precioARS
     
     
-    def setPrecioARS(self, precioARS):
+    def setPrecioArs(self, precioARS):
         self.precioARS = precioARS
     
     
@@ -116,11 +116,6 @@ class Vino:
             porcentajeComposicion=porcentajeComposicion, 
             tipoUva=tipoUva)
         return varietalNuevo
-
-
-    # Método para obtener la fecha de actualización del vino
-    def getFechaActualizacion(self):
-        return self.fechaActualizacion
 
 
     # Método para verificar si el vino necesita actualización
