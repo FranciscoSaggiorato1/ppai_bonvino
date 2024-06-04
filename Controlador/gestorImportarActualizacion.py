@@ -223,7 +223,7 @@ class GestorImportadorBodega:
         self.vinosCreados.append(vino)
         
         # Crea un nuevo objeto Vino con los datos proporcionados y las búsquedas realizadas
-        nuevo_vino = Vino.new(
+        nuevoVino = Vino.new(
             nombre=vino['nombre'],
             añada=vino['añada'],
             fechaActualizacion=self.fechaActual,
@@ -238,7 +238,7 @@ class GestorImportadorBodega:
         )
         
         # Añade el nuevo objeto Vino a la lista de vinos
-        self.vinos.append(nuevo_vino)
+        self.vinos.append(nuevoVino)
 
 
     def buscarMaridaje(self, vino):
@@ -287,10 +287,6 @@ class GestorImportadorBodega:
             nomUsuarios = seguidor.obtenerNombreUsuario()
             self.nombresUsuarios.append(nomUsuarios)
 
-
-    def generarNotificacionNovedades():
-        # Genera la notificación con los datos obtenidos
-        pass
 
     def finCU(self):
         """ Termina la ejecución del programa. """

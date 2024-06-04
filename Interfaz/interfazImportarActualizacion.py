@@ -53,7 +53,7 @@ class PantallaImportadorBodega(QMainWindow):
         msg_box.setStandardButtons(QMessageBox.StandardButton.Ok)
         msg_box.exec()
 
-    def mostrarMensajeEnofilo(self, mensaje):
+    def mostrarMensajeNotificacion(self, mensaje):
         msg_box = QMessageBox()
         msg_box.setIcon(QMessageBox.Icon.Information)
         msg_box.setWindowTitle("Notificación")
@@ -109,7 +109,7 @@ class PantallaImportadorBodega(QMainWindow):
             self.mostrarMensajeError("ERROR 503: El servidor no está disponible en este momento")
             return
         else:
-            self.mostrarMensajeEnofilo("Se generaron las notificaciones a los enofilos seguidores de la bodega seleccionada.")
+            self.mostrarMensajeNotificacion("Se generaron las notificaciones a los enofilos seguidores de la bodega seleccionada.")
 
             if len(vinos_actualizados) != 0:
                 row_count = len(vinos_actualizados)
