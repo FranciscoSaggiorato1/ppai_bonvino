@@ -1,3 +1,5 @@
+# Interfaz/interfazImportarActualizacion.py
+
 import os
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QPushButton, QMessageBox
@@ -143,7 +145,7 @@ class PantallaImportadorBodega(QMainWindow):
                     self.tableVinoActualizados.setItem(row_index, 6, QTableWidgetItem(str(vino['añada'])))
                     self.tableVinoActualizados.setItem(row_index, 7, QTableWidgetItem(str(vino['precioArs'])))
             else:
-                self.tableVinoActualizados.setRowCount(1)
+                self.tableVinoActualizados.setRowCount(0)
                 self.tableVinoActualizados.setColumnCount(1)
                 self.tableVinoActualizados.verticalHeader().hide()
                 headers = ["No existen vinos actualizados para mostrar"]
@@ -192,7 +194,7 @@ class PantallaImportadorBodega(QMainWindow):
                     self.tableVinoCreados.setItem(row_index, 6, QTableWidgetItem(str(vino['añada'])))
                     self.tableVinoCreados.setItem(row_index, 7, QTableWidgetItem(str(vino['precioArs'])))
             else:
-                self.tableVinoCreados.setRowCount(1)
+                self.tableVinoCreados.setRowCount(0)
                 self.tableVinoCreados.setColumnCount(1)
                 self.tableVinoCreados.verticalHeader().hide()
                 headers = ["No existen vinos creados para mostrar"]

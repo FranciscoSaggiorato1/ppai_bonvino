@@ -1,74 +1,29 @@
-import csv
-
-
 class TipoUva:
+    """
+    Clase para representar un objeto Tipo Uva.
+    """
     def __init__(self, descripcion, nombre):
         self.descripcion = descripcion
         self.nombre = nombre
-        
-    def new(self,id, descripcion, nombre):
-        return TipoUva(id,descripcion, nombre)
-    def __repr__(self):
-            return (f"TipoUva(nombre={self.nombre}, "
-                    f"descripcion={self.descripcion},  "
-                    )
-        
-    # Este método nos remarcó la profe micka que estaba mal, ya que dentro del objeto tipoUva cargabamos y recorriamos todos los tiposUva
-    # lo cual es incorrecto en POO
-    """
-    @staticmethod 
-    def sosTipoUva(nombre):
-        tiposUva = TipoUva.cargarData("./Modelo/data/tipoUva.csv")  # Adjust the path as needed
-        for tipo in tiposUva:
-            if tipo.nombre == nombre:
-                return tipo
-        return None"""
     
-    # Implementacion de sosTipoUva() de una forma alternativa
-    # ACA LO MISMO QUE CON MARIDAJES, NO DEBERÍA IR EL STATICMETHOD
     
     def sosTipoUva(self, nombreTipoUva):
         if self.nombre == nombreTipoUva:
             return True
         return False
-        #return isinstance(tipoUva, TipoUva)
      
-    def get_Id(self):
-        return self.id
-    
-    def set_Id(self,id):
-        self.id = id
 
-    def get_Descripcion(self):
+    def getDescripcion(self):
         return self.descripcion 
-    def set_Descripcion(self,descripcion):  
+    
+
+    def setDescripcion(self,descripcion):  
         self.descripcion = descripcion
 
-    def get_Nombre(self):
+
+    def getNombre(self):
         return self.nombre
+
     
-    def set_Nombre(self,nombre):
+    def setNombre(self,nombre):
         self.nombre = nombre
-        
-    def cargarData(filepath):
-        tipos = []
-        with open(filepath, newline='', encoding='utf-8') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                try:
-                    tipo = TipoUva(
-                        id=row['id'],
-                        descripcion=row['descripcion'],
-                        nombre=row['nombre']
-                    )
-                    tipos.append(tipo)
-                except ValueError as e:
-                    print(f"Error al procesar la fila: {row}. Error: {e}")
-        return tipos
-    
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "descripcion": self.descripcion,
-            "nombre": self.nombre
-        }

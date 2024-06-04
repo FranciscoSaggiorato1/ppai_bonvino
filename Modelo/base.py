@@ -8,7 +8,7 @@ from Modelo.siguiendo import Siguiendo
 from Modelo.usuario import Usuario
 from datetime import date
 
-#Tipos de Uva
+# Tipos de Uva
 tipo1 = TipoUva("Una uva tinta con cuerpo y taninos fuertes", "Cabernet Sauvignon")
 tipo2 = TipoUva("Una uva blanca conocida por su frescura y acidez", "Sauvignon Blanc")
 tipo3 = TipoUva("Una uva tinta famosa por sus notas frutales y especiadas", "Malbec")
@@ -20,7 +20,7 @@ tipo8 = TipoUva("Una uva blanca con notas de manzana y cítricos", "Pinot Grigio
 tipo9 = TipoUva("Una uva tinta con alta acidez y taninos moderados", "Sangiovese")
 tipo10 = TipoUva("Una uva blanca con aromas florales y frutales", "Gewürztraminer")
 
-#Varietales
+# Varietales
 var1 = Varietal("Vino tinto de color rojo intenso con aromas a frutos rojos, especias y cuero.", "80%", tipo1)
 var2 = Varietal("Vino tinto de color púrpura oscuro con aromas a grosella negra, cedro y tabaco.", "70%", tipo3)
 var3 = Varietal("Vino tinto de color violeta intenso con aromas a frutos negros, pimienta negra y violetas.", "60%", tipo10)
@@ -32,7 +32,7 @@ var8 = Varietal("Vino blanco de color amarillo pajizo con aromas a manzana verde
 var9 = Varietal("Vino tinto de color rojo claro con aromas a fresa, cereza roja y setas.", "100%", tipo7)
 var10 = Varietal("Vino tinto de color rojo rubí con aromas a frambuesa, especias y cuero.", "60%", tipo4)
 
-#Maridajes
+# Maridajes
 m1 = Maridaje("Vino tinto Malbec con queso Gouda añejo.", "Malbec y Gouda")
 m2 = Maridaje("Vino blanco Chardonnay con salmón a la plancha.", "Chardonnay y Salmón")
 m3 = Maridaje("Vino tinto Cabernet Sauvignon con carne de cordero asada.", "Cabernet Sauvignon y Cordero")
@@ -44,7 +44,7 @@ m8 = Maridaje("Vino blanco Verdejo con tapas españolas.", "Verdejo y Tapas")
 m9 = Maridaje("Vino tinto Syrah con quesos azules.", "Syrah y Quesos Azules")
 m10 = Maridaje("Vino blanco Riesling con postres frutales.", "Riesling y Postres")
 
-#Bodegas
+# Bodegas
 bod1 = Bodega("30.679359", "Bodega Argentina instalada en el Valle de Uco. Cultivan los vinos en las alturas de este valle para producir vinos con cuerpo profundo y complejo.", "Corría el año 1861 cuando Francesc Sala Ferré se convirtió en el primer miembro de la familia Ferrer-Sala en dedicarse al negocio del vino, pero sus antepasados ya llevaban siglos elaborado vino en las fincas familiares de La Freixeneda y Can Sala, ambas en el corazón del Penedés catalán - España.", "Acordeon", 2, date(2024, 3, 10))
 bod2 = Bodega("39.9041999", "Bodega instalada en Fuenmayor, en la que dos de sus pilares básicos son la unión de tradición y modernidad. Esta bodega lleva a cabo la elaboración de vinos para todo tipo de públicos, tanto para los amantes del vino clásico como para aquellos que se introducen en el mundo del vino.", "Bodegas Altanza, está ubicada en Fuenmayor (Rioja Alta), nació en octubre de 1998 con un claro principio fundador: elaborar vinos de calidad, de un estilo más “vivaz” que el clásico Rioja de antaño, y comercializarlos a un precio justo. La arquitectura de la bodega se concibe siguiendo un equilibrio entre tradición y tecnología. La finca cuenta con una extensión de 220 Has. de viñedo y 60 de olivar.", "Altanza", 8, date(2023, 11, 5))
 bod3 = Bodega("58.478361", "Bodega Baines elabora todos los productos de manera artesanal generación tras generación, cuidando cada detalle para que cada sorbo sea una experiencia única.", "Desde Licores Baines ponemos todos los medios posibles para poder garantizar la mayor calidad en cada uno de nuestros productos en base a los valores sociales, económicos y medioambientales de la empresa.", "Baines", 5, date(2023, 9, 3))
@@ -67,7 +67,7 @@ bod19 = Bodega("-34.603684", "Bodega uruguaya conocida por su vino Tannat, con u
 bod20 = Bodega("41.902783", "Ubicada en la región de Toscana, Italia, esta bodega produce algunos de los mejores vinos Chianti y Super Tuscans.", "Antinori, una familia con más de 600 años de historia en la vinificación, ha sido un pionero en la creación de vinos innovadores y de alta calidad en la región de Toscana.", "Antinori", 5, date(2024, 4, 17))
 
 
-#Vinos
+# Vinos
 v1 = Vino(2018, date(2024, 1, 15), "Trumpeter", "https://i.colnect.net/f/3919/903/Trumpeter---Sauvignon-Blanc.jpg", "MODIFICA", 1500, [m1, m2, m3], [var1, var2, var3], bod1)
 v2 = Vino(2019, date(2024, 2, 10), "Dada", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQelj-P5HqS_pTzC8YnXnpWkmpjBhBrSnErPORRgquoP03L_IrIxzSX1-mtCRVDWn1yyTc&usqp=CAU", "Notas de cassis y pimienta negra", 2000, [m3, m6], [var7], bod1)
 v3 = Vino(2020, date(2024, 3, 12), "Protos", "https://www.bodegasprotos.com/wp-content/uploads/2020/04/Protos-Gran-Reserva-GEN%C3%89RICA.jpg", "Notas de cereza y chocolate", 1800, [m9, m2, m4], [var8, var2], bod1)
@@ -107,7 +107,7 @@ v36 = Vino(2024, date(2024, 7, 16), "Néctar de las Hadas", "https://images-na.s
 v37 = Vino(2023, date(2024, 7, 17), "Vino del Ocaso", "https://images-na.ssl-images-amazon.com/images/I/81P3bmOr9yL._AC_SL1500_.jpg", "Notas de ciruela pasa y cuero", 2600, [m5, m10], [var3, var6, var9], bod20)
 v38 = Vino(2022, date(2024, 7, 18), "Estrella del Sur", "https://www.casillerodeldiablo.com/ar/wp-content/uploads/2021/04/750_Wine_Devil-Reserva_CabSauv_Agosto2019_Mesa-Trabajo-1-1-1.jpg", "Notas de frutos rojos y especias", 2400, [m2, m7], [var4, var8, var9], bod20)
 
-#Usuarios
+# Usuarios
 u1 = Usuario("contraseña1", "Juan", True)
 u2 = Usuario("contraseña2", "María", False)
 u3 = Usuario("contraseña3", "Carlos", True)
@@ -119,7 +119,7 @@ u8 = Usuario("contraseña8", "Laura", False)
 u9 = Usuario("contraseña9", "Pablo", True)
 u10 = Usuario("contraseña10", "Sofía", False)
 
-#Siguiendos y Enófilos
+# Siguiendos y Enófilos
 s6 = Siguiendo(date(2023, 4, 3), date(2024, 1, 10), None, bod6)
 e3 = Enofilo("Pérez", "https://www.shutterstock.com/image-photo/portrait-cheerful-man-smiling-camera-260nw-1478224751.jpg", "Carlos", [s6], u3)
 s1 = Siguiendo(date(2023, 10, 4), date(2024, 3, 15), e3, None)
@@ -152,7 +152,7 @@ e7 = Enofilo("García", "https://impulsapopular.com/wp-content/uploads/2020/02/4
 s14 = Siguiendo(date(2023, 5, 19), date(2024, 2, 29), e7, None)
 
 
-#Almacenamos todos los objetos en arrays con nombre representativo
+# Almacenamos todos los objetos en arrays con nombre representativo
 bodegas = [bod1, bod2, bod3, bod4, bod5, bod6, bod7, bod8, bod9, bod10, bod11, bod12, bod13, bod14, bod15, bod16, bod17, bod18, bod19, bod20]
 enofilos = [e1, e2, e3, e4, e5, e6, e7, e8, e9, e10]
 maridajes = [m1, m2, m3, m4, m5, m6, m7, m8, m9, m10]
