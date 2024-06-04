@@ -45,10 +45,18 @@ class PantallaImportadorBodega(QMainWindow):
     def cambiarPag(self):
         self.stackedWidget.setCurrentIndex(1)
 
-    def mostrar_mensaje(self, mensaje):
+    def mostrarMensajeError(self, mensaje):
         msg_box = QMessageBox()
         msg_box.setIcon(QMessageBox.Icon.Critical)
         msg_box.setWindowTitle("Error")
+        msg_box.setText(mensaje)
+        msg_box.setStandardButtons(QMessageBox.StandardButton.Ok)
+        msg_box.exec()
+
+    def mostrarMensajeEnofilo(self, mensaje):
+        msg_box = QMessageBox()
+        msg_box.setIcon(QMessageBox.Icon.Information)
+        msg_box.setWindowTitle("Notificación")
         msg_box.setText(mensaje)
         msg_box.setStandardButtons(QMessageBox.StandardButton.Ok)
         msg_box.exec()
@@ -60,7 +68,7 @@ class PantallaImportadorBodega(QMainWindow):
     def mostrarParaSeleccionarBodegasConActualizaciones(self, bodegas):
         row_count = len(bodegas)
         if len(bodegas) == 0:
-            self.mostrar_mensaje("No se encontraron bodegas con actualizaciones.")
+            self.mostrarMensajeError("No se encontraron bodegas con actualizaciones.")
             return
         else:
             column_count = 2  # Número de columnas
@@ -98,10 +106,10 @@ class PantallaImportadorBodega(QMainWindow):
     
     def mostrarResumenActualizacionVinos(self, vinos_actualizados, vinos_creados):
         if vinos_actualizados is None:
-            self.mostrar_mensaje("ERROR 503: El servidor no está disponible en este momento")
+            self.mostrarMensajeError("ERROR 503: El servidor no está disponible en este momento")
             return
         else:
-            self.mostrar_mensaje("Se generaron las notificaciones a los enofilos seguidores de la bodega seleccionada.")
+            self.mostrarMensajeEnofilo("Se generaron las notificaciones a los enofilos seguidores de la bodega seleccionada.")
 
             if len(vinos_actualizados) != 0:
                 row_count = len(vinos_actualizados)
