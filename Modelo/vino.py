@@ -1,5 +1,6 @@
 from Modelo.varietal import Varietal
 from datetime import datetime
+from Modelo.bodega import Bodega
 
 class Vino:
     """
@@ -31,6 +32,10 @@ class Vino:
         if self.nombre == nombreVino:
             return True
         return False
+    
+
+    def agregarVinoEnBodega(self):
+        self.bodega.agregarVino(self)
 
 
     # Métodos getter y setter para los atributos de la clase

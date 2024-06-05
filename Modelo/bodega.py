@@ -1,8 +1,5 @@
-import csv
 from datetime import datetime, date
 from dateutil.relativedelta import relativedelta  
-from Modelo.vino import Vino
-import os
 
 
 class Bodega:
