@@ -55,7 +55,6 @@ class GestorImportadorBodega:
         # Itera sobre cada vino en la lista de vinos
         for vino in self.vinos:
             # Asocia el vino a su bodega correspondiente
-            # vino.bodega.agregarVino(vino)
             vino.agregarVinoEnBodega()
 
 
@@ -93,9 +92,9 @@ class GestorImportadorBodega:
         
         # Realiza las operaciones de actualización de vinos para la bodega seleccionada
         self.obtenerActualizacionVinosBodega()
-        #self.determinarVinosParaActualizar()
-        #self.actualizarOCrearVinos()
-        #self.buscarSeguidoresDeBodega()
+        self.determinarVinosParaActualizar()
+        vinosActualizados, vinosCreados = self.actualizarOCrearVinos()
+        return vinosActualizados, vinosCreados
 
     
     def buscarNombreBodega(self, bodega):
@@ -183,11 +182,9 @@ class GestorImportadorBodega:
                 'tipoUva': ["Gewürztraminer", "Chardonnay"]
             }
         ]
-        self.determinarVinosParaActualizar()
 
 
     def determinarVinosParaActualizar(self):
-
         # Lista para almacenar los vinos para actualizar
         self.vinosParaActualizar = []
 
@@ -195,8 +192,6 @@ class GestorImportadorBodega:
         for vino in self.vinosApi:
             if self.bodegaSeleccionada.tienesEsteVino(vino['nombre']):
                 self.vinosParaActualizar.append(vino)
-
-        self.actualizarOCrearVinos()
 
 
     def actualizarOCrearVinos(self):
@@ -213,12 +208,11 @@ class GestorImportadorBodega:
                 vinosActualizados.append(vino)
             else:
                 # Si el vino no está en la lista de vinos para actualizar, se crea como un nuevo vino
-                self.crearVino(vino)
+                self.iniciarCreacionVino(vino)
                 # Añade el vino a la lista de vinos creados
                 vinosCreados.append(vino)
         
         # Retorna las listas de vinos actualizados y creados
-        self.buscarSeguidoresDeBodega()
         return vinosActualizados, vinosCreados
     
 
@@ -231,12 +225,15 @@ class GestorImportadorBodega:
                 vino['imagenEtiqueta']
             )
 
-
-    def crearVino(self, vino):
+    def iniciarCreacionVino(self, vino):
         # Busca los maridajes asociados al vino
         maridajes = self.buscarMaridaje(vino)
         # Busca los tipos de uva asociados al vino
         tiposUva = self.buscarTipoUva(vino)
+
+        self.crearVino(vino, maridajes, tiposUva)
+
+    def crearVino(self, vino, maridajes, tiposUva):
         
         # Crea un nuevo objeto Vino con los datos proporcionados y las búsquedas realizadas
         nuevoVino = Vino.new(
@@ -286,6 +283,8 @@ class GestorImportadorBodega:
         # Retorna la lista de tipos de uva adecuados para el vino
         return arrayTiposUva
 
+    def buscarSeguidores(self):
+        self.buscarSeguidoresDeBodega()
 
     def buscarSeguidoresDeBodega(self):
         # Inicializa la lista de nombres de usuarios

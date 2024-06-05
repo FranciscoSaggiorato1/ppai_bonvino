@@ -105,26 +105,21 @@ class PantallaImportadorBodega(QMainWindow):
 
 
     def tomarBodegaSeleccionada(self, bodega):
-        # print('La bodega desde interfaz es:', bodega)
-        self.gestor.tomarBodegaSeleccionada(bodega)
+        vinosActualizados, vinosCreados = self.gestor.tomarBodegaSeleccionada(bodega)
         # Cambiar a la pagina donde se mostraran los vinos
         self.stackedWidget.setCurrentIndex(2)
-        self.cargarVinosActualizados()
+        self.mostrarResumenActualizacionVinos(vinosActualizados, vinosCreados)
 
-    def cargarVinosActualizados(self):
-        # Obtener datos de vinos actualizados desde el gestor o alguna fuente de datos
-        vinos_actualizados, vinos_creados = self.gestor.actualizarOCrearVinos() #None para LA ALTERNATIVA
-        self.mostrarResumenActualizacionVinos(vinos_actualizados, vinos_creados)
-    
-    def mostrarResumenActualizacionVinos(self, vinos_actualizados, vinos_creados):
-        if vinos_actualizados is None:
+
+    def mostrarResumenActualizacionVinos(self, vinosActualizados, vinosCreados):
+        if vinosActualizados is None:
             self.mostrarMensajeError("ERROR 503: El servidor no está disponible en este momento")
             return
         else:
             self.mostrarMensajeNotificacion("Se generaron las notificaciones a los enofilos seguidores de la bodega seleccionada.")
 
-            if len(vinos_actualizados) != 0:
-                row_count = len(vinos_actualizados)
+            if len(vinosActualizados) != 0:
+                row_count = len(vinosActualizados)
                 column_count = 8  # Número de columnas
 
                 self.tableVinoActualizados.setRowCount(row_count)
@@ -141,7 +136,7 @@ class PantallaImportadorBodega(QMainWindow):
                 self.tableVinoActualizados.setIconSize(QSize(50, 50))
                 #self.tableWidget.setMinimumSize(400, 300)  # Ajustar el tamaño mínimo según sea necesario
 
-                for row_index, vino in enumerate(vinos_actualizados):
+                for row_index, vino in enumerate(vinosActualizados):
                     self.tableVinoActualizados.setItem(row_index, 0, QTableWidgetItem(vino['nombreBodega']))
                     self.tableVinoActualizados.setItem(row_index, 1, QTableWidgetItem(vino['nombre']))
 
@@ -172,8 +167,8 @@ class PantallaImportadorBodega(QMainWindow):
                 self.tableVinoActualizados.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
                 self.tableVinoActualizados.setIconSize(QSize(50, 50))
 
-            if len(vinos_creados) != 0:
-                row_count = len(vinos_creados)
+            if len(vinosCreados) != 0:
+                row_count = len(vinosCreados)
                 column_count = 8  # Número de columnas
 
                 self.tableVinoCreados.setRowCount(row_count)
@@ -188,9 +183,8 @@ class PantallaImportadorBodega(QMainWindow):
                 self.tableVinoCreados.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Preferred)
                 self.tableVinoCreados.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
                 self.tableVinoCreados.setIconSize(QSize(50, 50))
-                #self.tableWidget.setMinimumSize(400, 300)  # Ajustar el tamaño mínimo según sea necesario
 
-                for row_index, vino in enumerate(vinos_creados):
+                for row_index, vino in enumerate(vinosCreados):
                     self.tableVinoCreados.setItem(row_index, 0, QTableWidgetItem(vino['nombreBodega']))
                     self.tableVinoCreados.setItem(row_index, 1, QTableWidgetItem(vino['nombre']))
 
@@ -220,6 +214,8 @@ class PantallaImportadorBodega(QMainWindow):
                 self.tableVinoCreados.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Preferred)
                 self.tableVinoCreados.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
                 self.tableVinoCreados.setIconSize(QSize(50, 50))
+
+        self.gestor.buscarSeguidores()
 
 
 if __name__ == "__main__":
