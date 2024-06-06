@@ -86,7 +86,6 @@ class GestorImportadorBodega:
     def tomarBodegaSeleccionada(self, bodega):
         
         # Establece la bodega como la bodega seleccionada y actualiza su fecha ultima actualizacion
-        # CHEQUEAR EN DIAGRAMA UNA VEZ MÁS POR LAS DUDAS
         self.bodegaSeleccionada = self.buscarNombreBodega(bodega)
         self.establecerFechaUltimaActualizacion()
         
