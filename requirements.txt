@@ -1,5 +1,5 @@
 PyQt6
 requests
 PySide6
-dateutil
 python-dateutil
+sqlalchemy
