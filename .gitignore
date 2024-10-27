@@ -12,6 +12,7 @@ __pycache__/
 
 # Ignorar archivos de dependencias y entorno virtual
 venv-ppai-bonvino
+env-ppai
 venv/
 env/
 *.env

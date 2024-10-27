@@ -1,5 +1,4 @@
 # Interfaz/interfazImportarActualizacion.py
-
 import os
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QPushButton, QMessageBox
