@@ -4,7 +4,7 @@ from database_config import Base
 
 # Tabla intermedia para la relación muchos a muchos entre Vino y Varietal
 vino_varietal = Table(
-    'vino_varietal',
+    'vinoXvarietal',
     Base.metadata,
     Column('id_vino', Integer, ForeignKey('vino.id_vino'), primary_key=True),
     Column('id_varietal', Integer, ForeignKey('varietal.id_varietal'), primary_key=True)
@@ -12,7 +12,7 @@ vino_varietal = Table(
 
 # Tabla intermedia para la relación muchos a muchos entre Vino y Maridaje
 vino_maridaje = Table(
-    'vino_maridaje',
+    'vinoXmaridaje',
     Base.metadata,
     Column('id_vino', Integer, ForeignKey('vino.id_vino'), primary_key=True),
     Column('id_maridaje', Integer, ForeignKey('maridaje.id_maridaje'), primary_key=True)

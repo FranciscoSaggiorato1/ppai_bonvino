@@ -13,7 +13,7 @@ class Varietal(Base):
 
     # Relaciones
     tipoUva = relationship("TipoUva")
-    vinos = relationship("Vino", secondary="vino_varietal", back_populates="varietales")
+    vinos = relationship("Vino", secondary="vinoXvarietal", back_populates="varietales")
 
     def __init__(self, descripcion, porcentajeComposicion, tipoUva):
         self.descripcion = descripcion
