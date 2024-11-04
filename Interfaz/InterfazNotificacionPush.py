@@ -6,19 +6,20 @@ from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtGui import QIcon
 from functools import partial
 import recursos
+from Modelo.IObserverNotificacionPush import IObserverNotificacionPush
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
 
-from Controlador.gestorImportarActualizacion import GestorImportadorBodega
+#from Controlador.gestorImportarActualizacion import GestorImportadorBodega
 
-class InterfazNotificacionPush(QMainWindow):
+class InterfazNotificacionPush(IObserverNotificacionPush):
     def __init__(self, bodega, fechaActualizacion, vinosActualizados, vinosCreados):
-        super().__init__()
-        self.gestor = GestorImportadorBodega()
-        ui_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'interfazDiseño.ui')
-        uic.loadUi(ui_path, self)
+        #super().__init__()
+        #self.gestor = GestorImportadorBodega()
+        #ui_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'interfazDiseño.ui')
+        #uic.loadUi(ui_path, self)
         self.bodega = bodega
         self.fechaActualizacion = fechaActualizacion
         self.vinosActualizados = vinosActualizados
@@ -29,6 +30,12 @@ class InterfazNotificacionPush(QMainWindow):
         self.set_fechaActualizacion(fechaActualizacion)
         self.set_vinosActualizados(vinosActualizados)
         self.set_vinosCreados(vinosCreados)
+
+        print("--- NOTIFICANDO DESDE INTERFAZ ---")
+        print(self.bodega)
+        print(self.fechaActualizacion)
+        print(self.vinosActualizados)
+        print(self.vinosCreados)
 
     def enviarNotificacion(self, bodega, fechaActualizacion, vinosActualizados, vinosCreados):
         self.generarNotificacionNovedades(bodega, fechaActualizacion, vinosActualizados, vinosCreados)
