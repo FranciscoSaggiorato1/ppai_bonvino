@@ -15,8 +15,9 @@ from Modelo.vino import Vino
 from Modelo.maridaje import Maridaje
 from Modelo.tipoUva import TipoUva
 from Modelo.varietal import Varietal
-    
-class GestorImportadorBodega:
+from Modelo.ISujetoNotificacionPush import ISujetoNotificacionPush
+
+class GestorImportadorBodega(ISujetoNotificacionPush):
     def __init__(self): 
         self.fechaActual = None
         self.bodegasParaActualizar = [] 
@@ -185,6 +186,22 @@ class GestorImportadorBodega:
             if tipoUva:
                 tiposUva.append(tipoUva)
         return tiposUva
+    
+    # METODOS IMPLEMENTADOS DE INTERFAZ
+
+    def suscribir(self, observers: list):
+        for observer in observers:
+            if observer not in self.observadores:
+                self.observadores.append(observer)
+
+    def quitar(self, observers: list):
+        for observer in observers:
+            if observer in self.observadores:
+                self.observadores.remove(observer)
+
+    def notificar(self):
+        for observer in self.observadores:
+            observer.enviarNotificacion()
 
 
 # Función de prueba
