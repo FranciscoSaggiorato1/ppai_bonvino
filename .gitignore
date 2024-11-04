@@ -16,6 +16,7 @@ env/
 *.env
 .venv/
 /.venv
+env-ppai
 
 # Ignorar archivos de IDE y editor
 .vscode/
