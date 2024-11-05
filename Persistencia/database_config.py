@@ -18,7 +18,7 @@ sys.path.append(os.path.join(this_file_path, "../"))
 
 
 Base = declarative_base()
-path = "Persistencia\ppai.db"
+path = "Persistencia/ppai.db"
 
 
 engine = create_engine("sqlite:///" + path, echo=True)

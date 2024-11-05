@@ -10,9 +10,24 @@ parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
 
 from Modelo.vino import Vino
-from Modelo.base import bodegas, varietales, tiposUva, vinos, enofilos, siguiendos, usuarios, maridajes
+#from Modelo.base import bodegas, varietales, tiposUva, vinos, enofilos, siguiendos, usuarios, maridajes
+from Persistencia import Bodega as BodegaDB, Vino as VinoDB, Maridaje as MaridajeDB, TipoUva as TipoUvaDB, Enofilo as EnofiloDB, Usuario as UsuarioDB, Siguiendo as SiguiendoDB
+from Persistencia.ConversoresPersistencia import (
+    BodegaConversor,
+    VinoConversor,
+    MaridajeConversor,
+    TipoUvaConversor,
+    EnofiloConversor,
+    UsuarioConversor,
+    SiguiendoConversor
+)
+from sqlalchemy.orm import sessionmaker
+from Persistencia.database_config import engine
 
-    
+# Crea una sesión de base de datos
+Session = sessionmaker(bind=engine)
+session = Session()
+
 class GestorImportadorBodega:
     def __init__(self): 
         self.fechaActual = None
@@ -40,16 +55,15 @@ class GestorImportadorBodega:
 
 
     def cargarBase(self):
-        self.bodegas = bodegas
-        self.enofilos = enofilos
-        self.maridaje = maridajes
-        self.siguiendo = siguiendos
-        self.tiposUva= tiposUva
-        self.usuarios = usuarios
-        self.varietales= varietales
-        self.vinos = vinos
+        # Cargar datos desde la base de datos
+        self.bodegas = [BodegaConversor.to_dominio(b) for b in session.query(BodegaDB).all()]
+        self.enofilos = [EnofiloConversor.to_dominio(e) for e in session.query(EnofiloDB).all()]
+        self.maridajes = [MaridajeConversor.to_dominio(m) for m in session.query(MaridajeDB).all()]
+        self.siguiendo = [SiguiendoConversor.to_dominio(s) for s in session.query(SiguiendoDB).all()]
+        self.tiposUva = [TipoUvaConversor.to_dominio(t) for t in session.query(TipoUvaDB).all()]
+        self.usuarios = [UsuarioConversor.to_dominio(u) for u in session.query(UsuarioDB).all()]
+        self.vinos = [VinoConversor.to_dominio(v) for v in session.query(VinoDB).all()]
         self.cargarVinosEnBodegas()
-
 
     def cargarVinosEnBodegas(self):
         # Itera sobre cada vino en la lista de vinos
@@ -216,13 +230,14 @@ class GestorImportadorBodega:
     
 
     def actualizarVino(self, vino):
-        self.bodegaSeleccionada.actualizarDatosVino(
-                vino['nombre'], 
-                self.fechaActual, 
-                vino['precioArs'], 
-                vino['notaCata'], 
-                vino['imagenEtiqueta']
-            )
+        vino_db = session.query(VinoDB).filter_by(nombre=vino['nombre'], bodega_id=self.bodegaSeleccionada.id).first()
+        if vino_db:
+            vino_db.nombre= vino["nombre"]
+            vino_db.precioArs = vino['precioArs']
+            vino_db.notaCata = vino['notaCata']
+            vino_db.fechaActualizacion = self.fechaActual
+            vino_db.imagenEtiqueta = vino['imagenEtiqueta']
+            session.commit()
 
     def iniciarCreacionVino(self, vino):
         # Busca los maridajes asociados al vino
@@ -248,7 +263,11 @@ class GestorImportadorBodega:
             porcentajeComposicion=vino['porcentaje'],
             tiposUvas=tiposUva
         )
-        
+            # Convertir el objeto Vino a la entidad de persistencia y guardarlo en la base de datos
+        nuevoVinoDB = VinoConversor.to_persistencia(nuevoVino)
+        session.add(nuevoVinoDB)
+        session.commit()
+
         # Añade el nuevo objeto Vino a la lista de vinos
         self.vinos.append(nuevoVino)
 
@@ -304,4 +323,5 @@ class GestorImportadorBodega:
 
     def finCU(self):
         """ Termina la ejecución del programa. """
+        session.close()
         sys.exit()

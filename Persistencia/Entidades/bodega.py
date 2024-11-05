@@ -1,3 +1,8 @@
+import os, sys
+this_file_path = os.path.dirname(__file__)
+sys.path.append(os.path.join(this_file_path, "../"))
+
+
 from sqlalchemy import Column, String, Integer, Date
 from sqlalchemy.orm import relationship
 from database_config import Base

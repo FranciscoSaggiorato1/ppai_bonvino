@@ -6,6 +6,7 @@ from database_config import session
 from Entidades.varietal import Varietal as VarietalPersistente
 from Modelo.varietal import Varietal
 from ConversoresPersistencia.tipoUva_conversor import TipoUvaConversor
+from Entidades.tipoUva import TipoUva as TipoUvaPersistente
 
 class VarietalConversor:
 
@@ -32,14 +33,20 @@ class VarietalConversor:
 
     @staticmethod
     def guardar_varietal(varietal: Varietal):
-        tipo_uva_persistente = TipoUvaConversor.get_by_nombre(varietal.tipoUva.nombre)
-        
+        # Obtener el tipo de uva persistente usando su descripción
+        tipo_uva_persistente = session.query(TipoUvaPersistente).filter(
+            TipoUvaPersistente.nombre == varietal.tipoUva.nombre
+        ).first()
+    
+        if not tipo_uva_persistente:
+            raise ValueError("El tipo de uva especificado no existe en la base de datos.")
+
         varietal_persistente = VarietalPersistente(
             descripcion=varietal.descripcion,
             porcentajeComposicion=varietal.porcentajeComposicion,
             tipoUva=tipo_uva_persistente
         )
-        
+
         session.add(varietal_persistente)
         session.commit()
 

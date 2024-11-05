@@ -5,6 +5,7 @@ sys.path.append(os.path.join(this_file_path, "../"))
 from database_config import session
 from Entidades.enofilo import Enofilo as EnofiloPersistente
 from Modelo.enofilo import Enofilo
+from Entidades.usuario import Usuario as UsuarioPersistente
 
 class EnofiloConversor:
 
@@ -32,15 +33,24 @@ class EnofiloConversor:
 
     @staticmethod
     def guardar_enofilo(enofilo: Enofilo):
+        # Obtener el usuario persistente usando su nombre
+        usuario_persistente = session.query(UsuarioPersistente).filter(
+            UsuarioPersistente.nombre == enofilo.usuario.nombre
+        ).first()
+        
+        if not usuario_persistente:
+            raise ValueError("El usuario especificado no existe en la base de datos.")
+
         enofilo_persistente = EnofiloPersistente(
             apellido=enofilo.apellido,
             imagenPerfil=enofilo.imagenPerfil,
             nombre=enofilo.nombre,
-            usuario=enofilo.usuario
+            usuario=usuario_persistente  # Asignar el usuario persistente
         )
+        
         session.add(enofilo_persistente)
         session.commit()
-
+        
     @staticmethod
     def eliminar_enofilo(nombre):
         enofilo_persistente = session.query(EnofiloPersistente).filter(

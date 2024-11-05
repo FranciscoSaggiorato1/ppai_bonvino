@@ -19,6 +19,13 @@ class TipoUvaConversor:
             TipoUvaPersistente.nombre == nombre
         ).first()
         return TipoUvaConversor.mapear_tipo_uva(resultado) if resultado else None
+    
+    @staticmethod
+    def get_by_id(id_tipo_uva):
+        resultado = session.query(TipoUvaPersistente).filter(
+            TipoUvaPersistente.id_tipo_uva == id_tipo_uva
+        ).first()
+        return TipoUvaConversor.mapear_tipo_uva(resultado) if resultado else None
 
     @staticmethod
     def mapear_tipo_uva(tipo_uva_persistente):
