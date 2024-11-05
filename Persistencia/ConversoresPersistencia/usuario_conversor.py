@@ -3,7 +3,7 @@ this_file_path = os.path.dirname(__file__)
 sys.path.append(os.path.join(this_file_path, "../"))
 
 from database_config import session
-from Entidades.usuario import Usuario as UsuarioPersistente
+from Persistencia.Entidades.usuarioDB import Usuario as UsuarioPersistente
 from Modelo.usuario import Usuario
 
 class UsuarioConversor:
@@ -37,6 +37,7 @@ class UsuarioConversor:
         )
         session.add(usuario_persistente)
         session.commit()
+        session.close()
 
     @staticmethod
     def eliminar_usuario(nombre):
@@ -47,5 +48,6 @@ class UsuarioConversor:
         if usuario_persistente:
             session.delete(usuario_persistente)
             session.commit()
+            session.close()
         else:
             raise ValueError("El usuario especificado no existe en la base de datos.")

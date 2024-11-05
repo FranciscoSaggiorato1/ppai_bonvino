@@ -11,16 +11,26 @@ sys.path.append(parent_dir)
 
 from Modelo.vino import Vino
 #from Modelo.base import bodegas, varietales, tiposUva, vinos, enofilos, siguiendos, usuarios, maridajes
-from Persistencia import Bodega as BodegaDB, Vino as VinoDB, Maridaje as MaridajeDB, TipoUva as TipoUvaDB, Enofilo as EnofiloDB, Usuario as UsuarioDB, Siguiendo as SiguiendoDB
-from Persistencia.ConversoresPersistencia import (
-    BodegaConversor,
-    VinoConversor,
-    MaridajeConversor,
-    TipoUvaConversor,
-    EnofiloConversor,
-    UsuarioConversor,
-    SiguiendoConversor
-)
+
+from Persistencia.Entidades.usuarioDB import Usuario as UsuarioDB
+from Persistencia.Entidades.bodegaDB import Bodega as BodegaDB
+from Persistencia.Entidades.enofiloDB import Enofilo as EnofiloDB
+from Persistencia.Entidades.siguiendoDB import Siguiendo as SiguiendoDB
+from Persistencia.Entidades.tipoUvaDB import TipoUva as TipoUvaDB
+from Persistencia.Entidades.varietalDB import Varietal as VarietalDB
+from Persistencia.Entidades.maridajeDB import Maridaje as MaridajeDB
+from Persistencia.Entidades.vinoDB import Vino as VinoDB
+
+from Persistencia.ConversoresPersistencia.tipoUva_conversor import TipoUvaConversor
+from Persistencia.ConversoresPersistencia.varietal_conversor import VarietalConversor
+from Persistencia.ConversoresPersistencia.maridaje_conversor import MaridajeConversor
+from Persistencia.ConversoresPersistencia.bodega_conversor import BodegaConversor
+from Persistencia.ConversoresPersistencia.vino_conversor import VinoConversor
+from Persistencia.ConversoresPersistencia.usuario_conversor import UsuarioConversor
+from Persistencia.ConversoresPersistencia.siguiendo_conversor import SiguiendoConversor
+from Persistencia.ConversoresPersistencia.enofilo_conversor import EnofiloConversor
+
+
 from sqlalchemy.orm import sessionmaker
 from Persistencia.database_config import engine
 
@@ -56,13 +66,13 @@ class GestorImportadorBodega:
 
     def cargarBase(self):
         # Cargar datos desde la base de datos
-        self.bodegas = [BodegaConversor.to_dominio(b) for b in session.query(BodegaDB).all()]
-        self.enofilos = [EnofiloConversor.to_dominio(e) for e in session.query(EnofiloDB).all()]
-        self.maridajes = [MaridajeConversor.to_dominio(m) for m in session.query(MaridajeDB).all()]
-        self.siguiendo = [SiguiendoConversor.to_dominio(s) for s in session.query(SiguiendoDB).all()]
-        self.tiposUva = [TipoUvaConversor.to_dominio(t) for t in session.query(TipoUvaDB).all()]
-        self.usuarios = [UsuarioConversor.to_dominio(u) for u in session.query(UsuarioDB).all()]
-        self.vinos = [VinoConversor.to_dominio(v) for v in session.query(VinoDB).all()]
+        self.bodegas = [BodegaConversor.mapear_bodega(b) for b in session.query(BodegaDB).all()]
+        self.enofilos = [EnofiloConversor.mapear_enofilo(e) for e in session.query(EnofiloDB).all()]
+        self.maridajes = [MaridajeConversor.mapear_maridaje(m) for m in session.query(MaridajeDB).all()]
+        self.siguiendo = [SiguiendoConversor.mapear_siguiendo(s) for s in session.query(SiguiendoDB).all()]
+        self.tiposUva = [TipoUvaConversor.mapear_tipo_uva(t) for t in session.query(TipoUvaDB).all()]
+        self.usuarios = [UsuarioConversor.mapear_usuario(u) for u in session.query(UsuarioDB).all()]
+        self.vinos = [VinoConversor.mapear_vino(v) for v in session.query(VinoDB).all()]
         self.cargarVinosEnBodegas()
 
     def cargarVinosEnBodegas(self):
@@ -238,6 +248,7 @@ class GestorImportadorBodega:
             vino_db.fechaActualizacion = self.fechaActual
             vino_db.imagenEtiqueta = vino['imagenEtiqueta']
             session.commit()
+            session.close()
 
     def iniciarCreacionVino(self, vino):
         # Busca los maridajes asociados al vino
@@ -264,8 +275,8 @@ class GestorImportadorBodega:
             tiposUvas=tiposUva
         )
             # Convertir el objeto Vino a la entidad de persistencia y guardarlo en la base de datos
-        nuevoVinoDB = VinoConversor.to_persistencia(nuevoVino)
-        session.add(nuevoVinoDB)
+        nuevoVinoDB = VinoConversor.guardar_vino(nuevoVino)
+        session.merge(nuevoVinoDB)
         session.commit()
 
         # Añade el nuevo objeto Vino a la lista de vinos

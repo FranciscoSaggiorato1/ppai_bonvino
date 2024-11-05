@@ -3,7 +3,7 @@ this_file_path = os.path.dirname(__file__)
 sys.path.append(os.path.join(this_file_path, "../"))
 
 from database_config import session
-from Entidades.bodega import Bodega as BodegaPersistente
+from Persistencia.Entidades.bodegaDB import Bodega as BodegaPersistente
 from Modelo.bodega import Bodega
 
 class BodegaConversor:
@@ -58,6 +58,7 @@ class BodegaConversor:
             bodega_persistente.fechaUltimaActualizacion = bodega.fechaUltimaActualizacion
 
             session.commit()
+            session.close()
         else:
             raise ValueError("La bodega especificada no existe en la base de datos.")
     
@@ -70,5 +71,6 @@ class BodegaConversor:
         if bodega_persistente:
             session.delete(bodega_persistente)
             session.commit()
+            session.close()
         else:
             raise ValueError("La bodega especificada no existe en la base de datos.")

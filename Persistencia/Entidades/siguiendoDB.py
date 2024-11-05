@@ -9,6 +9,7 @@ from database_config import Base
 
 class Siguiendo(Base):
     __tablename__ = "siguiendo"
+    __table_args__ = {'extend_existing': True}
 
     # Columnas
     id_siguiendo = Column(Integer, primary_key=True, autoincrement=True)

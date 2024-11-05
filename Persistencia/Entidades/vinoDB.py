@@ -12,7 +12,8 @@ vino_varietal = Table(
     'vinoXvarietal',
     Base.metadata,
     Column('id_vino', Integer, ForeignKey('vino.id_vino'), primary_key=True),
-    Column('id_varietal', Integer, ForeignKey('varietal.id_varietal'), primary_key=True)
+    Column('id_varietal', Integer, ForeignKey('varietal.id_varietal'), primary_key=True),
+    extend_existing=True
 )
 
 # Tabla intermedia para la relación muchos a muchos entre Vino y Maridaje
@@ -20,11 +21,13 @@ vino_maridaje = Table(
     'vinoXmaridaje',
     Base.metadata,
     Column('id_vino', Integer, ForeignKey('vino.id_vino'), primary_key=True),
-    Column('id_maridaje', Integer, ForeignKey('maridaje.id_maridaje'), primary_key=True)
+    Column('id_maridaje', Integer, ForeignKey('maridaje.id_maridaje'), primary_key=True),
+    extend_existing=True
 )
 
 class Vino(Base):
     __tablename__ = "vino"
+    __table_args__ = {'extend_existing': True}
 
     # Columnas
     id_vino = Column(Integer, primary_key=True, autoincrement=True)

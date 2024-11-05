@@ -3,7 +3,7 @@ this_file_path = os.path.dirname(__file__)
 sys.path.append(os.path.join(this_file_path, "../"))
 
 from database_config import session
-from Entidades.maridaje import Maridaje as MaridajePersistente
+from Persistencia.Entidades.maridajeDB import Maridaje as MaridajePersistente
 from Modelo.maridaje import Maridaje
 
 class MaridajeConversor:
@@ -35,6 +35,7 @@ class MaridajeConversor:
         )
         session.add(maridaje_persistente)
         session.commit()
+        session.close()
 
     @staticmethod
     def eliminar_maridaje(nombre):
@@ -45,5 +46,6 @@ class MaridajeConversor:
         if maridaje_persistente:
             session.delete(maridaje_persistente)
             session.commit()
+            session.close()
         else:
             raise ValueError("El maridaje especificado no existe en la base de datos.")

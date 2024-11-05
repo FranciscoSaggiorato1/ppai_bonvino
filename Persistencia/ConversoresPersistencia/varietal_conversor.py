@@ -3,10 +3,10 @@ this_file_path = os.path.dirname(__file__)
 sys.path.append(os.path.join(this_file_path, "../"))
 
 from database_config import session
-from Entidades.varietal import Varietal as VarietalPersistente
+from Persistencia.Entidades.varietalDB import Varietal as VarietalPersistente
 from Modelo.varietal import Varietal
 from ConversoresPersistencia.tipoUva_conversor import TipoUvaConversor
-from Entidades.tipoUva import TipoUva as TipoUvaPersistente
+from Persistencia.Entidades.tipoUvaDB import TipoUva as TipoUvaPersistente
 
 class VarietalConversor:
 
@@ -49,6 +49,7 @@ class VarietalConversor:
 
         session.add(varietal_persistente)
         session.commit()
+        session.close()
 
     @staticmethod
     def eliminar_varietal(descripcion):
@@ -59,5 +60,6 @@ class VarietalConversor:
         if varietal_persistente:
             session.delete(varietal_persistente)
             session.commit()
+            session.close()
         else:
             raise ValueError("El varietal especificado no existe en la base de datos.")

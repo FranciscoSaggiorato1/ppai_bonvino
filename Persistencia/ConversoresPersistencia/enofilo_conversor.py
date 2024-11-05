@@ -3,9 +3,9 @@ this_file_path = os.path.dirname(__file__)
 sys.path.append(os.path.join(this_file_path, "../"))
 
 from database_config import session
-from Entidades.enofilo import Enofilo as EnofiloPersistente
+from Persistencia.Entidades.enofiloDB import Enofilo as EnofiloPersistente
 from Modelo.enofilo import Enofilo
-from Entidades.usuario import Usuario as UsuarioPersistente
+from Persistencia.Entidades.usuarioDB import Usuario as UsuarioPersistente
 
 class EnofiloConversor:
 
@@ -27,7 +27,7 @@ class EnofiloConversor:
             apellido=enofilo_persistente.apellido,
             imagenPerfil=enofilo_persistente.imagenPerfil,
             nombre=enofilo_persistente.nombre,
-            seguidos=[bodega.nombre for bodega in enofilo_persistente.seguidos],
+            seguidos=[siguiendo.bodega.nombre for siguiendo in enofilo_persistente.seguidos if siguiendo.bodega is not None],
             usuario=enofilo_persistente.usuario
         )
 
@@ -50,6 +50,7 @@ class EnofiloConversor:
         
         session.add(enofilo_persistente)
         session.commit()
+        session.close()
         
     @staticmethod
     def eliminar_enofilo(nombre):
@@ -60,5 +61,6 @@ class EnofiloConversor:
         if enofilo_persistente:
             session.delete(enofilo_persistente)
             session.commit()
+            session.close()
         else:
             raise ValueError("El enofilo especificado no existe en la base de datos.")

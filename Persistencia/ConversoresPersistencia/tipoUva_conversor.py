@@ -3,7 +3,7 @@ this_file_path = os.path.dirname(__file__)
 sys.path.append(os.path.join(this_file_path, "../"))
 
 from database_config import session
-from Entidades.tipoUva import TipoUva as TipoUvaPersistente
+from Persistencia.Entidades.tipoUvaDB import TipoUva as TipoUvaPersistente
 from Modelo.tipoUva import TipoUva
 
 class TipoUvaConversor:
@@ -42,6 +42,7 @@ class TipoUvaConversor:
         )
         session.add(tipo_uva_persistente)
         session.commit()
+        session.close()
 
     @staticmethod
     def eliminar_tipo_uva(nombre):
@@ -52,5 +53,6 @@ class TipoUvaConversor:
         if tipo_uva_persistente:
             session.delete(tipo_uva_persistente)
             session.commit()
+            session.close()
         else:
             raise ValueError("El tipo de uva especificado no existe en la base de datos.")

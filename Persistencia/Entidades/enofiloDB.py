@@ -9,6 +9,7 @@ from database_config import Base
 
 class Enofilo(Base):
     __tablename__ = "enofilo"
+    __table_args__ = {'extend_existing': True}
 
     # Columnas
     id_enofilo = Column(Integer, primary_key=True, autoincrement=True)

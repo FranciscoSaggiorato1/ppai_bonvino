@@ -3,10 +3,10 @@ this_file_path = os.path.dirname(__file__)
 sys.path.append(os.path.join(this_file_path, "../"))
 
 from database_config import session
-from Entidades.siguiendo import Siguiendo as SiguiendoPersistente
+from Persistencia.Entidades.siguiendoDB import Siguiendo as SiguiendoPersistente
 from Modelo.siguiendo import Siguiendo
-from Entidades.bodega import Bodega as BodegaPersistente
-from Entidades.enofilo import Enofilo as EnofiloPersistente
+from Persistencia.Entidades.bodegaDB import Bodega as BodegaPersistente
+from Persistencia.Entidades.enofiloDB import Enofilo as EnofiloPersistente
 
 class SiguiendoConversor:
 
@@ -66,3 +66,4 @@ class SiguiendoConversor:
         
         session.add(siguiendo_persistente)
         session.commit()
+        session.close()

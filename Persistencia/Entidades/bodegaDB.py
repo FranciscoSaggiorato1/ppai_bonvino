@@ -9,6 +9,7 @@ from database_config import Base
 
 class Bodega(Base):
     __tablename__ = "bodega"
+    __table_args__ = {'extend_existing': True}
 
     # Columnas
     id_bodega = Column(Integer, primary_key=True, autoincrement=True)

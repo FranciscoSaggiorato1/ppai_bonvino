@@ -9,6 +9,7 @@ from database_config import Base
 
 class Varietal(Base):
     __tablename__ = "varietal"
+    __table_args__ = {'extend_existing': True}
 
     # Columnas
     id_varietal= Column(Integer, primary_key=True, autoincrement=True)

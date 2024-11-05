@@ -9,6 +9,7 @@ from database_config import Base
 
 class Usuario(Base):
     __tablename__ = "usuario"
+    __table_args__ = {'extend_existing': True}
 
     # Columnas
     id_usuario = Column(Integer, primary_key=True, autoincrement=True)
