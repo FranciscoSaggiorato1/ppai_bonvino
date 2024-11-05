@@ -1,4 +1,4 @@
-"""from Modelo.bodega import Bodega
+from Modelo.bodega import Bodega
 from Modelo.varietal import Varietal
 from Modelo.tipoUva import TipoUva
 from Modelo.vino import Vino
@@ -31,6 +31,8 @@ var7 = Varietal("Vino blanco de color amarillo pajizo con aromas a heno, melocot
 var8 = Varietal("Vino blanco de color amarillo pajizo con aromas a manzana verde, lima y flores blancas.", "100%", tipo8)
 var9 = Varietal("Vino tinto de color rojo claro con aromas a fresa, cereza roja y setas.", "100%", tipo7)
 var10 = Varietal("Vino tinto de color rojo rubí con aromas a frambuesa, especias y cuero.", "60%", tipo4)
+var11= Varietal("Vino tinto de color rojo rubí con aromas a cereza, vainilla y cuero.", "90%", tipo8)
+var12= Varietal("Vino tinto de color púrpura oscuro con aromas a cedro, tomillo y tabaco.", "70%", tipo3)
 
 # Maridajes
 m1 = Maridaje("Vino tinto Malbec con queso Gouda añejo.", "Malbec y Gouda")
@@ -161,4 +163,3 @@ tiposUva = [tipo1, tipo2, tipo3, tipo4, tipo5, tipo6, tipo7, tipo8, tipo9, tipo1
 usuarios = [u1, u2, u3, u4, u5, u6, u7, u8, u9, u10]
 varietales = [var1, var2, var3, var4, var5, var6, var7, var8, var9, var10]
 vinos = [v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22, v23, v24, v25, v26, v27, v28, v29, v30, v31, v32, v33, v34, v35, v36, v37, v38]
-"""

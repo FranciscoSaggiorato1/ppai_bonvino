@@ -61,6 +61,7 @@ class VinoConversor:
         
         if vino_existente:
             print(f"El vino '{vino.nombre}' ya existe. Actualizando en lugar de crear uno nuevo.")
+            
             # Actualizar los atributos del vino existente
             vino_existente.añada = vino.añada
             vino_existente.fechaActualizacion = vino.fechaActualizacion
@@ -92,9 +93,14 @@ class VinoConversor:
                     raise ValueError(f"El varietal '{varietal.descripcion}' no existe en la base de datos.")
                 
                 vino_existente.varietal.append(varietal_persistente)
+            
+            session.commit()
+            return vino_existente
         
         else:
             # Crear un nuevo vino si no existe
+            print(f"Creando nuevo vino: {vino.nombre}")
+            
             vino_persistente = VinoPersistente(
                 añada=vino.añada,
                 fechaActualizacion=vino.fechaActualizacion,
@@ -127,11 +133,15 @@ class VinoConversor:
                 
                 vino_persistente.varietal.append(varietal_persistente)
 
+            # Agregar el nuevo vino a la base de datos
             session.add(vino_persistente)
+            session.commit()
+            print(f"Nuevo vino creado: {vino_persistente.nombre}")
 
-        # Confirmar los cambios
-        session.commit()
-        session.close()
+            # Asegúrate de devolver el vino creado para que se use más adelante
+            return vino_persistente
+
+
 
 
 

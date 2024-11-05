@@ -2,7 +2,7 @@
 
 import os
 import sys
-from datetime import datetime 
+from datetime import datetime, date
 
 # Añadir el directorio principal del proyecto al sys.path
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -259,6 +259,34 @@ class GestorImportadorBodega:
         self.crearVino(vino, maridajes, tiposUva)
 
     def crearVino(self, vino, maridajes, tiposUva):
+        # Inicializamos una lista para los varietales que existen en la BD
+        varietales_en_bd = []
+        for i in range(len(vino['varietales'])):
+            varietal_desc = vino['varietales'][i]
+            porcentajeComposicion = vino['porcentaje'][i]
+            tipoUva = vino['tipoUva'][i]
+
+            # Busca el varietal en la base de datos
+            varietal = session.query(VarietalDB).filter_by(descripcion=varietal_desc).first()
+            print("VARIETAL OBJETO:", varietal)
+            if not varietal:
+                # Crea nuevo varietal si no existe
+                tipo_uva_instance = session.query(TipoUvaDB).filter_by(nombre=tipoUva).first()
+                print("TIPO UNVA INSTANCIA:", tipo_uva_instance)
+                if tipo_uva_instance:
+                    varietal = VarietalDB(
+                        descripcion=varietal_desc,
+                        porcentajeComposicion=porcentajeComposicion,
+                        tipoUva=tipo_uva_instance
+                    )
+                    print("VARIETAL CREADO: ", varietal)
+                    session.add(varietal)
+                    session.commit()
+                else:
+                    print(f"Tipo de uva '{tipoUva}' no encontrado.")
+                    continue  # Salta este varietal si el tipo de uva no existe
+
+            varietales_en_bd.append(varietal)
         
         # Crea un nuevo objeto Vino con los datos proporcionados y las búsquedas realizadas
         nuevoVino = Vino.new(
@@ -272,15 +300,17 @@ class GestorImportadorBodega:
             maridaje=maridajes,
             descripcion=vino['varietales'],
             porcentajeComposicion=vino['porcentaje'],
-            tiposUvas=tiposUva
+            tiposUvas=tiposUva,
         )
             # Convertir el objeto Vino a la entidad de persistencia y guardarlo en la base de datos
+        nuevoVino.varietal = varietales_en_bd
         nuevoVinoDB = VinoConversor.guardar_vino(nuevoVino)
-        session.merge(nuevoVinoDB)
-        session.commit()
 
         # Añade el nuevo objeto Vino a la lista de vinos
         self.vinos.append(nuevoVino)
+        
+        session.merge(nuevoVinoDB)
+        session.commit()
 
 
     def buscarMaridaje(self, vino):
