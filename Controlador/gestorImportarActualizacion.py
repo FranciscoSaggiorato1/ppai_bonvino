@@ -11,7 +11,8 @@ sys.path.append(parent_dir)
 
 from Modelo.vino import Vino
 #from Modelo.base import bodegas, varietales, tiposUva, vinos, enofilos, siguiendos, usuarios, maridajes
-
+from Modelo.ISujetoNotificacionPush import ISujetoNotificacionPush
+from Interfaz.InterfazNotificacionPush import InterfazNotificacionPush
 from Persistencia.Entidades.usuarioDB import Usuario as UsuarioDB
 from Persistencia.Entidades.bodegaDB import Bodega as BodegaDB
 from Persistencia.Entidades.enofiloDB import Enofilo as EnofiloDB
@@ -38,13 +39,14 @@ from Persistencia.database_config import engine
 Session = sessionmaker(bind=engine)
 session = Session()
 
-class GestorImportadorBodega:
+class GestorImportadorBodega(ISujetoNotificacionPush):
     def __init__(self): 
         self.fechaActual = None
         self.bodegasParaActualizar = [] 
         self.bodegaSeleccionada = None
         self.vinosApi = []
         self.vinosCreados = []
+        self.vinosActualizados = []
         self.seguidoresDeBodega = []
         self.vinosParaActualizar = []
         self.vinos = []
@@ -55,6 +57,7 @@ class GestorImportadorBodega:
         self.enofilos = []
         self.siguiendo = []     
         self.nombresUsuarios = []  
+        self.observadores = []
 
 
     def nuevaImportacionActualizacionVinos(self):
@@ -123,8 +126,8 @@ class GestorImportadorBodega:
         # Realiza las operaciones de actualización de vinos para la bodega seleccionada
         self.obtenerActualizacionVinosBodega()
         self.determinarVinosParaActualizar()
-        vinosActualizados, vinosCreados = self.actualizarOCrearVinos()
-        return vinosActualizados, vinosCreados
+        self.actualizarOCrearVinos()
+        return self.vinosActualizados, self.vinosCreados
 
     
     def buscarNombreBodega(self, bodega):
@@ -240,20 +243,20 @@ class GestorImportadorBodega:
     def actualizarOCrearVinos(self):
 
         # Listas para almacenar los vinos actualizados y creados
-        vinosActualizados = []
-        vinosCreados = []
+        self.vinosActualizados = []
+        self.vinosCreados = []
 
         # Itera sobre cada vino en la lista de vinos proporcionada por la API
         for vino in self.vinosApi:
             if vino in self.vinosParaActualizar:
                 self.actualizarVino(vino)
                 # Añade el vino a la lista de vinos actualizados
-                vinosActualizados.append(vino)
+                self.vinosActualizados.append(vino)
             else:
                 # Si el vino no está en la lista de vinos para actualizar, se crea como un nuevo vino
                 self.iniciarCreacionVino(vino)
                 # Añade el vino a la lista de vinos creados
-                vinosCreados.append(vino)
+                self.vinosCreados.append(vino)
         
         # Retorna las listas de vinos actualizados y creados
         print("Vinos creados: ", vinosCreados)
@@ -398,7 +401,37 @@ class GestorImportadorBodega:
             # Obtiene y almacena el nombre de usuario del seguidor
             nomUsuarios = seguidor.obtenerNombreUsuario()
             self.nombresUsuarios.append(nomUsuarios)
+        
+        self.generarNotificacionNovedades(self.seguidoresDeBodega)
 
+    def generarNotificacionNovedades(self, seguidoresBodega):
+        observadores_nuevos = []
+        for seguidor in seguidoresBodega:
+            observador_nuevo = InterfazNotificacionPush(None, None, None, None)
+            observadores_nuevos.append(observador_nuevo)
+
+        self.suscribir(observadores_nuevos)
+        self.notificar()
+
+
+    # METODOS IMPLEMENTADOS DE INTERFAZ
+
+    def suscribir(self, observers: list):
+        for observer in observers:
+            if observer not in self.observadores:
+                self.observadores.append(observer)
+
+    def quitar(self, observers: list):
+        for observer in observers:
+            if observer in self.observadores:
+                self.observadores.remove(observer)
+
+    def notificar(self):
+        for observer in self.observadores:
+            observer.enviarNotificacion(self.bodegaSeleccionada.getNombre(), self.fechaActual, [vino['nombre'] for vino in self.vinosActualizados], [vino['nombre'] for vino in self.vinosCreados])
+            print("\n---------------")
+            print("Notificado...")
+            print("---------------\n")
 
     def finCU(self):
         """ Termina la ejecución del programa. """
