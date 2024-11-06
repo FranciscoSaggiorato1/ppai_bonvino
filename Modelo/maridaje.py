@@ -1,76 +1,30 @@
-import csv
-
 class Maridaje:
-    id = ""
-    descripcion = ""    
-    nombre = ""
+    """
+    Clase para representar un Maridaje.
+    """
+    def __init__(self, descripcion, nombre): 
+        self.descripcion = descripcion  
+        self.nombre = nombre 
     
-    def __init__(self, id, descripcion, nombre):
-        self.id = id
-        self.descripcion = descripcion
-        self.nombre = nombre
     
-    def new(self, id, descripcion, nombre):
-        return Maridaje(id, descripcion, nombre)
-    
-    def _repr_(self):
-        return (
-            f"Maridaje(nombre={self.nombre}, "
-            f"descripcion={self.descripcion})"
-        )
-    
-    @staticmethod
-    def sosMaridaje(nombre):
-        maridajes = Maridaje.cargarData("./Modelo/data/maridaje.csv")  # Adjust the path as needed
-        for maridaje in maridajes:
-            if maridaje.nombre == nombre:
-                return maridaje
-        return None
-    
-    def get_Id(self):
-        return self.id
-    
-    def set_Id(self, id):
-        self.id = id
-    
-    def get_Descripcion(self):
+    def sosMaridaje(self, nombreMaridaje):
+        if self.nombre == nombreMaridaje:
+            return True
+        return False
+        
+
+    # Métodos getter y setter para los atributos de la clase
+    def getDescripcion(self):
         return self.descripcion
     
-    def set_Descripcion(self, descripcion):
+
+    def setDescripcion(self, descripcion):
         self.descripcion = descripcion
     
-    def get_Nombre(self):
+
+    def getNombre(self):
         return self.nombre
     
-    def set_Nombre(self, nombre):
-        self.nombre = nombre
-    
-    @staticmethod
-    def cargarData(filepath):
-        maridajes = []
-        with open(filepath, newline='', encoding='utf-8') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                try:
-                    maridaje = Maridaje(
-                        id=row['id'],
-                        descripcion=row['descripcion'],
-                        nombre=row['nombre']
-                    )
-                    maridajes.append(maridaje)
-                except ValueError as e:
-                    print(f"Error al procesar la fila: {row}. Error: {e}")
-        return maridajes
-    
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "descripcion": self.descripcion,
-            "nombre": self.nombre,
-        }
 
-# Ejemplo de uso
-if __name__ == "__main__":
-    maridajes = Maridaje.cargarData("../Modelo/data/maridaje.csv")
-    for maridaje in maridajes:
-       print(maridaje)
+    def setNombre(self, nombre):
+        self.nombre = nombre

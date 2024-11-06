@@ -11,6 +11,8 @@ __pycache__/
 *.log
 
 # Ignorar archivos de dependencias y entorno virtual
+venv-ppai-bonvino
+env-ppai
 venv/
 env/
 *.env
@@ -34,7 +36,6 @@ env-ppai
 *.swp
 
 # Ignorar archivos de datos y recursos
-*.db
 *.sqlite
 
 # Ignorar archivos de documentación
