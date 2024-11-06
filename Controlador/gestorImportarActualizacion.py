@@ -258,10 +258,8 @@ class GestorImportadorBodega(ISujetoNotificacionPush):
                 # Añade el vino a la lista de vinos creados
                 self.vinosCreados.append(vino)
         
-        # Retorna las listas de vinos actualizados y creados
-        print("Vinos creados: ", vinosCreados)
-        return vinosActualizados, vinosCreados
-    
+        
+
 
     def actualizarVino(self, vino):
         # Busca el ID de la bodega en la base de datos cuyo nombre coincida con la bodega seleccionada
