@@ -1,9 +1,8 @@
-# Interfaz/interfazImportarActualizacion.py
 import os
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QPushButton, QMessageBox
 from PyQt6 import uic, QtWidgets
-from PyQt6.QtCore import Qt, QSize
+from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
 from functools import partial
 import recursos
@@ -39,12 +38,12 @@ class PantallaImportadorBodega(QMainWindow):
         self.stackedWidget.setCurrentIndex(0)
     
     def finalizar(self):
-        self.gestor.finCU()
+        self.close()
 
     def cambiarPag(self):
         self.stackedWidget.setCurrentIndex(1)
 
-    def mostrarMensajeError(self, mensaje):
+    def mostrar_mensaje_error(self, mensaje):
         msg_box = QMessageBox()
         msg_box.setIcon(QMessageBox.Icon.Critical)
         msg_box.setWindowTitle("Error")
@@ -52,34 +51,14 @@ class PantallaImportadorBodega(QMainWindow):
         msg_box.setStandardButtons(QMessageBox.StandardButton.Ok)
         msg_box.exec()
 
-    def mostrarMensajeNotificacion(self, mensaje):
-        msg_box = QMessageBox()
-        msg_box.setIcon(QMessageBox.Icon.Information)
-        msg_box.setWindowTitle("Notificación")
-        msg_box.setText(mensaje)
-        msg_box.setStandardButtons(QMessageBox.StandardButton.Ok)
-        msg_box.exec()
-
     def seleccionarOpImportarAct(self):
-        bodegas = self.gestor.nuevaImportacionActualizacionVinos() #[] Para la ALTERNATIVA
+        bodegas = self.gestor.buscarBodegasConActualizaciones() #[] Para la ALTERNATIVA
         self.mostrarParaSeleccionarBodegasConActualizaciones(bodegas)
     
     def mostrarParaSeleccionarBodegasConActualizaciones(self, bodegas):
         row_count = len(bodegas)
-        if row_count == 0:
-            self.mostrarMensajeError("No se encontraron bodegas con actualizaciones.")
-            self.tableWidget.setRowCount(0)
-            self.tableWidget.setColumnCount(1)
-            self.tableWidget.verticalHeader().hide()
-            headers = ["No existen bodegas con actualizaciones para mostrar"]
-            self.tableWidget.setHorizontalHeaderLabels(headers)
-
-            # Ajustar el tamaño de las columnas al contenido
-            self.tableWidget.horizontalHeader().setStretchLastSection(True)
-            self.tableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
-            self.tableWidget.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Preferred)
-            self.tableWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
-            self.tableWidget.setIconSize(QSize(50, 50))
+        if len(bodegas) == 0:
+            self.mostrar_mensaje_error("No se encontraron bodegas con actualizaciones.")
             return
         else:
             column_count = 2  # Número de columnas
@@ -104,118 +83,42 @@ class PantallaImportadorBodega(QMainWindow):
 
 
     def tomarBodegaSeleccionada(self, bodega):
-        vinosActualizados, vinosCreados = self.gestor.tomarBodegaSeleccionada(bodega)
+        print('La bodega desde interfaz es:', bodega)
+        self.gestor.tomarBodegaSeleccionada(bodega)
         # Cambiar a la pagina donde se mostraran los vinos
         self.stackedWidget.setCurrentIndex(2)
-        self.mostrarResumenActualizacionVinos(vinosActualizados, vinosCreados)
+        self.cargarVinosActualizados()
 
-
-    def mostrarResumenActualizacionVinos(self, vinosActualizados, vinosCreados):
-        if vinosActualizados is None:
-            self.mostrarMensajeError("ERROR 503: El servidor no está disponible en este momento")
+    def cargarVinosActualizados(self):
+        # Obtener datos de vinos actualizados desde el gestor o alguna fuente de datos
+        vinos_actualizados = self.gestor.actualizarOCrearVinos() #None para LA ALTERNATIVA
+        self.mostrarResumenActualizacionVinos(vinos_actualizados)
+    
+    def mostrarResumenActualizacionVinos(self, vinos_actualizados):
+        if vinos_actualizados is None:
+            self.mostrar_mensaje_error("ERROR 503: El servidor no está disponible en este momento, devoró.")
             return
         else:
-            self.mostrarMensajeNotificacion("Se generaron las notificaciones a los enofilos seguidores de la bodega seleccionada.")
+            row_count = len(vinos_actualizados)
+            print(row_count)
+            column_count = 8  # Número de columnas
 
-            if len(vinosActualizados) != 0:
-                row_count = len(vinosActualizados)
-                column_count = 8  # Número de columnas
+            self.tableVino.setRowCount(row_count)
+            self.tableVino.setColumnCount(column_count)
+            self.tableVino.verticalHeader().hide()
+            headers = ["Etiqueta", "Nombre", "Varietal", "Tipo Uva", "Maridaje", "Fecha Actualización", "Añada", "Precio"]
+            self.tableVino.setHorizontalHeaderLabels(headers)
 
-                self.tableVinoActualizados.setRowCount(row_count)
-                self.tableVinoActualizados.setColumnCount(column_count)
-                self.tableVinoActualizados.verticalHeader().hide()
-                headers = ["Bodega", "Nombre", "Varietal", "Tipo Uva", "Maridaje", "Fecha Actualización", "Añada", "Precio"]
-                self.tableVinoActualizados.setHorizontalHeaderLabels(headers)
+            # Ajustar el tamaño de las columnas al contenido
+            self.tableVino.horizontalHeader().setStretchLastSection(True)
+            self.tableVino.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
+            self.tableVino.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Preferred)
+            self.tableVino.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
+            #self.tableWidget.setMinimumSize(400, 300)  # Ajustar el tamaño mínimo según sea necesario
 
-                # Ajustar el tamaño de las columnas al contenido
-                self.tableVinoActualizados.horizontalHeader().setStretchLastSection(True)
-                self.tableVinoActualizados.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
-                self.tableVinoActualizados.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Preferred)
-                self.tableVinoActualizados.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
-                self.tableVinoActualizados.setIconSize(QSize(50, 50))
-                #self.tableWidget.setMinimumSize(400, 300)  # Ajustar el tamaño mínimo según sea necesario
-
-                for row_index, vino in enumerate(vinosActualizados):
-                    self.tableVinoActualizados.setItem(row_index, 0, QTableWidgetItem(vino['nombreBodega']))
-                    self.tableVinoActualizados.setItem(row_index, 1, QTableWidgetItem(vino['nombre']))
-
-                    # Convertir lista a cadena si es necesario
-                    varietales = ", ".join(vino['varietales']) if isinstance(vino['varietales'], list) else vino['varietales']
-                    self.tableVinoActualizados.setItem(row_index, 2, QTableWidgetItem(varietales))
-
-                    tipo_uva = vino['tipoUva'] if isinstance(vino['tipoUva'], str) else ", ".join(vino['tipoUva'])
-                    self.tableVinoActualizados.setItem(row_index, 3, QTableWidgetItem(tipo_uva))
-
-                    maridajes = ", ".join(vino['maridajes']) if isinstance(vino['maridajes'], list) else vino['maridajes']
-                    self.tableVinoActualizados.setItem(row_index, 4, QTableWidgetItem(maridajes))
-
-                    self.tableVinoActualizados.setItem(row_index, 5, QTableWidgetItem(vino['fechaActualizacion']))
-                    self.tableVinoActualizados.setItem(row_index, 6, QTableWidgetItem(str(vino['añada'])))
-                    self.tableVinoActualizados.setItem(row_index, 7, QTableWidgetItem(str(vino['precioArs'])))
-            else:
-                self.tableVinoActualizados.setRowCount(0)
-                self.tableVinoActualizados.setColumnCount(1)
-                self.tableVinoActualizados.verticalHeader().hide()
-                headers = ["No existen vinos actualizados para mostrar"]
-                self.tableVinoActualizados.setHorizontalHeaderLabels(headers)
-
-                # Ajustar el tamaño de las columnas al contenido
-                self.tableVinoActualizados.horizontalHeader().setStretchLastSection(True)
-                self.tableVinoActualizados.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
-                self.tableVinoActualizados.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Preferred)
-                self.tableVinoActualizados.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
-                self.tableVinoActualizados.setIconSize(QSize(50, 50))
-
-            if len(vinosCreados) != 0:
-                row_count = len(vinosCreados)
-                column_count = 8  # Número de columnas
-
-                self.tableVinoCreados.setRowCount(row_count)
-                self.tableVinoCreados.setColumnCount(column_count)
-                self.tableVinoCreados.verticalHeader().hide()
-                headers = ["Bodega", "Nombre", "Varietal", "Tipo Uva", "Maridaje", "Fecha Creacion", "Añada", "Precio"]
-                self.tableVinoCreados.setHorizontalHeaderLabels(headers)
-
-                # Ajustar el tamaño de las columnas al contenido
-                self.tableVinoCreados.horizontalHeader().setStretchLastSection(True)
-                self.tableVinoCreados.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
-                self.tableVinoCreados.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Preferred)
-                self.tableVinoCreados.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
-                self.tableVinoCreados.setIconSize(QSize(50, 50))
-
-                for row_index, vino in enumerate(vinosCreados):
-                    self.tableVinoCreados.setItem(row_index, 0, QTableWidgetItem(vino['nombreBodega']))
-                    self.tableVinoCreados.setItem(row_index, 1, QTableWidgetItem(vino['nombre']))
-
-                    # Convertir lista a cadena si es necesario
-                    varietales = ", ".join(vino['varietales']) if isinstance(vino['varietales'], list) else vino['varietales']
-                    self.tableVinoCreados.setItem(row_index, 2, QTableWidgetItem(varietales))
-
-                    tipo_uva = vino['tipoUva'] if isinstance(vino['tipoUva'], str) else ", ".join(vino['tipoUva'])
-                    self.tableVinoCreados.setItem(row_index, 3, QTableWidgetItem(tipo_uva))
-
-                    maridajes = ", ".join(vino['maridajes']) if isinstance(vino['maridajes'], list) else vino['maridajes']
-                    self.tableVinoCreados.setItem(row_index, 4, QTableWidgetItem(maridajes))
-
-                    self.tableVinoCreados.setItem(row_index, 5, QTableWidgetItem(vino['fechaActualizacion']))
-                    self.tableVinoCreados.setItem(row_index, 6, QTableWidgetItem(str(vino['añada'])))
-                    self.tableVinoCreados.setItem(row_index, 7, QTableWidgetItem(str(vino['precioArs'])))
-            else:
-                self.tableVinoCreados.setRowCount(0)
-                self.tableVinoCreados.setColumnCount(1)
-                self.tableVinoCreados.verticalHeader().hide()
-                headers = ["No existen vinos creados para mostrar"]
-                self.tableVinoCreados.setHorizontalHeaderLabels(headers)
-
-                # Ajustar el tamaño de las columnas al contenido
-                self.tableVinoCreados.horizontalHeader().setStretchLastSection(True)
-                self.tableVinoCreados.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
-                self.tableVinoCreados.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Preferred)
-                self.tableVinoCreados.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
-                self.tableVinoCreados.setIconSize(QSize(50, 50))
-
-        self.gestor.buscarSeguidores()
-
+            for row_index, vino in enumerate(vinos_actualizados):
+                for col_index, value in enumerate(vino.values()):
+                    self.tableVino.setItem(row_index, col_index, QTableWidgetItem(str(value)))
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

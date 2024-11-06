@@ -17,5 +17,3 @@ class ISujetoNotificacionPush(ABC):
     @abstractmethod
     def notificar(self):
         pass
-		
-
