@@ -39,6 +39,7 @@ from Persistencia.database_config import engine
 Session = sessionmaker(bind=engine)
 session = Session()
 
+
 class GestorImportadorBodega(ISujetoNotificacionPush):
     def __init__(self): 
         self.fechaActual = None
@@ -412,6 +413,7 @@ class GestorImportadorBodega(ISujetoNotificacionPush):
         self.notificar()
 
 
+
     # METODOS IMPLEMENTADOS DE INTERFAZ
 
     def suscribir(self, observers: list):
@@ -426,6 +428,7 @@ class GestorImportadorBodega(ISujetoNotificacionPush):
 
     def notificar(self):
         for observer in self.observadores:
+
             observer.enviarNotificacion(self.bodegaSeleccionada.getNombre(), self.fechaActual, [vino['nombre'] for vino in self.vinosActualizados], [vino['nombre'] for vino in self.vinosCreados])
             print("\n---------------")
             print("Notificado...")
@@ -435,3 +438,4 @@ class GestorImportadorBodega(ISujetoNotificacionPush):
         """ Termina la ejecución del programa. """
         session.close()
         sys.exit()
+
