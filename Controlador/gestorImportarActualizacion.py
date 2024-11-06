@@ -140,6 +140,8 @@ class GestorImportadorBodega(ISujetoNotificacionPush):
 
     def establecerFechaUltimaActualizacion(self):
         self.bodegaSeleccionada.setFechaUltimaActualizacion(self.fechaActual)
+        # Se actualiza la bodega seleccionada
+        BodegaConversor.actualizar_bodega(self.bodegaSeleccionada)
 
 
     def obtenerActualizacionVinosBodega(self):
@@ -312,7 +314,7 @@ class GestorImportadorBodega(ISujetoNotificacionPush):
             if not varietal:
                 # Crea nuevo varietal si no existe
                 tipo_uva_instance = session.query(TipoUvaDB).filter_by(nombre=tipoUva).first()
-                print("TIPO UNVA INSTANCIA:", tipo_uva_instance)
+                print("TIPO UVA INSTANCIA:", tipo_uva_instance)
                 if tipo_uva_instance:
                     varietal = VarietalDB(
                         descripcion=varietal_desc,
@@ -408,7 +410,7 @@ class GestorImportadorBodega(ISujetoNotificacionPush):
         for seguidor in seguidoresBodega:
             observador_nuevo = InterfazNotificacionPush(None, None, None, None)
             observadores_nuevos.append(observador_nuevo)
-
+       
         self.suscribir(observadores_nuevos)
         self.notificar()
 
