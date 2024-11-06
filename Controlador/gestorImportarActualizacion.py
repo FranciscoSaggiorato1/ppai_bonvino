@@ -78,8 +78,15 @@ class GestorImportadorBodega:
     def cargarVinosEnBodegas(self):
         # Itera sobre cada vino en la lista de vinos
         for vino in self.vinos:
-            # Asocia el vino a su bodega correspondiente
-            vino.agregarVinoEnBodega()
+            # Encuentra la bodega correspondiente para este vino
+            bodega = next((b for b in self.bodegas if b.getNombre() == vino.bodega.getNombre()), None)
+            if bodega:
+                # Agrega el vino a la bodega
+                bodega.agregarVino(vino)
+                print(f"Agregado el vino '{vino.nombre}' a la bodega '{bodega.getNombre()}'")
+            else:
+                print(f"No se encontró la bodega para el vino '{vino.nombre}'")
+
 
 
     def getFechaActual(self):
@@ -206,15 +213,28 @@ class GestorImportadorBodega:
             }
         ]
 
-
     def determinarVinosParaActualizar(self):
         # Lista para almacenar los vinos para actualizar
         self.vinosParaActualizar = []
-
+        
         # Iteramos todos los vinos obtenidos desde la API
         for vino in self.vinosApi:
+            print(f"Comparando {vino['nombre']} con los vinos de {self.bodegaSeleccionada.nombre}")
+            
+            # Verificamos que `self.bodegaSeleccionada.vinos` tenga los vinos esperados
+            print("Vinos en la bodega seleccionada:")
+            for v in self.bodegaSeleccionada.vinos:
+                print(f" - {v.nombre}")
+            
+            # Comprobamos si el vino ya está en la bodega
             if self.bodegaSeleccionada.tienesEsteVino(vino['nombre']):
+                print(f"ESTE SE VA A AGREGAR: {vino['nombre']}")
                 self.vinosParaActualizar.append(vino)
+            else:
+                print(f"{vino['nombre']} NO está en los vinos de la bodega.")
+        
+        print("Lista final de vinos para actualizar:", [v['nombre'] for v in self.vinosParaActualizar])
+
 
 
     def actualizarOCrearVinos(self):
@@ -236,19 +256,37 @@ class GestorImportadorBodega:
                 vinosCreados.append(vino)
         
         # Retorna las listas de vinos actualizados y creados
+        print("Vinos creados: ", vinosCreados)
         return vinosActualizados, vinosCreados
     
 
     def actualizarVino(self, vino):
-        vino_db = session.query(VinoDB).filter_by(nombre=vino['nombre'], bodega_id=self.bodegaSeleccionada.id).first()
-        if vino_db:
-            vino_db.nombre= vino["nombre"]
-            vino_db.precioArs = vino['precioArs']
-            vino_db.notaCata = vino['notaCata']
-            vino_db.fechaActualizacion = self.fechaActual
-            vino_db.imagenEtiqueta = vino['imagenEtiqueta']
-            session.commit()
-            session.close()
+        # Busca el ID de la bodega en la base de datos cuyo nombre coincida con la bodega seleccionada
+        bodega_db = session.query(BodegaDB).filter_by(nombre=self.bodegaSeleccionada.nombre).first()
+        
+        if bodega_db:
+            # Encuentra el vino en la base de datos que coincide con el nombre y el id de la bodega
+            vino_db = session.query(VinoDB).filter_by(nombre=vino['nombre'], id_bodega=bodega_db.id_bodega).first()
+            
+            if vino_db:
+                # Actualiza los campos del vino encontrado
+                vino_db.nombre = vino["nombre"]
+                vino_db.precioArs = vino['precioArs']
+                vino_db.notaCata = vino['notaCata']
+                vino_db.fechaActualizacion = self.fechaActual
+                vino_db.imagenEtiqueta = vino['imagenEtiqueta']
+                
+                # Guarda los cambios en la base de datos
+                session.commit()
+                print(f"Vino '{vino['nombre']}' actualizado en la bodega '{self.bodegaSeleccionada.nombre}'.")
+            else:
+                print(f"No se encontró el vino '{vino['nombre']}' en la bodega '{self.bodegaSeleccionada.nombre}'.")
+        else:
+            print(f"No se encontró la bodega '{self.bodegaSeleccionada.nombre}' en la base de datos.")
+        
+        # Cierra la sesión
+        session.close()
+
 
     def iniciarCreacionVino(self, vino):
         # Busca los maridajes asociados al vino
