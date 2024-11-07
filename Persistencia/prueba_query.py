@@ -159,36 +159,39 @@ VarietalConversor.guardar_varietal(var12)
 
 
 '''
-# Agregar los siguiendo y enófilos
-SiguiendoConversor.guardar_siguiendo(s6)
+
+# Agregar los enofillos
 EnofiloConversor.guardar_enofilo(e3)
+EnofiloConversor.guardar_enofilo(e1)
+EnofiloConversor.guardar_enofilo(e4)
+EnofiloConversor.guardar_enofilo(e2)
+EnofiloConversor.guardar_enofilo(e9)
+EnofiloConversor.guardar_enofilo(e10)
+EnofiloConversor.guardar_enofilo(e5)
+EnofiloConversor.guardar_enofilo(e8)
+EnofiloConversor.guardar_enofilo(e6)
+EnofiloConversor.guardar_enofilo(e7)
+
+# Agregar los siguiendo
+SiguiendoConversor.guardar_siguiendo(s6)
 SiguiendoConversor.guardar_siguiendo(s1)
 SiguiendoConversor.guardar_siguiendo(s2)
 SiguiendoConversor.guardar_siguiendo(s3)
-EnofiloConversor.guardar_enofilo(e1)
 SiguiendoConversor.guardar_siguiendo(s17)
 SiguiendoConversor.guardar_siguiendo(s7)
-EnofiloConversor.guardar_enofilo(e4)
 SiguiendoConversor.guardar_siguiendo(s5)
-EnofiloConversor.guardar_enofilo(e2)
 SiguiendoConversor.guardar_siguiendo(s18)
 SiguiendoConversor.guardar_siguiendo(s19)
 SiguiendoConversor.guardar_siguiendo(s20)
-EnofiloConversor.guardar_enofilo(e9)
-EnofiloConversor.guardar_enofilo(e10)
 SiguiendoConversor.guardar_siguiendo(s8)
 SiguiendoConversor.guardar_siguiendo(s9)
-EnofiloConversor.guardar_enofilo(e5)
 SiguiendoConversor.guardar_siguiendo(s15)
 SiguiendoConversor.guardar_siguiendo(s16)
-EnofiloConversor.guardar_enofilo(e8)
 SiguiendoConversor.guardar_siguiendo(s4)
 SiguiendoConversor.guardar_siguiendo(s11)
 SiguiendoConversor.guardar_siguiendo(s12)
 SiguiendoConversor.guardar_siguiendo(s13)
-EnofiloConversor.guardar_enofilo(e6)
 SiguiendoConversor.guardar_siguiendo(s10)
-EnofiloConversor.guardar_enofilo(e7)
 SiguiendoConversor.guardar_siguiendo(s14)
 
 
