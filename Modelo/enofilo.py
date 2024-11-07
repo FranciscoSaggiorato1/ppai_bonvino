@@ -50,3 +50,6 @@ class Enofilo:
 
     def obtenerNombreUsuario(self):
         return self.usuario.getNombre()
+    
+    def __str__(self):
+        return f"Enófilo: {self.nombre} {self.apellido} | seguidos: {self.seguidos}"

@@ -409,10 +409,6 @@ class GestorImportadorBodega(ISujetoNotificacionPush):
 
         # Itera sobre cada enófilo en la lista de enófilos
         for enofilo in self.enofilos:
-            print(f"ACA SE VIENEN LOS SEGUIDOS")
-            print(enofilo.seguidos)
-            #print(self.bodegaSeleccionada)
-            
             # Verifica si el enófilo sigue la bodega seleccionada
             if enofilo.seguisBodega(self.bodegaSeleccionada):
                 self.seguidoresDeBodega.append(enofilo)
@@ -420,7 +416,7 @@ class GestorImportadorBodega(ISujetoNotificacionPush):
         # Itera sobre cada seguidor de la bodega
         for seguidor in self.seguidoresDeBodega:
             # Obtiene y almacena el nombre de usuario del seguidor
-            nomUsuarios = seguidor.obtenerNombreUsuario()
+            nomUsuarios = seguidor.nombre
             self.nombresUsuarios.append(nomUsuarios)
         
         self.generarNotificacionNovedades(self.seguidoresDeBodega)

@@ -27,13 +27,17 @@ class SiguiendoConversor:
 
     @staticmethod
     def mapear_siguiendo(siguiendo_persistente):
-        enofilo_seguido = None
-        bodega = None
-        if enofilo_seguido is not None:
-            enofilo_seguido = EnofiloConversor.mapear_enofilo(siguiendo_persistente.id_enofilo_seguido)
+        
+        
+        if siguiendo_persistente.enofilo_seguido is not None:
+            enofilo_seguido = EnofiloConversor.mapear_enofilo(siguiendo_persistente.enofilo_seguido)
+            bodega = None
         else:
-            bodega = BodegaConversor.mapear_bodega(siguiendo_persistente.id_bodega)
-        enofilo_seguidor = EnofiloConversor.mapear_enofilo(siguiendo_persistente.id_enofilo_seguidor)
+            bodega = BodegaConversor.mapear_bodega(siguiendo_persistente.bodega)
+            enofilo_seguido = None
+
+        enofilo_seguidor = EnofiloConversor.mapear_enofilo(siguiendo_persistente.enofilo_seguidor)
+        
         
         return Siguiendo(
             fechaInicio=siguiendo_persistente.fechaInicio,

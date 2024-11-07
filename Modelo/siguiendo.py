@@ -12,8 +12,11 @@ class Siguiendo:
         
 
     def sosDeBodega(self, bodega):
-        print(type(self.bodega))
-        if bodega is not None and self.bodega == bodega:
-            return True
+        if self.bodega is not None and bodega is not None:
+            if self.bodega.nombre == bodega.nombre:
+                return True
         else:
             return False
+        
+    def __str__(self):
+        return f"Siguiendo desde {self.fechaInicio} hasta {self.fechaFin} a el enofilo seguido {self.enofilo_seguido} o a la bodega {self.bodega} por el enofilo seguidor {self.enofilo_seguidor}"
