@@ -22,6 +22,7 @@ class Bodega(Base):
 
     # Relación inversa con Vino
     vinos = relationship("Vino", back_populates="bodega")
+    seguidos = relationship("Siguiendo", back_populates="bodega")
 
     def __init__(self, coordenadasUbicacion, descripcion, historia, nombre, periodoActualizacion, fechaUltimaActualizacion):
         self.coordenadasUbicacion = coordenadasUbicacion

@@ -34,36 +34,45 @@ class SiguiendoConversor:
 
     @staticmethod
     def guardar_siguiendo(siguiendo: Siguiendo):
-        id_enofilo = None
+        id_enofilo_seguido = None
         id_bodega = None
+        id_enofilo_seguidor = None
 
-        # Obtener el enófilo persistente si existe
-        if siguiendo.enofilo is not None:
+        # Obtener el enófilo seguido persistente, si existe
+        if siguiendo.enofilo_seguido is not None:
             enofilo_persistente = session.query(EnofiloPersistente).filter(
-                EnofiloPersistente.nombre == siguiendo.enofilo.nombre
+                EnofiloPersistente.nombre == siguiendo.enofilo_seguido.getNombre()
             ).first()
-            
             if not enofilo_persistente:
-                raise ValueError("El enófilo especificado no existe en la base de datos.")
-            id_enofilo = enofilo_persistente.id_enofilo  # Guardar el ID del enófilo
-        
+                raise ValueError("El enófilo especificado para seguir no existe en la base de datos.")
+            id_enofilo_seguido = enofilo_persistente.id_enofilo
+
         # Obtener la bodega persistente si existe
         if siguiendo.bodega is not None:
             bodega_persistente = session.query(BodegaPersistente).filter(
                 BodegaPersistente.nombre == siguiendo.bodega.nombre
             ).first()
-
             if not bodega_persistente:
                 raise ValueError("La bodega especificada no existe en la base de datos.")
-            id_bodega = bodega_persistente.id_bodega  # Guardar el ID de la bodega
+            id_bodega = bodega_persistente.id_bodega
+
+        # Obtener el enófilo seguidor persistente
+        
+        enofilo_seguidor_persistente = session.query(EnofiloPersistente).filter(
+            EnofiloPersistente.nombre == siguiendo.enofilo_seguidor.getNombre()
+        ).first()
+        if not enofilo_seguidor_persistente:
+            raise ValueError("El enófilo seguidor especificado no existe en la base de datos.")
+        id_enofilo_seguidor = enofilo_seguidor_persistente.id_enofilo
 
         siguiendo_persistente = SiguiendoPersistente(
             fechaInicio=siguiendo.fechaInicio,
             fechaFin=siguiendo.fechaFin,
-            id_enofilo=id_enofilo,  # Asignar el ID del enófilo (puede ser None)
-            id_bodega= id_bodega  # Asignar el ID de la bodega (puede ser None)
+            id_enofilo_seguido=id_enofilo_seguido,
+            id_bodega=id_bodega,
+            id_enofilo_seguidor=id_enofilo_seguidor
         )
-        
+
         session.add(siguiendo_persistente)
         session.commit()
         session.close()
