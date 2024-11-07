@@ -78,6 +78,7 @@ class GestorImportadorBodega(ISujetoNotificacionPush):
         self.usuarios = [UsuarioConversor.mapear_usuario(u) for u in session.query(UsuarioDB).all()]
         self.vinos = [VinoConversor.mapear_vino(v) for v in session.query(VinoDB).all()]
         self.cargarVinosEnBodegas()
+        self.cargarSiguiendoEnEnofilo()
 
     def cargarVinosEnBodegas(self):
         # Itera sobre cada vino en la lista de vinos
@@ -90,6 +91,20 @@ class GestorImportadorBodega(ISujetoNotificacionPush):
                 print(f"Agregado el vino '{vino.nombre}' a la bodega '{bodega.getNombre()}'")
             else:
                 print(f"No se encontró la bodega para el vino '{vino.nombre}'")
+
+    def cargarSiguiendoEnEnofilo(self):
+        # Itera sobre cada siguiendo en la lista de siguiendo
+        for sig in self.siguiendo:
+            # Encuentra el enofilo para este siguiendo
+            enofilo = next((e for e in self.enofilos if e.nombre == sig.enofilo_seguidor.nombre), None)
+
+            if enofilo:
+                # Agrega el vino a la bodega
+                enofilo.agregarSiguiendo(sig)
+                print(f"Agregado el siguiendo al enofilo '{enofilo.getNombre()}'")
+            else:
+                print(f"No se encontró el enofilo para el siguiendo")
+        
 
 
 
@@ -390,13 +405,18 @@ class GestorImportadorBodega(ISujetoNotificacionPush):
     def buscarSeguidoresDeBodega(self):
         # Inicializa la lista de nombres de usuarios
         self.nombresUsuarios = []
+        
 
         # Itera sobre cada enófilo en la lista de enófilos
         for enofilo in self.enofilos:
+            print(f"ACA SE VIENEN LOS SEGUIDOS")
+            print(enofilo.seguidos)
+            #print(self.bodegaSeleccionada)
+            
             # Verifica si el enófilo sigue la bodega seleccionada
             if enofilo.seguisBodega(self.bodegaSeleccionada):
                 self.seguidoresDeBodega.append(enofilo)
-
+                print(f"HOLA MARQUITOS")
         # Itera sobre cada seguidor de la bodega
         for seguidor in self.seguidoresDeBodega:
             # Obtiene y almacena el nombre de usuario del seguidor

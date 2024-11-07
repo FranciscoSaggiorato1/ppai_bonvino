@@ -9,6 +9,8 @@ class Enofilo:
         self.seguidos = []
         self.usuario = usuario
 
+    def agregarSiguiendo(self, seguido):
+        self.seguidos.append(seguido)
 
     def getApellido(self):
         return self.apellido

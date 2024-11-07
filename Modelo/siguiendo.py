@@ -12,7 +12,8 @@ class Siguiendo:
         
 
     def sosDeBodega(self, bodega):
-        if self.bodega == bodega:
+        print(type(self.bodega))
+        if bodega is not None and self.bodega == bodega:
             return True
         else:
             return False

@@ -7,6 +7,8 @@ from Persistencia.Entidades.siguiendoDB import Siguiendo as SiguiendoPersistente
 from Modelo.siguiendo import Siguiendo
 from Persistencia.Entidades.bodegaDB import Bodega as BodegaPersistente
 from Persistencia.Entidades.enofiloDB import Enofilo as EnofiloPersistente
+from Persistencia.ConversoresPersistencia.enofilo_conversor import EnofiloConversor
+from Persistencia.ConversoresPersistencia.bodega_conversor import BodegaConversor
 
 class SiguiendoConversor:
 
@@ -25,12 +27,20 @@ class SiguiendoConversor:
 
     @staticmethod
     def mapear_siguiendo(siguiendo_persistente):
+        enofilo_seguido = None
+        bodega = None
+        if enofilo_seguido is not None:
+            enofilo_seguido = EnofiloConversor.mapear_enofilo(siguiendo_persistente.id_enofilo_seguido)
+        else:
+            bodega = BodegaConversor.mapear_bodega(siguiendo_persistente.id_bodega)
+        enofilo_seguidor = EnofiloConversor.mapear_enofilo(siguiendo_persistente.id_enofilo_seguidor)
+        
         return Siguiendo(
             fechaInicio=siguiendo_persistente.fechaInicio,
             fechaFin=siguiendo_persistente.fechaFin,
-            enofilo_seguido=siguiendo_persistente.enofilo_seguido,
-            bodega=siguiendo_persistente.bodega,
-            enofilo_seguidor=siguiendo_persistente.enofilo_seguidor
+            enofilo_seguido=enofilo_seguido,
+            bodega=bodega,
+            enofilo_seguidor=enofilo_seguidor
         )
 
     @staticmethod
