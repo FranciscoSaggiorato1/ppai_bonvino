@@ -412,7 +412,6 @@ class GestorImportadorBodega(ISujetoNotificacionPush):
             # Verifica si el enófilo sigue la bodega seleccionada
             if enofilo.seguisBodega(self.bodegaSeleccionada):
                 self.seguidoresDeBodega.append(enofilo)
-                print(f"HOLA MARQUITOS")
         # Itera sobre cada seguidor de la bodega
         for seguidor in self.seguidoresDeBodega:
             # Obtiene y almacena el nombre de usuario del seguidor
