@@ -28,8 +28,9 @@ class SiguiendoConversor:
         return Siguiendo(
             fechaInicio=siguiendo_persistente.fechaInicio,
             fechaFin=siguiendo_persistente.fechaFin,
-            enofilo=siguiendo_persistente.enofilo,
-            bodega=siguiendo_persistente.bodega
+            enofilo_seguido=siguiendo_persistente.enofilo_seguido,
+            bodega=siguiendo_persistente.bodega,
+            enofilo_seguidor=siguiendo_persistente.enofilo_seguidor
         )
 
     @staticmethod

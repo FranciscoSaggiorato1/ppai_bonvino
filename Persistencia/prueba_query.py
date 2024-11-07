@@ -25,7 +25,7 @@ Base.metadata.create_all(engine)
 print("Tablas creadas correctamente.")
 '''
 
-
+'''
 import os, sys
 this_file_path = os.path.dirname(__file__)
 sys.path.append(os.path.join(this_file_path, "../"))
@@ -45,7 +45,7 @@ from ConversoresPersistencia.enofilo_conversor import EnofiloConversor
 engine = create_engine('sqlite:///ppai.db')
 Session = sessionmaker(bind=engine)
 session = Session()
-'''
+
 # Agregar los tipos de uva
 TipoUvaConversor.guardar_tipo_uva(tipo1)
 TipoUvaConversor.guardar_tipo_uva(tipo2)
@@ -170,7 +170,7 @@ EnofiloConversor.guardar_enofilo(e8)
 EnofiloConversor.guardar_enofilo(e6)
 EnofiloConversor.guardar_enofilo(e7)
 
-'''
+
 # Agregar los siguiendo
 SiguiendoConversor.guardar_siguiendo(s6)
 SiguiendoConversor.guardar_siguiendo(s1)
@@ -196,3 +196,4 @@ SiguiendoConversor.guardar_siguiendo(s14)
 
 # Cerrar la sesión
 session.close()
+'''
