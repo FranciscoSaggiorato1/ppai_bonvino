@@ -156,10 +156,8 @@ UsuarioConversor.guardar_usuario(u8)
 UsuarioConversor.guardar_usuario(u9)
 UsuarioConversor.guardar_usuario(u10)
 VarietalConversor.guardar_varietal(var12)
-
-
 '''
-
+'''
 # Agregar los enofillos
 EnofiloConversor.guardar_enofilo(e3)
 EnofiloConversor.guardar_enofilo(e1)
@@ -172,6 +170,7 @@ EnofiloConversor.guardar_enofilo(e8)
 EnofiloConversor.guardar_enofilo(e6)
 EnofiloConversor.guardar_enofilo(e7)
 
+'''
 # Agregar los siguiendo
 SiguiendoConversor.guardar_siguiendo(s6)
 SiguiendoConversor.guardar_siguiendo(s1)

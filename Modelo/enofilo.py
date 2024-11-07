@@ -2,11 +2,11 @@ class Enofilo:
     """
     Clase para representar un enófilo.
     """
-    def __init__(self, apellido, imagenPerfil, nombre, seguidos, usuario):
+    def __init__(self, apellido, imagenPerfil, nombre, usuario):
         self.apellido = apellido
         self.imagenPerfil = imagenPerfil
         self.nombre = nombre
-        self.seguidos = seguidos
+        self.seguidos = []
         self.usuario = usuario
 
 

@@ -27,7 +27,6 @@ class EnofiloConversor:
             apellido=enofilo_persistente.apellido,
             imagenPerfil=enofilo_persistente.imagenPerfil,
             nombre=enofilo_persistente.nombre,
-            seguidos=[siguiendo.bodega.nombre for siguiendo in enofilo_persistente.seguidos if siguiendo.bodega is not None],
             usuario=enofilo_persistente.usuario
         )
 

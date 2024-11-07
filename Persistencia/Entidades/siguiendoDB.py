@@ -19,11 +19,12 @@ class Siguiendo(Base):
     enofilo_seguidor = relationship("Enofilo", foreign_keys=[id_enofilo_seguidor], back_populates="seguidos")
     bodega = relationship("Bodega", back_populates="seguidos")
 
-    def __init__(self, fechaInicio, fechaFin, id_enofilo_seguidor, id_bodega):
+    def __init__(self, fechaInicio, fechaFin, id_enofilo_seguido, id_bodega, id_enofilo_seguidor):
         self.fechaInicio = fechaInicio
         self.fechaFin = fechaFin
-        self.id_enofilo_seguidor = id_enofilo_seguidor
+        self.id_enofilo_seguido = id_enofilo_seguido
         self.id_bodega = id_bodega
+        self.id_enofilo_seguidor = id_enofilo_seguidor
 
     def __repr__(self):
         return f"<Siguiendo(enofilo_seguidor_id='{self.id_enofilo_seguidor}', enofilo_seguido_id='{self.id_enofilo_seguido}', fechaInicio='{self.fechaInicio}')>"

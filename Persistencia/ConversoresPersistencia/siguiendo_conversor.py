@@ -47,7 +47,7 @@ class SiguiendoConversor:
                 raise ValueError("El enófilo especificado para seguir no existe en la base de datos.")
             id_enofilo_seguido = enofilo_persistente.id_enofilo
 
-        # Obtener la bodega persistente si existe
+        # Obtener la bodega persistente, si existe
         if siguiendo.bodega is not None:
             bodega_persistente = session.query(BodegaPersistente).filter(
                 BodegaPersistente.nombre == siguiendo.bodega.nombre
@@ -57,7 +57,6 @@ class SiguiendoConversor:
             id_bodega = bodega_persistente.id_bodega
 
         # Obtener el enófilo seguidor persistente
-        
         enofilo_seguidor_persistente = session.query(EnofiloPersistente).filter(
             EnofiloPersistente.nombre == siguiendo.enofilo_seguidor.getNombre()
         ).first()
@@ -65,6 +64,7 @@ class SiguiendoConversor:
             raise ValueError("El enófilo seguidor especificado no existe en la base de datos.")
         id_enofilo_seguidor = enofilo_seguidor_persistente.id_enofilo
 
+        # Crear el objeto de SiguiendoPersistente y asignar los IDs
         siguiendo_persistente = SiguiendoPersistente(
             fechaInicio=siguiendo.fechaInicio,
             fechaFin=siguiendo.fechaFin,
@@ -73,6 +73,8 @@ class SiguiendoConversor:
             id_enofilo_seguidor=id_enofilo_seguidor
         )
 
+        # Guardar en la base de datos
         session.add(siguiendo_persistente)
         session.commit()
         session.close()
+
